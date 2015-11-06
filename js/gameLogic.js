@@ -116,6 +116,7 @@ function gameTick()
 function gameOver()
 {
     clearInterval(g_intervalId);
+    g_currentLevel = 0;
     showStartScreen();
 }
 
