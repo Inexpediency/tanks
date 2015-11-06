@@ -4,46 +4,53 @@
 var g_ctx;
 var g_canvas;
 var g_intervalId;
-var g_player;
-var g_enemy = [];
-var g_gameField = [];
+var g_gameField = [[]];
 var g_currentLevel = 0;
+var g_enemy = [];
 var g_AllBangs = [];
 var g_Balls = [];
-
-var g_towerPlayer = new Image();
-g_towerPlayer.src = TOWER_PLAYER_ADDRES;
-var g_towerEnemy = new Image();
-g_towerEnemy.src = TOWER_ENEMY_ADDRES;
-var g_tankBody = new Image();
-g_tankBody.src = TANK_BODY_ADDRES;
+var g_player;
 
 var g_sparkImg = new Image();
 g_sparkImg.src = SPARK_ADDRESS;
+var g_startBackground = new Image();
+g_startBackground.src = START_SCREEN_ADDRESS;
+var g_playText = new Image();
+g_playText.src = PLAY_TEXT_ADDRESS;
 
 window.onload = function()
 {
-    init();
     initCanvas();
+    showStartScreen();
 };
 
 function init()
 {
+    initGlobVar();
+    console.log(g_AllBangs);
     initField();
     initPlayers();
     startGame();
 }
 
+function initGlobVar()
+{
+    g_player = {};
+    g_enemy = [];
+    g_Balls = [];
+    g_AllBangs = [];
+}
+
 function initField()
 {
-    g_gameField = g_levels[g_currentLevel].slice();
+    g_gameField = copyMas(g_levels[g_currentLevel]);
+    g_canvas.height = (g_gameField.length) * SQUARE_SIZE;
+    g_canvas.width = (g_gameField[0].length) * SQUARE_SIZE;
 }
 
 function initCanvas()
 {
     g_canvas = document.getElementById("gameField");
-    g_canvas.width = (g_gameField[0].length) * SQUARE_SIZE;
-    g_canvas.height = (g_gameField.length) * SQUARE_SIZE;
     g_ctx = g_canvas.getContext("2d");
 }
 
@@ -88,32 +95,40 @@ function startGame()
 
 function gameTick()
 {
-    moveBalls();
+    drawField();
     moveBangs();
     moveEnemy();
+    moveBalls();
     g_player.move();
-    drawField();
+    if (g_enemy.length == 0)
+    {
+        if (g_currentLevel + 1 != g_levels.length)
+        {
+            endLevel();
+        }
+        else
+        {
+            gameOver();
+        }
+    }
 }
 
 function gameOver()
 {
     clearInterval(g_intervalId);
+    showStartScreen();
 }
 
 function endLevel()
 {
-    g_player = {};
-    g_enemy = [];
-    g_Balls = [];
-    g_AllBangs = [];
-    clearInterval(g_intervalId);
+    clearTimeout(g_intervalId);
     g_currentLevel++;
     init();
 }
 
 function drawField()
 {
-    g_ctx.fillStyle = "#f7f7f9";
+    g_ctx.fillStyle = "#ffffff";
     g_ctx.fillRect(0, 0, g_canvas.width, g_canvas.height);
     drawGrid();
     drawCells();

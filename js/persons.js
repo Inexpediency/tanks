@@ -5,46 +5,50 @@ function Player(cordX, cordY, towerState, persChar, consts)
 {
     this.initDefault = function()
     {
+        this.health = consts.health;
         this.speed = consts.speedPatrol;
-        this.rotateSpeed = culcRotateSpeed(this.speed);
         this.normalSpeed = consts.speedNormal;
         this.patrolSpeed = consts.speedPatrol;
-        this.angle = charInDegres(towerState);
-        this.bodyAngle = charInDegres(towerState);
+        this.rotateSpeed = culcRotateSpeed(this.speed);
+        this.bodyAngle = charInDeg(towerState);
+        this.angle = charInDeg(towerState);
         this.rotateStep = consts.rotateTowerSpeed;
         this.fire = false;
-        this.character = persChar;
-        this.routeBefor = towerState;
-        this.foundRadius = consts.foundRadius;
-        this.health = consts.health;
         this.lastFireTime = 0;
-        this.towerHeight = SQUARE_SIZE / 3;
+        this.foundRadius = consts.foundRadius;
+        this.character = persChar;
+        this.towerHeight = SQUARE_SIZE / 3.5;
         this.towerWidth = SQUARE_SIZE / 1.5;
-        this.motion = NOTHING_CHAR;
+        this.tower = new Image();
+        this.tower.src = consts.towerImgAddres;
+        this.body = new Image();
+        this.body.src = consts.bodyImageAddres;
         this.x = cordX;
         this.y = cordY;
-        this.motionBefore = NOTHING_CHAR;
         this.drawingX = this.x * SQUARE_SIZE;
         this.drawingY = this.y * SQUARE_SIZE;
+        this.routeBefor = towerState;
+        this.motion = NOTHING_CHAR;
+        this.motionBefore = NOTHING_CHAR;
         this.towerState = towerState;
     };
     this.move = function()
     {
-        this.angle = culcAngel(this.angle, charInDegres(this.towerState), this.rotateStep);
+        this.angle = culcAngel(this.angle, charInDeg(this.towerState), this.rotateStep);
         this.lastFireTime++;
         g_gameField[this.y][this.x] = NOTHING_CHAR;
         var residueX = this.drawingX - this.x * SQUARE_SIZE;
         var residueY = this.drawingY - this.y * SQUARE_SIZE;
         if(residueX  == 0 && residueY  == 0)
         {
-            this.bodyAngle = culcBodyAngle(this.bodyAngle, charInDegres(this.routeBefor), this.rotateSpeed);
+            this.bodyAngle = culcBodyAngle(this.bodyAngle, charInDeg(this.routeBefor), this.rotateSpeed);
         }
-        if (this.fire && this.lastFireTime > consts.reloadingTime && currentChar(this.angle, this.towerState))
+        if (this.fire && this.lastFireTime > consts.reloadingTime && currentChar(this.angle, this.towerState) &&
+            residueX  == 0 && residueY  == 0)
         {
             if (this.towerState == "u")
             {
                 g_Balls[g_Balls.length] = new Ball(this.x, this.y - 1, this.towerState);
-                console.log(g_gameField[this.y - 1][this.x]);
             }
             else if (this.towerState == "d")
             {
@@ -65,7 +69,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
             (g_gameField[this.y][this.x + 1] == NOTHING_CHAR ||
              residueX != 0))
         {
-            if (isTankCell(this.x + 1, this.y))
+            if (isTankCell(this.x + 1, this.y) ||
+                g_gameField[this.y][this.x + 1] == PLAYER_CHAR)
             {
                 this.motionBefore = "l";
                 this.motion = NOTHING_CHAR;
@@ -75,7 +80,7 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 this.motionBefore = "r";
                 this.drawingX += this.speed;
                 residueX = this.drawingX - this.x * SQUARE_SIZE;
-                if (Math.abs(residueX) >= (SQUARE_SIZE - SQUARE_SIZE % 2) / 2)
+                if (Math.abs(residueX) >= Math.floor(SQUARE_SIZE / 2))
                 {
                     this.x++;
                 }
@@ -89,7 +94,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
                  (g_gameField[this.y + 1][this.x] == NOTHING_CHAR ||
                   residueY != 0))
         {
-            if (isTankCell(this.x, this.y + 1))
+            if (isTankCell(this.x, this.y + 1) ||
+                g_gameField[this.y + 1][this.x] == PLAYER_CHAR)
             {
                 this.motionBefore = "u";
                 this.motion = NOTHING_CHAR;
@@ -99,7 +105,7 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 this.motionBefore = "d";
                 this.drawingY += this.speed;
                 residueY = this.drawingY - this.y * SQUARE_SIZE;
-                if (Math.abs(residueY) >= (SQUARE_SIZE - SQUARE_SIZE % 2) / 2)
+                if (Math.abs(residueY) >= Math.floor(SQUARE_SIZE / 2))
                 {
                     this.y++;
                 }
@@ -113,7 +119,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
                  (g_gameField[this.y][this.x - 1] == NOTHING_CHAR ||
                   residueX != 0))
         {
-            if (isTankCell(this.x - 1, this.y))
+            if (isTankCell(this.x - 1, this.y) ||
+                g_gameField[this.y][this.x - 1] == PLAYER_CHAR)
             {
                 this.motionBefore = "r";
                 this.motion = NOTHING_CHAR;
@@ -123,7 +130,7 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 this.motionBefore = "l";
                 this.drawingX -= this.speed;
                 residueX = this.drawingX - this.x * SQUARE_SIZE;
-                if (Math.abs(residueX) >= (SQUARE_SIZE - SQUARE_SIZE % 2) / 2)
+                if (Math.abs(residueX) >= Math.floor(SQUARE_SIZE / 2))
                 {
                     this.x--;
                 }
@@ -137,7 +144,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
                  (g_gameField[this.y - 1][this.x] == NOTHING_CHAR ||
                   residueY != 0))
         {
-            if (isTankCell(this.x, this.y - 1))
+            if (isTankCell(this.x, this.y - 1) ||
+                g_gameField[this.y - 1][this.x ] == PLAYER_CHAR)
             {
                 this.motionBefore = "d";
                 this.motion = NOTHING_CHAR;
@@ -147,7 +155,7 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 this.motionBefore = "u";
                 this.drawingY -= this.speed;
                 residueY = this.drawingY - this.y * SQUARE_SIZE;
-                if (Math.abs(residueY) >= (SQUARE_SIZE - SQUARE_SIZE % 2) / 2)
+                if (Math.abs(residueY) >= Math.floor(SQUARE_SIZE / 2))
                 {
                     this.y--;
                 }
@@ -167,17 +175,10 @@ function Player(cordX, cordY, towerState, persChar, consts)
     {
         g_ctx.translate(this.drawingX + 0.5 * SQUARE_SIZE, this.drawingY + 0.5 * SQUARE_SIZE);
         g_ctx.rotate(inRad(this.bodyAngle));
-        g_ctx.drawImage(g_tankBody, Math.floor(-SQUARE_SIZE / 2), Math.floor(-SQUARE_SIZE / 2), SQUARE_SIZE, SQUARE_SIZE)
+        g_ctx.drawImage(this.body, Math.floor(-SQUARE_SIZE / 2), Math.floor(-SQUARE_SIZE / 2), SQUARE_SIZE, SQUARE_SIZE)
         g_ctx.rotate(-inRad(this.bodyAngle));
         g_ctx.rotate(inRad(this.angle));
-        if (this.character == PLAYER_CHAR)
-        {
-            g_ctx.drawImage(g_towerPlayer, Math.floor(-this.towerHeight / 2), Math.floor(-this.towerHeight / 2), this.towerWidth, this.towerHeight);
-        }
-        else
-        {
-            g_ctx.drawImage(g_towerEnemy, Math.floor(-this.towerHeight / 2), Math.floor(-this.towerHeight / 2), this.towerWidth, this.towerHeight);
-        }
+        g_ctx.drawImage(this.tower, Math.floor(-this.towerHeight / 2), Math.floor(-this.towerHeight / 2), this.towerWidth, this.towerHeight);
         g_ctx.rotate(-inRad(this.angle));
         g_ctx.translate(-this.drawingX - 0.5 * SQUARE_SIZE, -this.drawingY - 0.5 * SQUARE_SIZE);
     };
@@ -189,7 +190,6 @@ function Ball(cordX, cordY, route)
     this.y = cordY;
     this.route = route;
     g_gameField[this.y][this.x] = g_gameField[this.y][this.x] == NOTHING_CHAR ? BALL_CHAR : g_gameField[this.y][this.x];
-
     this.move = function()
     {
         if (g_gameField[this.y][this.x] == TRAVELED_BARRICADE_CHAR)
@@ -207,7 +207,6 @@ function Ball(cordX, cordY, route)
         }
         if (g_gameField[this.y][this.x] == BARRICADE_CHAR)
         {
-            //console.log("f");
             return 1;
         }
         g_gameField[this.y][this.x] = NOTHING_CHAR;

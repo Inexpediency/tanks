@@ -1,6 +1,18 @@
 /**
  * Created by Vasiliy on 10/4/2015.
  */
+
+
+function copyMas(mas)
+{
+    var result = [];
+    for (var i = 0; i < mas.length; ++i)
+    {
+        result[i] = mas[i].slice();
+    }
+    return result;
+}
+
 function isTankCell(x, y)
 {
     if (g_gameField[y][x] == ARMOR_ENEMY_CHAR ||
@@ -46,7 +58,7 @@ function isDegCel(angle)
     }
 }
 
-function charInDegres(char)
+function charInDeg(char)
 {
     if (char == "u")
     {
@@ -80,7 +92,6 @@ function culcRotateSpeed(speed)
         if (speed % i == 0)
         {
             factorNumbCount++;
-            console.log(factorNumbCount, i);
         }
     }
     for (var i = 2; i <= 90; i++)
@@ -202,17 +213,6 @@ function culcHealth(x, y)
         else
         {
             g_enemy.splice(woundedEnemy, 1);
-            if (g_enemy.length == 0)
-            {
-                if (g_currentLevel + 1 != g_levels.length)
-                {
-                    endLevel();
-                }
-                else
-                {
-                    gameOver();
-                }
-            }
         }
         return 1;
     }
@@ -232,6 +232,43 @@ function drawFillArc(x, y, radius, color)
     }
 
     g_ctx.stroke();
+}
+
+
+function showStartScreen()
+{
+    g_canvas.height = g_startBackground.height;
+    g_canvas.width = g_startBackground.width;
+    g_ctx.drawImage(g_startBackground, 0, 0);
+    g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
+    window.onclick = function(event)
+    {
+        if (event.clientX < PLAY_TEXT_X + g_playText.width &&
+            event.clientX > PLAY_TEXT_X &&
+            event.clientY < PLAY_TEXT_Y + g_playText.height &&
+            event.clientY > PLAY_TEXT_Y)
+        {
+            window.onclick = undefined;
+            window.onmousemove = undefined;
+            init();
+        }
+    };
+    window.onmousemove = function(event)
+    {
+        if (event.clientX < PLAY_TEXT_X + g_playText.width &&
+            event.clientX > PLAY_TEXT_X &&
+            event.clientY < PLAY_TEXT_Y + g_playText.height &&
+            event.clientY > PLAY_TEXT_Y)
+        {
+            g_playText.src = PLAY_TEXT_ADDRESS_HOVER;
+        }
+        else
+        {
+            g_playText.src = PLAY_TEXT_ADDRESS;
+        }
+        g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
+        g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
+    };
 }
 
 function drawGrid()
@@ -495,10 +532,10 @@ function isPlayerFound(plaX, plaY, enX, enY)
             if (g_gameField[y][enX] == BARRICADE_CHAR ||
                 g_gameField[y][enX] == TRAVELED_BARRICADE_CHAR)
             {
-                return 0; // не обнаружен
+                return 0;
             }
         }
-        return 1; // обнаружен
+        return 1;
     }
     else
     {
@@ -514,10 +551,10 @@ function isPlayerFound(plaX, plaY, enX, enY)
             if (g_gameField[y][Math.floor(x / SQUARE_SIZE)] == BARRICADE_CHAR ||
                 g_gameField[y][Math.floor(x / SQUARE_SIZE)] == TRAVELED_BARRICADE_CHAR)
             {
-                return 0; //не обнаружен
+                return 0; //пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             }
         }
-        return 1; //обнаружен
+        return 1; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     }
 }

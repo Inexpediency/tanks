@@ -23,11 +23,12 @@ var TRAVELED_BARRICADE_CHAR = "r";
 
 var GRID_COLOR = "#435366";
 var BACKGROUND_ADDRESS = "img/background.png";
-var TOWER_PLAYER_ADDRES = "img/tower_p.png";
-var TOWER_ENEMY_ADDRES = "img/tower_e.png";
-var TANK_BODY_ADDRES = "img/tank_body.gif";
-
-var FPS = 33;
+var START_SCREEN_ADDRESS = "img/start_screen_background.jpg";
+var PLAY_TEXT_ADDRESS = "img/play_text.png";
+var PLAY_TEXT_ADDRESS_HOVER = "img/play_text_hover.png";
+var PLAY_TEXT_X = 1199;
+var PLAY_TEXT_Y = 496;
+var FPS = 35;
 var DELAY = 1000 / FPS;
 
 var BANG_TIME = 20;
@@ -38,39 +39,48 @@ var SPARK_SPEED = 10;
 var ACCELERATION = 2;
 
 //speed делитель SQUARE_SIZE / 2
+//rotateTowerSpeed делитель 90
 var PLAYER_CONSTS = {
+    towerImgAddres: "img/tower_p.png",
+    bodyImageAddres: "img/body_p.png",
     rotateTowerSpeed: 6,
-    speedNormal: 8,
-    speedPatrol: 8,
+    speedNormal: 4,
+    speedPatrol: 4,
     health: 3,
-    reloadingTime: 10,
+    reloadingTime: 40,
     foundRadius: 10
 };
 
 var ENEMY_CONSTS = {
+    towerImgAddres: "img/tower_e.png",
+    bodyImageAddres: "img/tank_body.gif",
     rotateTowerSpeed: 10,
-    speedNormal: 8,
+    speedNormal: 4,
     speedPatrol: 4,
     health: 2,
-    reloadingTime: 12,
+    reloadingTime: 47,
     foundRadius: 10
 };
 
 var SPRINT_ENEMY_CONSTS = {
+    towerImgAddres: "img/tower_e.png",
+    bodyImageAddres: "img/tank_body.gif",
     rotateTowerSpeed: 10,
-    speedNormal: 16,
+    speedNormal: 8,
     speedPatrol: 8,
     health: 1,
-    reloadingTime: 10,
+    reloadingTime: 40,
     foundRadius: 10
 };
 
 var ARMOR_ENEMY_CONSTS = {
+    towerImgAddres: "img/tower_e.png",
+    bodyImageAddres: "img/tank_body.gif",
     rotateTowerSpeed: 5,
-    speedNormal: 4,
+    speedNormal: 2,
     speedPatrol: 2,
     health: 3,
-    reloadingTime: 14,
+    reloadingTime: 50,
     foundRadius: 12
 };
 
