@@ -43,7 +43,7 @@ var ACCELERATION = 2;
 var PLAYER_CONSTS = {
     towerImgAddres: "img/tower_p.png",
     bodyImageAddres: "img/body_p.png",
-    rotateTowerSpeed: 6,
+    rotateTowerSpeed: 9,
     speedNormal: 4,
     speedPatrol: 4,
     health: 3,
@@ -55,8 +55,8 @@ var ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
     bodyImageAddres: "img/tank_body.gif",
     rotateTowerSpeed: 10,
-    speedNormal: 4,
-    speedPatrol: 4,
+    speedNormal: 2,
+    speedPatrol: 2,
     health: 2,
     reloadingTime: 47,
     foundRadius: 10
@@ -66,8 +66,8 @@ var SPRINT_ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
     bodyImageAddres: "img/tank_body.gif",
     rotateTowerSpeed: 10,
-    speedNormal: 8,
-    speedPatrol: 8,
+    speedNormal: 4,
+    speedPatrol: 4,
     health: 1,
     reloadingTime: 40,
     foundRadius: 10
@@ -77,8 +77,8 @@ var ARMOR_ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
     bodyImageAddres: "img/tank_body.gif",
     rotateTowerSpeed: 5,
-    speedNormal: 2,
-    speedPatrol: 2,
+    speedNormal: 1,
+    speedPatrol: 1,
     health: 3,
     reloadingTime: 50,
     foundRadius: 12

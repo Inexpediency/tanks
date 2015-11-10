@@ -6,9 +6,9 @@ var g_canvas;
 var g_intervalId;
 var g_gameField = [[]];
 var g_currentLevel = 0;
-var g_enemy = [];
-var g_AllBangs = [];
-var g_Balls = [];
+var g_enemy;
+var g_AllBangs;
+var g_Balls;
 var g_player;
 
 var g_sparkImg = new Image();
@@ -27,7 +27,6 @@ window.onload = function()
 function init()
 {
     initGlobVar();
-    console.log(g_AllBangs);
     initField();
     initPlayers();
     startGame();
@@ -100,29 +99,26 @@ function gameTick()
     moveEnemy();
     moveBalls();
     g_player.move();
-    if (g_enemy.length == 0)
+    if (g_enemy.length == 0 || g_player.health <= 0)
     {
-        if (g_currentLevel + 1 != g_levels.length)
-        {
-            endLevel();
-        }
-        else
-        {
-            gameOver();
-        }
+        endGame();
     }
 }
 
 function gameOver()
 {
-    clearInterval(g_intervalId);
     g_currentLevel = 0;
     showStartScreen();
 }
 
+function endGame()
+{
+    clearInterval(g_intervalId);
+    g_intervalId = setInterval(drawLastBang, DELAY);
+}
+
 function endLevel()
 {
-    clearTimeout(g_intervalId);
     g_currentLevel++;
     init();
 }
@@ -164,6 +160,25 @@ function drawCells()
             {
                 g_player.draw();
             }
+        }
+    }
+}
+
+function drawLastBang()
+{
+    moveBangs();
+    moveBalls();
+    drawField();
+    if (g_AllBangs.length == 0 && g_Balls.length == 0)
+    {
+        clearInterval(g_intervalId);
+        if (g_currentLevel + 1 != g_levels.length && g_player.health > 0)
+        {
+            endLevel();
+        }
+        else
+        {
+            gameOver();
         }
     }
 }

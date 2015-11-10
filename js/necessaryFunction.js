@@ -2,7 +2,6 @@
  * Created by Vasiliy on 10/4/2015.
  */
 
-
 function copyMas(mas)
 {
     var result = [];
@@ -193,14 +192,11 @@ function culcHealth(x, y)
 {
     if (g_gameField[y][x] == PLAYER_CHAR)
     {
-        if (g_player.health - 1 > 0)
+        if (g_player.health > 0)
         {
             g_player.health--;
         }
-        else
-        {
-            gameOver();
-        }
+        g_gameField[y][x] = PLAYER_CHAR;
         return 1;
     }
     else if (isTankCell(x, y))
@@ -209,6 +205,7 @@ function culcHealth(x, y)
         if (g_enemy[woundedEnemy].health - 1 > 0)
         {
             g_enemy[woundedEnemy].health--;
+            g_gameField[y][x] = woundedEnemy.character;
         }
         else
         {
