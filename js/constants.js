@@ -21,25 +21,42 @@ var BALL_CHAR = "f";
 var NOTHING_CHAR = "0";
 var TRAVELED_BARRICADE_CHAR = "r";
 
-var GRID_COLOR = "#435366";
+
+
+var ACCELERATION = 2;
+
+var GRID_COLOR = "#000000";
+
+var SHADOW_LEVEL = 45;
+
+var VIN_MESSAGE = "Победа!";
+var lOSE_MESSAGE = "Поражение...";
+var HEADER_RESULT_FONT = "40px Segoe UI Black";
+var HEADER_RESULT_COLOR = "#333333";
+var HEADER_RESULT_PADDING_TOP = 50 + 40;//отступ + высота текста
+
 var BACKGROUND_ADDRESS = "img/background.png";
 var START_SCREEN_ADDRESS = "img/start_screen_background.jpg";
+var END_LEVEL_BACKGROUND = "img/end_level_background.jpg";
+var SPARK_ADDRESS = "./img/spark.png";
 var PLAY_TEXT_ADDRESS = "img/play_text.png";
 var PLAY_TEXT_ADDRESS_HOVER = "img/play_text_hover.png";
-var PLAY_TEXT_X = 1199;
-var PLAY_TEXT_Y = 496;
+var END_LEVEL_TEXT_ADDRESS = "img/end_level_text.png";
+var END_LEVEL_TEXT_ADDRESS_HOVER = "img/end_level_text_hover.png";
+var SHADOW_ADDRESS = "img/shadow.png";
+
+var PLAY_TEXT_X = 28;
+var PLAY_TEXT_Y = 32;
+
 var FPS = 35;
 var DELAY = 1000 / FPS;
-
 var BANG_TIME = 20;
-var SPARK_ADDRESS = "./img/spark.png";
 var LAST_X_SPARK_STATE = 7;
 var LAST_Y_SPARK_STATE = 5;
 var SPARK_SPEED = 10;
-var ACCELERATION = 2;
 
-//speed �������� SQUARE_SIZE / 2
-//rotateTowerSpeed �������� 90
+//speed делитель SQUARE_SIZE / 2
+//rotateTowerSpeed делитель 90
 var PLAYER_CONSTS = {
     towerImgAddres: "img/tower_p.png",
     bodyImageAddres: "img/body_p.png",

@@ -9,7 +9,7 @@ function Player(cordX, cordY, towerState, persChar, consts)
         this.speed = consts.speedPatrol;
         this.normalSpeed = consts.speedNormal;
         this.patrolSpeed = consts.speedPatrol;
-        this.rotateSpeed = culcRotateSpeed(this.speed);
+        this.rotateSpeed = translateDividers(this.speed, 90);
         this.bodyAngle = charInDeg(towerState);
         this.angle = charInDeg(towerState);
         this.rotateStep = consts.rotateTowerSpeed;

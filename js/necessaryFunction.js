@@ -83,19 +83,19 @@ function inRad(angle)
     return -angle / 180 * Math.PI;
 }
 
-function culcRotateSpeed(speed)
+function translateDividers(transleted, resultSystem)
 {
     var factorNumbCount = 0;
-    for (var i = 2; i <= speed; i++)
+    for (var i = 2; i <= transleted; i++)
     {
-        if (speed % i == 0)
+        if (transleted % i == 0)
         {
             factorNumbCount++;
         }
     }
-    for (var i = 2; i <= 90; i++)
+    for (var i = 2; i <= resultSystem; i++)
     {
-        if (90 % i == 0)
+        if (resultSystem % i == 0)
         {
             factorNumbCount--;
             if (factorNumbCount <= 0)
@@ -231,6 +231,77 @@ function drawFillArc(x, y, radius, color)
     g_ctx.stroke();
 }
 
+function showResultScreen()
+{
+    var message;
+    var button;
+    g_ctx.font = HEADER_RESULT_FONT;
+    g_ctx.fillStyle = HEADER_RESULT_COLOR;
+    var isVin = g_player.health > 0;
+    if (isVin)
+    {
+        message = VIN_MESSAGE;
+        button = g_endLevelText;
+    }
+    else
+    {
+        message = lOSE_MESSAGE;
+        button = g_endLevelText;
+    }
+    var halfBackgroundX = Math.floor(g_endLevelBlank.width / 2);
+    var halfBackgroundY = Math.floor(g_endLevelBlank.height / 2);
+    var halfCanvasX = Math.floor(g_canvas.width / 2);
+    var halfCanvasY = Math.floor(g_canvas.height / 2);
+    var buttonX = halfCanvasX - Math.floor(g_endLevelText.width / 2);
+    var buttonY = halfCanvasY - Math.floor(g_endLevelText.height / 2);
+    var messageX = halfCanvasX - (g_ctx.measureText(message).width) / 2;
+    var messageY = halfCanvasY - halfBackgroundY + HEADER_RESULT_PADDING_TOP;
+    g_ctx.drawImage(g_endLevelBlank, halfCanvasX - halfBackgroundX, halfCanvasY - halfBackgroundY);
+    g_ctx.fillText(message, messageX, messageY);
+    g_ctx.drawImage(button, buttonX, buttonY);
+    g_canvas.onmousemove = function(event)
+    {
+        if (event.clientX <= buttonX + g_endLevelText.width &&
+            event.clientX >= buttonX &&
+            event.clientY <= buttonY + g_endLevelText.height &&
+            event.clientY >= buttonY)
+        {
+            button.src = END_LEVEL_TEXT_ADDRESS_HOVER;
+        }
+        else
+        {
+            button.src = END_LEVEL_TEXT_ADDRESS;
+        }
+        button.onload = function()
+        {
+            console.log(messageX, messageY);
+            g_ctx.drawImage(g_endLevelBlank, halfCanvasX - halfBackgroundX, halfCanvasY - halfBackgroundY);
+            g_ctx.fillText(message, messageX, messageY);
+            g_ctx.drawImage(button, buttonX, buttonY);
+            g_endLevelBlank.onload = undefined;
+        };
+    };
+    g_canvas.onclick = function(event)
+    {
+        if (event.clientX < buttonX+ g_endLevelText.width &&
+            event.clientX > buttonX &&
+            event.clientY < buttonY + g_endLevelText.height &&
+            event.clientY > buttonY)
+        {
+            g_canvas.onclick = undefined;
+            g_canvas.onmousemove = undefined;
+            if (g_currentLevel + 1 != g_levels.length && isVin)
+            {
+                g_currentLevel++;
+                init();
+            }
+            else
+            {
+                showStartScreen();
+            }
+        }
+    };
+}
 
 function showStartScreen()
 {
@@ -238,24 +309,12 @@ function showStartScreen()
     g_canvas.width = g_startBackground.width;
     g_ctx.drawImage(g_startBackground, 0, 0);
     g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
-    window.onclick = function(event)
+    g_canvas.onmousemove = function(event)
     {
-        if (event.clientX < PLAY_TEXT_X + g_playText.width &&
-            event.clientX > PLAY_TEXT_X &&
-            event.clientY < PLAY_TEXT_Y + g_playText.height &&
-            event.clientY > PLAY_TEXT_Y)
-        {
-            window.onclick = undefined;
-            window.onmousemove = undefined;
-            init();
-        }
-    };
-    window.onmousemove = function(event)
-    {
-        if (event.clientX < PLAY_TEXT_X + g_playText.width &&
-            event.clientX > PLAY_TEXT_X &&
-            event.clientY < PLAY_TEXT_Y + g_playText.height &&
-            event.clientY > PLAY_TEXT_Y)
+        if (event.clientX <= PLAY_TEXT_X + g_playText.width &&
+            event.clientX >= PLAY_TEXT_X &&
+            event.clientY <= PLAY_TEXT_Y + g_playText.height &&
+            event.clientY >= PLAY_TEXT_Y)
         {
             g_playText.src = PLAY_TEXT_ADDRESS_HOVER;
         }
@@ -263,9 +322,37 @@ function showStartScreen()
         {
             g_playText.src = PLAY_TEXT_ADDRESS;
         }
-        g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
-        g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
+        g_playText.onload = function()
+        {
+            g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
+            g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
+            g_playText.onload = undefined;
+        };
     };
+    g_canvas.onclick = function(event)
+    {
+        if (event.clientX < PLAY_TEXT_X + g_playText.width &&
+            event.clientX > PLAY_TEXT_X &&
+            event.clientY < PLAY_TEXT_Y + g_playText.height &&
+            event.clientY > PLAY_TEXT_Y)
+        {
+            g_canvas.onmousemove = undefined;
+            g_canvas.onclick = undefined;
+            init();
+        }
+    };
+}
+
+function drawShadow()
+{
+    if (g_shadow.level <= SHADOW_LEVEL)
+    {
+        g_shadow.level++;
+    }
+    for (var i = 0; i < g_shadow.level; ++i)
+    {
+        g_ctx.drawImage(g_shadow, 0, 0, g_canvas.width, g_canvas.height);
+    }
 }
 
 function drawGrid()

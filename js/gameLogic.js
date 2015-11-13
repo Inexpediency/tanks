@@ -15,8 +15,15 @@ var g_sparkImg = new Image();
 g_sparkImg.src = SPARK_ADDRESS;
 var g_startBackground = new Image();
 g_startBackground.src = START_SCREEN_ADDRESS;
+var g_endLevelBlank = new Image();
+g_endLevelBlank.src = END_LEVEL_BACKGROUND;
 var g_playText = new Image();
 g_playText.src = PLAY_TEXT_ADDRESS;
+var g_endLevelText = new Image();
+g_endLevelText.src = END_LEVEL_TEXT_ADDRESS;
+var g_shadow = new Image();
+g_shadow.src = SHADOW_ADDRESS;
+g_shadow.level = 0;
 
 window.onload = function()
 {
@@ -119,8 +126,7 @@ function endGame()
 
 function endLevel()
 {
-    g_currentLevel++;
-    init();
+    showResultScreen();
 }
 
 function drawField()
@@ -169,20 +175,14 @@ function drawLastBang()
     moveBangs();
     moveBalls();
     drawField();
-    if (g_AllBangs.length == 0 && g_Balls.length == 0)
+    drawShadow();
+    if (g_shadow.level >= SHADOW_LEVEL)
     {
+        g_shadow.level = 0;
         clearInterval(g_intervalId);
-        if (g_currentLevel + 1 != g_levels.length && g_player.health > 0)
-        {
-            endLevel();
-        }
-        else
-        {
-            gameOver();
-        }
+        showResultScreen();
     }
 }
-
 window.onkeydown = function(event)
 {
     switch (event.which)
@@ -250,4 +250,4 @@ window.onkeyup = function(event)
             }
             break;
     }
-}
+};
