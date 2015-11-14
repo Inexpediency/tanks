@@ -237,6 +237,7 @@ function showResultScreen()
     var button;
     g_ctx.font = HEADER_RESULT_FONT;
     g_ctx.fillStyle = HEADER_RESULT_COLOR;
+    g_ctx.strokeStyle = "#000000";
     var isVin = g_player.health > 0;
     if (isVin)
     {
@@ -258,6 +259,7 @@ function showResultScreen()
     var messageY = halfCanvasY - halfBackgroundY + HEADER_RESULT_PADDING_TOP;
     g_ctx.drawImage(g_endLevelBlank, halfCanvasX - halfBackgroundX, halfCanvasY - halfBackgroundY);
     g_ctx.fillText(message, messageX, messageY);
+    g_ctx.strokeText(message, messageX, messageY);
     g_ctx.drawImage(button, buttonX, buttonY);
     g_canvas.onmousemove = function(event)
     {
@@ -274,9 +276,9 @@ function showResultScreen()
         }
         button.onload = function()
         {
-            console.log(messageX, messageY);
             g_ctx.drawImage(g_endLevelBlank, halfCanvasX - halfBackgroundX, halfCanvasY - halfBackgroundY);
             g_ctx.fillText(message, messageX, messageY);
+            g_ctx.strokeText(message, messageX, messageY);
             g_ctx.drawImage(button, buttonX, buttonY);
             g_endLevelBlank.onload = undefined;
         };
@@ -290,13 +292,14 @@ function showResultScreen()
         {
             g_canvas.onclick = undefined;
             g_canvas.onmousemove = undefined;
-            if (g_currentLevel + 1 != g_levels.length && isVin)
+            if (g_currentLevel + 1 < g_levels.length && isVin)
             {
                 g_currentLevel++;
                 init();
             }
             else
             {
+                g_currentLevel = 0;
                 showStartScreen();
             }
         }
@@ -307,14 +310,54 @@ function showStartScreen()
 {
     g_canvas.height = g_startBackground.height;
     g_canvas.width = g_startBackground.width;
+    var halfCanvasX = Math.floor(g_canvas.width / 2);
+    var halfCanvasY = Math.floor(g_canvas.height / 2);
+    var buttonX = halfCanvasX - Math.floor(g_playText.width / 2);
+    var buttonY = PLAY_TEXT_Y;
     g_ctx.drawImage(g_startBackground, 0, 0);
-    g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
+    g_ctx.drawImage(g_playText, buttonX, buttonY);
+    initHoverStateStartScreenButton(buttonX, buttonY);
+    g_canvas.onmousedown = function(event)
+    {
+        if (event.clientX <= buttonX + g_playText.width &&
+            event.clientX >= buttonX &&
+            event.clientY <= buttonY + g_playText.height &&
+            event.clientY >= buttonY)
+        {
+            g_canvas.onmousemove = undefined;
+            g_playText.src = PLAY_TEXT_ADDRESS_CLICK;
+            g_playText.onload = function()
+            {
+                g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
+                g_ctx.drawImage(g_playText, buttonX, buttonY);
+                g_playText.onload = undefined;
+            };
+        }
+    };
+    g_canvas.onmouseup = function(event)
+    {
+        if (g_canvas.onmousemove == undefined)
+        {
+            g_canvas.onmousemove = undefined;
+            g_canvas.onmousedown = undefined;
+            g_canvas.onmouseup = undefined;
+            init();
+        }
+        else
+        {
+            initHoverStateStartScreenButton(buttonX, buttonY);
+        }
+    };
+}
+
+function initHoverStateStartScreenButton(buttonX, buttonY)
+{
     g_canvas.onmousemove = function(event)
     {
-        if (event.clientX <= PLAY_TEXT_X + g_playText.width &&
-            event.clientX >= PLAY_TEXT_X &&
-            event.clientY <= PLAY_TEXT_Y + g_playText.height &&
-            event.clientY >= PLAY_TEXT_Y)
+        if (event.clientX <= buttonX + g_playText.width &&
+            event.clientX >= buttonX &&
+            event.clientY <= buttonY + g_playText.height &&
+            event.clientY >= buttonY)
         {
             g_playText.src = PLAY_TEXT_ADDRESS_HOVER;
         }
@@ -325,22 +368,11 @@ function showStartScreen()
         g_playText.onload = function()
         {
             g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
-            g_ctx.drawImage(g_playText, PLAY_TEXT_X, PLAY_TEXT_Y);
+            g_ctx.drawImage(g_playText, buttonX, buttonY);
             g_playText.onload = undefined;
         };
     };
-    g_canvas.onclick = function(event)
-    {
-        if (event.clientX < PLAY_TEXT_X + g_playText.width &&
-            event.clientX > PLAY_TEXT_X &&
-            event.clientY < PLAY_TEXT_Y + g_playText.height &&
-            event.clientY > PLAY_TEXT_Y)
-        {
-            g_canvas.onmousemove = undefined;
-            g_canvas.onclick = undefined;
-            init();
-        }
-    };
+
 }
 
 function drawShadow()

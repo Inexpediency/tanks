@@ -112,21 +112,11 @@ function gameTick()
     }
 }
 
-function gameOver()
-{
-    g_currentLevel = 0;
-    showStartScreen();
-}
-
 function endGame()
 {
     clearInterval(g_intervalId);
+    console.log(g_intervalId);
     g_intervalId = setInterval(drawLastBang, DELAY);
-}
-
-function endLevel()
-{
-    showResultScreen();
 }
 
 function drawField()

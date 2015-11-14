@@ -41,12 +41,13 @@ var END_LEVEL_BACKGROUND = "img/end_level_background.jpg";
 var SPARK_ADDRESS = "./img/spark.png";
 var PLAY_TEXT_ADDRESS = "img/play_text.png";
 var PLAY_TEXT_ADDRESS_HOVER = "img/play_text_hover.png";
+var PLAY_TEXT_ADDRESS_CLICK = "img/play_text_click.png";
 var END_LEVEL_TEXT_ADDRESS = "img/end_level_text.png";
 var END_LEVEL_TEXT_ADDRESS_HOVER = "img/end_level_text_hover.png";
 var SHADOW_ADDRESS = "img/shadow.png";
 
-var PLAY_TEXT_X = 28;
-var PLAY_TEXT_Y = 32;
+var PLAY_TEXT_X = 350;
+var PLAY_TEXT_Y = 350;
 
 var FPS = 35;
 var DELAY = 1000 / FPS;
