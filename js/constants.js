@@ -27,10 +27,11 @@ var GRID_COLOR = "#000000";
 
 var SHADOW_LEVEL = 43;
 
+var SPARK_ADDRESS = "./img/spark.png";
 var SMOKE_ADDRESS = "./img/smoke.png";
+var DUST_ADDRESS = "./img/dust.png";
 var BARRICADE_ADDRESS = "./img/barricade.png";
 var TRAVELED_BARRICADE_ADDRESS = "./img/traveld_barricade.png";
-var SPARK_ADDRESS = "./img/spark.png";
 var HEALTH_ADDRES = "./img/health.png";
 var RESULT_SCREEN_ADDRESS = "result_screen.html"
 var START_SCREEN_ADDRESS = "start_screen.html";
@@ -49,8 +50,11 @@ var LAST_X_SPARK_STATE = 7;
 var LAST_Y_SPARK_STATE = 5;
 var LAST_X_SMOKE_STATE = 7;
 var LAST_Y_SMOKE_STATE = 4;
+var LAST_X_DUST_STATE = 2;
+var LAST_Y_DUST_STATE = 2;
 var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
+var DUST_COUNT = 10;
 
 //speed делитель SQUARE_SIZE / 2
 //rotateTowerSpeed делитель 90

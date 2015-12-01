@@ -8,6 +8,7 @@ var g_currentLevel = 0;
 var g_enemy;
 var g_AllBangs;
 var g_Smoke;
+var g_Dust;
 var g_Balls;
 var g_player;
 
@@ -19,6 +20,8 @@ var g_sparkImg = new Image();
 g_sparkImg.src = SPARK_ADDRESS;
 var g_smokeImg = new Image;
 g_smokeImg.src = SMOKE_ADDRESS;
+var g_dustImg = new Image;
+g_dustImg.src = DUST_ADDRESS;
 
 window.onload = function()
 {
@@ -47,6 +50,7 @@ function initGlobVar()
     g_Balls = [];
     g_AllBangs = [];
     g_Smoke = [];
+    g_Dust = [];
 }
 
 function initField()
@@ -200,10 +204,11 @@ function drawField()
 {
     g_ctx.clearRect(0, 0, g_canvas.width, g_canvas.height);
     g_contextCtx.clearRect(0, 0, g_context.width, g_context.height);
+    drawStaticParticle(g_Dust);
     drawGrid();
     drawCells();
     drawBangs();
-    drawSmoke();
+    drawStaticParticle(g_Smoke);
     drawPlayerHealth();
 }
 

@@ -173,11 +173,13 @@ function Player(cordX, cordY, towerState, persChar, consts)
         {
             this.motion = NOTHING_CHAR;
         }
+        var x;
+        var y;
         if (this.health <= 1)
         {
             for (var i = 0; i < SMOKE_COUNT; ++i)
             {
-                var x = this.drawingX + SQUARE_SIZE * 0.5;
+                x = this.drawingX + SQUARE_SIZE * 0.5;
                 var y = this.drawingY + SQUARE_SIZE * 0.5;
                 x += randNumbFrom(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.cos(inRad(this.bodyAngle));
                 y += randNumbFrom(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.sin(inRad(this.bodyAngle));
@@ -189,7 +191,34 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 {
                     y += randNumbFrom(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
                 }
-                g_Smoke[g_Smoke.length] = new Smoke(x, y);
+                g_Smoke[g_Smoke.length] = new StaticParticle(x, y, g_smokeImg, LAST_X_SMOKE_STATE, LAST_Y_SMOKE_STATE, SQUARE_SIZE / 2, SQUARE_SIZE / 2);
+            }
+        }
+        if (residueX != 0 || residueY != 0)
+        {
+            for (var i = 0; i < DUST_COUNT; ++i)
+            {
+                if (this.motionBefore == "u")
+                {
+                    x = this.drawingX + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
+                    y = this.drawingY + SQUARE_SIZE + randNumbFrom(0, SQUARE_SIZE / 10);
+                }
+                else if (this.motionBefore == "d")
+                {
+                    x = this.drawingX + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
+                    y = this.drawingY + randNumbFrom(-SQUARE_SIZE / 10, 0);
+                }
+                else if (this.motionBefore == "l")
+                {
+                    y = this.drawingY + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
+                    x = this.drawingX + SQUARE_SIZE + randNumbFrom(0, SQUARE_SIZE / 10);
+                }
+                else if (this.motionBefore == "r")
+                {
+                    y = this.drawingY + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
+                    x = this.drawingX + randNumbFrom(-SQUARE_SIZE / 10, 0);
+                }
+                g_Dust[g_Dust.length] = new StaticParticle(x, y, g_dustImg, LAST_X_DUST_STATE, LAST_Y_DUST_STATE, SQUARE_SIZE / 20, SQUARE_SIZE / 20);
             }
         }
         g_gameField[this.y][this.x] = this.character;
@@ -364,22 +393,21 @@ function Spark(x, y, finalX, finalY)
     };
 }
 
-function Smoke(x, y)
+function StaticParticle(x, y, img, lastX, lastY, width, height)
 {
     this.x = x;
     this.y = y;
     this.stateX = 0;
     this.stateY = 0;
-    this.delay = 0;
-    this.SmokeWidth = g_smokeImg.width / (LAST_X_SMOKE_STATE + 1);
-    this.SmokeHeight = g_smokeImg.height / (LAST_Y_SMOKE_STATE + 1);
+    this.SmokeWidth = img.width / (lastX + 1);
+    this.SmokeHeight = img.height / (lastY + 1);
     this.draw = function()
     {
-        g_ctx.drawImage(g_smokeImg,
+        g_ctx.drawImage(img,
                         this.SmokeWidth * this.stateX, this.SmokeHeight * this.stateY,
                         this.SmokeWidth, this.SmokeHeight,
-                        this.x - SQUARE_SIZE / 4, this.y - SQUARE_SIZE / 4,
-                        SQUARE_SIZE / 2, SQUARE_SIZE / 2);
+                        this.x - width / 2, this.y - height / 2,
+                        width, height);
         if (++this.stateX > LAST_X_SMOKE_STATE)
         {
             this.stateX = 0;

@@ -237,14 +237,13 @@ function drawBangs()
     }
 }
 
-function drawSmoke()
+function drawStaticParticle(mas)
 {
-    for (var i = 0; i < g_Smoke.length; i++)
+    for (var i = 0; i < mas.length; i++)
     {
-        console.log("1");
-        if (g_Smoke[i].draw())
+        if (mas[i].draw())
         {
-            g_Smoke.splice(i, 1);
+            mas.splice(i, 1);
         }
     }
 }
