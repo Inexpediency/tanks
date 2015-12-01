@@ -1,0 +1,53 @@
+.game_field
+{
+    position: absolute;
+}
+
+.start_video
+{
+    width: 100%;
+    position: fixed;
+    z-index: 0;
+}
+
+.menu
+{
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-left: -121px;
+    z-index: 1;
+    width: 242px;
+    list-style-type: none;
+}
+
+.button
+{
+    padding: 15px 0 0 0;
+    z-index: 2;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 242px;
+    height: 70px;
+    background: url("../img/button.png") no-repeat;
+}
+
+.button:hover
+{
+    background: url("../img/button_hover.png") no-repeat;
+}
+
+.button:active
+{
+    height: 66px;
+    padding-top: 19px;
+    background: url("../img/button_click.png") no-repeat;
+}
+
+.button_text
+{
+    font: normal 36px Calibri;
+    color: #000000;
+    text-decoration: none;
+}

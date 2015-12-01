@@ -26,6 +26,41 @@ function isTankCell(x, y)
     }
 }
 
+function initHealthBlock()
+{
+    var health = new Image();
+    health.src = HEALTH_ADDRES;
+    var healthBlock = document.getElementById("health_block");
+    health.onload = function()
+    {
+        healthBlock.style.width = (health.width * 3) + "px";
+        var controlPanel = document.getElementById("controlPanel");
+        controlPanel.style.width = (255 + parseInt(healthBlock.style.width)) + "px"
+    }
+}
+
+function drawPlayerHealth()
+{
+    var healthBlock = document.getElementById("health");
+    healthBlock.innerHTML = "";
+    if (g_player.health > 3)
+    {
+        var health = new Image();
+        health.src = HEALTH_ADDRES;
+        healthBlock.appendChild(health);
+        healthBlock.innerHTML = healthBlock.innerHTML + " x" + g_player.health;
+    }
+    else
+    {
+        for (var i = 0; i < g_player.health; ++i)
+        {
+            var health = new Image();
+            health.src = HEALTH_ADDRES;
+            healthBlock.appendChild(health);
+        }
+    }
+}
+
 function currentChar(angle, towerState)
 {
     if (angle == 0 && towerState == "r"||
@@ -55,6 +90,31 @@ function isDegCel(angle)
     {
         return 0;
     }
+}
+
+function degInChar(deg)
+{
+    if (deg == 90)
+    {
+        return "u";
+    }
+    else if (deg == 180)
+    {
+        return "l";
+    }
+    else if (deg == 270)
+    {
+        return "d";
+    }
+    else if (deg == 360 || deg == 0)
+    {
+        return "r";
+    }
+    else
+    {
+        return "n"
+    }
+
 }
 
 function charInDeg(char)
@@ -177,6 +237,18 @@ function drawBangs()
     }
 }
 
+function drawSmoke()
+{
+    for (var i = 0; i < g_Smoke.length; i++)
+    {
+        console.log("1");
+        if (g_Smoke[i].draw())
+        {
+            g_Smoke.splice(i, 1);
+        }
+    }
+}
+
 function moveBalls()
 {
     for (var i = 0; i < g_Balls.length; i++)
@@ -231,167 +303,8 @@ function drawFillArc(x, y, radius, color)
     g_ctx.stroke();
 }
 
-function showResultScreen()
-{
-    var message;
-    var button;
-    g_ctx.font = HEADER_RESULT_FONT;
-    g_ctx.fillStyle = HEADER_RESULT_COLOR;
-    g_ctx.strokeStyle = "#000000";
-    var isVin = g_player.health > 0;
-    if (isVin)
-    {
-        message = VIN_MESSAGE;
-        button = g_endLevelText;
-    }
-    else
-    {
-        message = lOSE_MESSAGE;
-        button = g_endLevelText;
-    }
-    var halfBackgroundX = Math.floor(g_endLevelBlank.width / 2);
-    var halfBackgroundY = Math.floor(g_endLevelBlank.height / 2);
-    var halfCanvasX = Math.floor(g_canvas.width / 2);
-    var halfCanvasY = Math.floor(g_canvas.height / 2);
-    var buttonX = halfCanvasX - Math.floor(g_endLevelText.width / 2);
-    var buttonY = halfCanvasY - Math.floor(g_endLevelText.height / 2);
-    var messageX = halfCanvasX - (g_ctx.measureText(message).width) / 2;
-    var messageY = halfCanvasY - halfBackgroundY + HEADER_RESULT_PADDING_TOP;
-    g_ctx.drawImage(g_endLevelBlank, halfCanvasX - halfBackgroundX, halfCanvasY - halfBackgroundY);
-    g_ctx.fillText(message, messageX, messageY);
-    g_ctx.strokeText(message, messageX, messageY);
-    g_ctx.drawImage(button, buttonX, buttonY);
-    g_canvas.onmousemove = function(event)
-    {
-        if (event.clientX <= buttonX + g_endLevelText.width &&
-            event.clientX >= buttonX &&
-            event.clientY <= buttonY + g_endLevelText.height &&
-            event.clientY >= buttonY)
-        {
-            button.src = END_LEVEL_TEXT_ADDRESS_HOVER;
-        }
-        else
-        {
-            button.src = END_LEVEL_TEXT_ADDRESS;
-        }
-        button.onload = function()
-        {
-            g_ctx.drawImage(g_endLevelBlank, halfCanvasX - halfBackgroundX, halfCanvasY - halfBackgroundY);
-            g_ctx.fillText(message, messageX, messageY);
-            g_ctx.strokeText(message, messageX, messageY);
-            g_ctx.drawImage(button, buttonX, buttonY);
-            g_endLevelBlank.onload = undefined;
-        };
-    };
-    g_canvas.onclick = function(event)
-    {
-        if (event.clientX < buttonX+ g_endLevelText.width &&
-            event.clientX > buttonX &&
-            event.clientY < buttonY + g_endLevelText.height &&
-            event.clientY > buttonY)
-        {
-            g_canvas.onclick = undefined;
-            g_canvas.onmousemove = undefined;
-            if (g_currentLevel + 1 < g_levels.length && isVin)
-            {
-                g_currentLevel++;
-                init();
-            }
-            else
-            {
-                g_currentLevel = 0;
-                showStartScreen();
-            }
-        }
-    };
-}
-
-function showStartScreen()
-{
-    g_canvas.height = g_startBackground.height;
-    g_canvas.width = g_startBackground.width;
-    var halfCanvasX = Math.floor(g_canvas.width / 2);
-    var halfCanvasY = Math.floor(g_canvas.height / 2);
-    var buttonX = halfCanvasX - Math.floor(g_playText.width / 2);
-    var buttonY = PLAY_TEXT_Y;
-    g_ctx.drawImage(g_startBackground, 0, 0);
-    g_ctx.drawImage(g_playText, buttonX, buttonY);
-    initHoverStateStartScreenButton(buttonX, buttonY);
-    g_canvas.onmousedown = function(event)
-    {
-        if (event.clientX <= buttonX + g_playText.width &&
-            event.clientX >= buttonX &&
-            event.clientY <= buttonY + g_playText.height &&
-            event.clientY >= buttonY)
-        {
-            g_canvas.onmousemove = undefined;
-            g_playText.src = PLAY_TEXT_ADDRESS_CLICK;
-            g_playText.onload = function()
-            {
-                g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
-                g_ctx.drawImage(g_playText, buttonX, buttonY);
-                g_playText.onload = undefined;
-            };
-        }
-    };
-    g_canvas.onmouseup = function(event)
-    {
-        if (g_canvas.onmousemove == undefined)
-        {
-            g_canvas.onmousemove = undefined;
-            g_canvas.onmousedown = undefined;
-            g_canvas.onmouseup = undefined;
-            init();
-        }
-        else
-        {
-            initHoverStateStartScreenButton(buttonX, buttonY);
-        }
-    };
-}
-
-function initHoverStateStartScreenButton(buttonX, buttonY)
-{
-    g_canvas.onmousemove = function(event)
-    {
-        if (event.clientX <= buttonX + g_playText.width &&
-            event.clientX >= buttonX &&
-            event.clientY <= buttonY + g_playText.height &&
-            event.clientY >= buttonY)
-        {
-            g_playText.src = PLAY_TEXT_ADDRESS_HOVER;
-        }
-        else
-        {
-            g_playText.src = PLAY_TEXT_ADDRESS;
-        }
-        g_playText.onload = function()
-        {
-            g_ctx.drawImage(g_startBackground, 0, 0, g_canvas.width, g_canvas.height);
-            g_ctx.drawImage(g_playText, buttonX, buttonY);
-            g_playText.onload = undefined;
-        };
-    };
-
-}
-
-function drawShadow()
-{
-    if (g_shadow.level <= SHADOW_LEVEL)
-    {
-        g_shadow.level++;
-    }
-    for (var i = 0; i < g_shadow.level; ++i)
-    {
-        g_ctx.drawImage(g_shadow, 0, 0, g_canvas.width, g_canvas.height);
-    }
-}
-
 function drawGrid()
 {
-    //var background = new Image();
-    //background.src = BACKGROUND_ADDRESS;
-    //g_ctx.drawImage(background, 0, 0, g_canvas.width, g_canvas.height);
     g_ctx.strokeStyle = GRID_COLOR;
     g_ctx.beginPath();
     for (var i = 0; i < g_gameField[0].length; ++i)
@@ -443,8 +356,6 @@ function checkYFireWay(x, y, finalState)
     }
     return NOTHING_CHAR;
 }
-
-
 
 function calcMoving(enemy)
 {

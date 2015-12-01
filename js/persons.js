@@ -65,7 +65,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
             this.lastFireTime = 0;
             this.fire = false;
         }
-        if (isDegCel(this.bodyAngle) && (this.motion == "r" && residueY == 0  || this.motionBefore == "r") &&
+        if ((degInChar(this.bodyAngle) == "r" || degInChar(this.bodyAngle) == "l") &&
+            (this.motion == "r" && residueY == 0  || this.motionBefore == "r") &&
             (g_gameField[this.y][this.x + 1] == NOTHING_CHAR ||
              residueX != 0))
         {
@@ -90,7 +91,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 }
             }
         }
-        else if (isDegCel(this.bodyAngle) && (this.motion == "d" && residueX == 0 || this.motionBefore == "d") &&
+        else if ((degInChar(this.bodyAngle) == "u" || degInChar(this.bodyAngle) == "d") &&
+                 (this.motion == "d" && residueX == 0 || this.motionBefore == "d") &&
                  (g_gameField[this.y + 1][this.x] == NOTHING_CHAR ||
                   residueY != 0))
         {
@@ -115,7 +117,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 }
             }
         }
-        else if (isDegCel(this.bodyAngle) && (this.motion == "l" && residueY == 0 || this.motionBefore == "l") &&
+        else if ((degInChar(this.bodyAngle) == "r" || degInChar(this.bodyAngle) == "l") &&
+                 (this.motion == "l" && residueY == 0 || this.motionBefore == "l") &&
                  (g_gameField[this.y][this.x - 1] == NOTHING_CHAR ||
                   residueX != 0))
         {
@@ -140,7 +143,8 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 }
             }
         }
-        else if (isDegCel(this.bodyAngle) && (this.motion == "u" && residueX == 0 || this.motionBefore == "u") &&
+        else if ((degInChar(this.bodyAngle) == "u" || degInChar(this.bodyAngle) == "d") &&
+                 (this.motion == "u" && residueX == 0 || this.motionBefore == "u") &&
                  (g_gameField[this.y - 1][this.x] == NOTHING_CHAR ||
                   residueY != 0))
         {
@@ -169,13 +173,32 @@ function Player(cordX, cordY, towerState, persChar, consts)
         {
             this.motion = NOTHING_CHAR;
         }
+        if (this.health <= 1)
+        {
+            for (var i = 0; i < SMOKE_COUNT; ++i)
+            {
+                var x = this.drawingX + SQUARE_SIZE * 0.5;
+                var y = this.drawingY + SQUARE_SIZE * 0.5;
+                x += randNumbFrom(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.cos(inRad(this.bodyAngle));
+                y += randNumbFrom(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.sin(inRad(this.bodyAngle));
+                if ((degInChar(this.bodyAngle) == "u" || (degInChar(this.bodyAngle) == "d")))
+                {
+                    x += randNumbFrom(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
+                }
+                if ((degInChar(this.bodyAngle) == "r" || (degInChar(this.bodyAngle) == "l")))
+                {
+                    y += randNumbFrom(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
+                }
+                g_Smoke[g_Smoke.length] = new Smoke(x, y);
+            }
+        }
         g_gameField[this.y][this.x] = this.character;
     };
     this.draw = function()
     {
         g_ctx.translate(this.drawingX + 0.5 * SQUARE_SIZE, this.drawingY + 0.5 * SQUARE_SIZE);
         g_ctx.rotate(inRad(this.bodyAngle));
-        g_ctx.drawImage(this.body, Math.floor(-SQUARE_SIZE / 2), Math.floor(-SQUARE_SIZE / 2), SQUARE_SIZE, SQUARE_SIZE)
+        g_ctx.drawImage(this.body, Math.floor(-SQUARE_SIZE / 2), Math.floor(-SQUARE_SIZE / 2), SQUARE_SIZE, SQUARE_SIZE);
         g_ctx.rotate(-inRad(this.bodyAngle));
         g_ctx.rotate(inRad(this.angle));
         g_ctx.drawImage(this.tower, Math.floor(-this.towerHeight / 2), Math.floor(-this.towerHeight / 2), this.towerWidth, this.towerHeight);
@@ -326,13 +349,41 @@ function Spark(x, y, finalX, finalY)
         g_ctx.drawImage(
             g_sparkImg,
             this.sparkWidth * this.stateX,
-            this.sparkHeight * this.stateY, this.sparkWidth, this.sparkHeight, this.x - 10, this.y - 10,
-            (SQUARE_SIZE  - SQUARE_SIZE % 3) / 3,
-            (SQUARE_SIZE  - SQUARE_SIZE % 3) / 3);
+            this.sparkHeight * this.stateY, this.sparkWidth, this.sparkHeight,
+            this.x - SQUARE_SIZE / 6, this.y - SQUARE_SIZE / 6,
+            SQUARE_SIZE / 3, SQUARE_SIZE / 3);
         if (++this.stateX > LAST_X_SPARK_STATE)
         {
             this.stateX = 0;
             if (++this.stateY > LAST_Y_SPARK_STATE)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    };
+}
+
+function Smoke(x, y)
+{
+    this.x = x;
+    this.y = y;
+    this.stateX = 0;
+    this.stateY = 0;
+    this.delay = 0;
+    this.SmokeWidth = g_smokeImg.width / (LAST_X_SMOKE_STATE + 1);
+    this.SmokeHeight = g_smokeImg.height / (LAST_Y_SMOKE_STATE + 1);
+    this.draw = function()
+    {
+        g_ctx.drawImage(g_smokeImg,
+                        this.SmokeWidth * this.stateX, this.SmokeHeight * this.stateY,
+                        this.SmokeWidth, this.SmokeHeight,
+                        this.x - SQUARE_SIZE / 4, this.y - SQUARE_SIZE / 4,
+                        SQUARE_SIZE / 2, SQUARE_SIZE / 2);
+        if (++this.stateX > LAST_X_SMOKE_STATE)
+        {
+            this.stateX = 0;
+            if (++this.stateY > LAST_Y_SMOKE_STATE)
             {
                 return 1;
             }
