@@ -22,6 +22,8 @@ var g_smokeImg = new Image;
 g_smokeImg.src = SMOKE_ADDRESS;
 var g_dustImg = new Image;
 g_dustImg.src = DUST_ADDRESS;
+var g_ballImg = new Image;
+g_ballImg.src = BALL_ADDRESS;
 
 window.onload = function()
 {
@@ -238,7 +240,7 @@ function drawCells()
             }
             else if (g_gameField[y][x] == BALL_CHAR)
             {
-                drawFillArc((x + 0.5) * SQUARE_SIZE, (y + 0.5) * SQUARE_SIZE, SQUARE_SIZE / 10, "#808080");
+                g_Balls[find(x, y, g_Balls)].draw();
             }
             else if (isTankCell(x, y))
             {

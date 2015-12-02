@@ -191,34 +191,57 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 {
                     y += randNumbFrom(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
                 }
-                g_Smoke[g_Smoke.length] = new StaticParticle(x, y, g_smokeImg, LAST_X_SMOKE_STATE, LAST_Y_SMOKE_STATE, SQUARE_SIZE / 2, SQUARE_SIZE / 2);
+                g_Smoke[g_Smoke.length] = new DynamicParticle(g_smokeImg, x, y,
+                                                              0, 0,
+                                                              LAST_X_SMOKE_STATE, LAST_Y_SMOKE_STATE,
+                                                              SQUARE_SIZE / 2, SQUARE_SIZE / 2);
             }
         }
-        if (residueX != 0 || residueY != 0)
+        if (residueX != 0 || residueY != 0 || !isDegCel(this.bodyAngle))
         {
             for (var i = 0; i < DUST_COUNT; ++i)
             {
-                if (this.motionBefore == "u")
+                if (!isDegCel(this.bodyAngle))
                 {
-                    x = this.drawingX + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
-                    y = this.drawingY + SQUARE_SIZE + randNumbFrom(0, SQUARE_SIZE / 10);
+                    var angle = this.bodyAngle + (randSign() >= 0) * 180;
+                    if (this.bodyAngle >= charInDeg(this.routeBefor))
+                    {
+                        angle = inRad(angle);
+                        x = SQUARE_SIZE * 0.25 * Math.cos(angle + Math.PI * 3 / 2);
+                        y = SQUARE_SIZE * 0.25 * Math.sin(angle + Math.PI * 3 / 2);
+                    }
+                    else
+                    {
+                        angle = inRad(angle);
+                        console.log('y');
+                        x = SQUARE_SIZE * 0.25 * Math.cos(angle + Math.PI / 2);
+                        y = SQUARE_SIZE * 0.25 * Math.sin(angle + Math.PI / 2);
+                    }
+                    var radius = randNumbFrom(0, SQUARE_SIZE / 2.25)
+                    x += this.drawingX + SQUARE_SIZE * 0.5 + Math.cos(angle) * radius;
+                    y += this.drawingY + SQUARE_SIZE * 0.5 + Math.sin(angle) * radius;
                 }
                 else if (this.motionBefore == "d")
                 {
-                    x = this.drawingX + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
-                    y = this.drawingY + randNumbFrom(-SQUARE_SIZE / 10, 0);
+                    x = this.drawingX + SQUARE_SIZE / 4 + randNumbFrom(0, SQUARE_SIZE / 2);
+                    y = this.drawingY + SQUARE_SIZE + randNumbFrom(-SQUARE_SIZE, 0);
                 }
-                else if (this.motionBefore == "l")
+                else if (this.motionBefore == "u")
                 {
-                    y = this.drawingY + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
-                    x = this.drawingX + SQUARE_SIZE + randNumbFrom(0, SQUARE_SIZE / 10);
+                    x = this.drawingX + SQUARE_SIZE / 4 + randNumbFrom(0, SQUARE_SIZE / 2);
+                    y = this.drawingY + randNumbFrom(0, SQUARE_SIZE);
                 }
                 else if (this.motionBefore == "r")
                 {
-                    y = this.drawingY + SQUARE_SIZE / 4 +  randNumbFrom(0, SQUARE_SIZE / 2);
-                    x = this.drawingX + randNumbFrom(-SQUARE_SIZE / 10, 0);
+                    y = this.drawingY + SQUARE_SIZE / 4 + randNumbFrom(0, SQUARE_SIZE / 2);
+                    x = this.drawingX + SQUARE_SIZE + randNumbFrom(-SQUARE_SIZE, 0);
                 }
-                g_Dust[g_Dust.length] = new StaticParticle(x, y, g_dustImg, LAST_X_DUST_STATE, LAST_Y_DUST_STATE, SQUARE_SIZE / 20, SQUARE_SIZE / 20);
+                else if (this.motionBefore == "l")
+                {
+                    y = this.drawingY + SQUARE_SIZE / 4 + randNumbFrom(0, SQUARE_SIZE / 2);
+                    x = this.drawingX + randNumbFrom(0, SQUARE_SIZE);
+                }
+                g_Dust[g_Dust.length] = new DynamicParticle( g_dustImg,x, y, 0, 0, LAST_X_DUST_STATE, LAST_Y_DUST_STATE, SQUARE_SIZE / 40, SQUARE_SIZE / 40);
             }
         }
         g_gameField[this.y][this.x] = this.character;
@@ -311,6 +334,14 @@ function Ball(cordX, cordY, route)
         g_gameField[this.y][this.x] = BALL_CHAR;
         return 0;
     }
+    this.draw = function()
+    {
+        g_ctx.translate((this.x + 0.5) * SQUARE_SIZE, (this.y + 0.5) * SQUARE_SIZE);
+        g_ctx.rotate(inRad(charInDeg(this.route)));
+        g_ctx.drawImage(g_ballImg, -SQUARE_SIZE / 8, -SQUARE_SIZE / 8, SQUARE_SIZE / 3, SQUARE_SIZE / 3);
+        g_ctx.rotate(-inRad(charInDeg(this.route)));
+        g_ctx.translate(-(this.x + 0.5) * SQUARE_SIZE, -(this.y + 0.5) * SQUARE_SIZE);
+    }
 }
 
 function Bang(x, y)
@@ -330,7 +361,10 @@ function Bang(x, y)
             var finalY = randSign() * Math.sqrt(this.fireRadius * this.fireRadius - finalX * finalX);
             var startX = this.x * SQUARE_SIZE + (SQUARE_SIZE - SQUARE_SIZE % 2) / 2;
             var startY = this.y * SQUARE_SIZE + (SQUARE_SIZE - SQUARE_SIZE % 2) / 2;
-            this.fireParticles[this.fireParticles.length] = new Spark(startX, startY, finalX + startX, finalY + startY);
+            this.fireParticles[this.fireParticles.length] = new DynamicParticle(g_sparkImg, startX, startY,
+                                                                                finalX / SPARK_SPEED, finalY / SPARK_SPEED,
+                                                                                LAST_X_SPARK_STATE, LAST_Y_SPARK_STATE,
+                                                                                SQUARE_SIZE / 3, SQUARE_SIZE / 3);
         }
         this.moveFireParticles();
         if (this.liveTime-- <= 0 && this.fireParticles.length == 0)
@@ -358,16 +392,16 @@ function Bang(x, y)
     };
 }
 
-function Spark(x, y, finalX, finalY)
+function DynamicParticle(img, x, y, SpeedX, SpeedY, lastX, lastY, width, height)
 {
     this.x = x;
     this.y = y;
-    this.speedY = (finalY - y) / SPARK_SPEED;
-    this.speedX = (finalX - x) / SPARK_SPEED;
+    this.speedY = SpeedY;
+    this.speedX = SpeedX;
     this.stateX = 0;
     this.stateY = 0;
-    this.sparkWidth = g_sparkImg.width / (LAST_X_SPARK_STATE + 1);
-    this.sparkHeight = g_sparkImg.height / (LAST_Y_SPARK_STATE + 1);
+    this.sparkWidth = img.width / (lastX + 1);
+    this.sparkHeight = img.height / (lastY + 1);
     this.move = function()
     {
         this.x += this.speedX;
@@ -376,15 +410,15 @@ function Spark(x, y, finalX, finalY)
     this.draw = function()
     {
         g_ctx.drawImage(
-            g_sparkImg,
+            img,
             this.sparkWidth * this.stateX,
             this.sparkHeight * this.stateY, this.sparkWidth, this.sparkHeight,
-            this.x - SQUARE_SIZE / 6, this.y - SQUARE_SIZE / 6,
-            SQUARE_SIZE / 3, SQUARE_SIZE / 3);
-        if (++this.stateX > LAST_X_SPARK_STATE)
+            this.x - width / 2, this.y - height / 2,
+            width, height);
+        if (++this.stateX > lastX)
         {
             this.stateX = 0;
-            if (++this.stateY > LAST_Y_SPARK_STATE)
+            if (++this.stateY > lastY)
             {
                 return 1;
             }

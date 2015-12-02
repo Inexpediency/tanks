@@ -30,6 +30,7 @@ var SHADOW_LEVEL = 43;
 var SPARK_ADDRESS = "./img/spark.png";
 var SMOKE_ADDRESS = "./img/smoke.png";
 var DUST_ADDRESS = "./img/dust.png";
+var BALL_ADDRESS = "./img/ball.png"
 var BARRICADE_ADDRESS = "./img/barricade.png";
 var TRAVELED_BARRICADE_ADDRESS = "./img/traveld_barricade.png";
 var HEALTH_ADDRES = "./img/health.png";
@@ -43,9 +44,9 @@ var PAUSE_BUTTON_ADDRESS = "img/pause_button.png";
 var PAUSE_BUTTON_ADDRESS_HOVER = "img/pause_button_hover.png";
 var PAUSE_BUTTON_ADDRESS_CLICK = "img/pause_button_click.png";
 
-var FPS = 33;
+var FPS = 30;
 var DELAY = 1000 / FPS;
-var BANG_TIME = 20;
+var BANG_TIME = 13;
 var LAST_X_SPARK_STATE = 7;
 var LAST_Y_SPARK_STATE = 5;
 var LAST_X_SMOKE_STATE = 7;
@@ -54,7 +55,7 @@ var LAST_X_DUST_STATE = 2;
 var LAST_Y_DUST_STATE = 2;
 var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
-var DUST_COUNT = 10;
+var DUST_COUNT = 60;
 
 //speed делитель SQUARE_SIZE / 2
 //rotateTowerSpeed делитель 90
@@ -64,15 +65,15 @@ var PLAYER_CONSTS = {
     rotateTowerSpeed: 9,
     speedNormal: 3,
     speedPatrol: 3,
-    health: 1,
+    health: 6,
     reloadingTime: 40,
     foundRadius: 10
 };
 
 var ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
-    bodyImageAddres: "img/tank_body.gif",
-    rotateTowerSpeed: 10,
+    bodyImageAddres: "img/tank_body.png",
+    rotateTowerSpeed: 6,
     speedNormal: 2,
     speedPatrol: 2,
     health: 4,
@@ -82,8 +83,8 @@ var ENEMY_CONSTS = {
 
 var SPRINT_ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
-    bodyImageAddres: "img/tank_body.gif",
-    rotateTowerSpeed: 10,
+    bodyImageAddres: "img/tank_body.png",
+    rotateTowerSpeed: 6,
     speedNormal: 3,
     speedPatrol: 3,
     health: 3,
@@ -93,7 +94,7 @@ var SPRINT_ENEMY_CONSTS = {
 
 var ARMOR_ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
-    bodyImageAddres: "img/tank_body.gif",
+    bodyImageAddres: "img/tank_body.png",
     rotateTowerSpeed: 5,
     speedNormal: 1,
     speedPatrol: 1,

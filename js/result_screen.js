@@ -38,7 +38,7 @@ function initHtmlValues()
     }
     else
     {
-        message.innerHTML = "Проигрыш...";
+        message.innerHTML = "Поражение...";
         button.href = button.href + "level=" + queryString["currentLevel"] + "&";
         buttonImg.src = "./img/restart_button.png";
         buttonImg.onload = function()
