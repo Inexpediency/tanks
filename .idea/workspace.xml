@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10516ce3-8416-4ca5-9541-a2fab5378970" name="Default" comment="">
-      <change type="DELETED" beforePath="F:\project\game\tanks\img\bang.png" afterPath="" />
-      <change type="DELETED" beforePath="F:\project\game\tanks\img\end_level_text.png" afterPath="" />
-      <change type="DELETED" beforePath="F:\project\game\tanks\img\end_level_text_hover.png" afterPath="" />
-      <change type="DELETED" beforePath="F:\project\game\tanks\img\play_text2.png" afterPath="" />
-      <change type="DELETED" beforePath="F:\project\game\tanks\img\play_text_hover1.png" afterPath="" />
-      <change type="DELETED" beforePath="F:\project\game\tanks\img\tank_body.gif" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/img/body_p.png" afterPath="$PROJECT_DIR$/img/body_p.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/constants.js" afterPath="$PROJECT_DIR$/js/constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gameLogic.js" afterPath="$PROJECT_DIR$/js/gameLogic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/levels.js" afterPath="$PROJECT_DIR$/js/levels.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/persons.js" afterPath="$PROJECT_DIR$/js/persons.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/result_screen.js" afterPath="$PROJECT_DIR$/js/result_screen.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="tanks.iws" />
@@ -93,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="242" column="49" selection-start-line="242" selection-start-column="45" selection-end-line="242" selection-end-column="49" />
+              <caret line="315" column="23" selection-start-line="315" selection-start-column="18" selection-end-line="315" selection-end-column="23" />
               <folding>
                 <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
               </folding>
@@ -101,21 +90,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constants.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="constants.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/constants.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="19" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+              <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="persons.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="persons.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/persons.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59303594">
-              <caret line="243" column="155" selection-start-line="243" selection-start-column="155" selection-end-line="243" selection-end-column="155" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="206" column="124" selection-start-line="206" selection-start-column="124" selection-end-line="206" selection-end-column="124" />
               <folding />
             </state>
           </provider>
@@ -148,12 +137,12 @@
         <option value="$PROJECT_DIR$/js/commonFunctions.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/index.css" />
-        <option value="$PROJECT_DIR$/js/gameLogic.js" />
         <option value="$PROJECT_DIR$/js/levels.js" />
         <option value="$PROJECT_DIR$/js/result_screen.js" />
         <option value="$PROJECT_DIR$/js/necessaryFunction.js" />
         <option value="$PROJECT_DIR$/js/constants.js" />
         <option value="$PROJECT_DIR$/js/persons.js" />
+        <option value="$PROJECT_DIR$/js/gameLogic.js" />
       </list>
     </option>
   </component>
@@ -198,6 +187,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -246,11 +236,10 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="F:/particles/untitled" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
     <property name="settings.editor.selected.configurable" value="File.Encoding" />
@@ -303,7 +292,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27864584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27864584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -833,25 +822,25 @@
     <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="242" column="49" selection-start-line="242" selection-start-column="45" selection-end-line="242" selection-end-column="49" />
+          <caret line="315" column="23" selection-start-line="315" selection-start-column="18" selection-end-line="315" selection-end-column="23" />
           <folding>
             <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/constants.js">
+    <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="19" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+          <caret line="206" column="124" selection-start-line="206" selection-start-column="124" selection-end-line="206" selection-end-column="124" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/persons.js">
+    <entry file="file://$PROJECT_DIR$/js/constants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59303594">
-          <caret line="243" column="155" selection-start-line="243" selection-start-column="155" selection-end-line="243" selection-end-column="155" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="13" />
           <folding />
         </state>
       </provider>

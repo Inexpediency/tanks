@@ -204,7 +204,7 @@ function Player(cordX, cordY, towerState, persChar, consts)
                 if (!isDegCel(this.bodyAngle))
                 {
                     var angle = this.bodyAngle + (randSign() >= 0) * 180;
-                    if (this.bodyAngle >= charInDeg(this.routeBefor))
+                    if (this.bodyAngle >= charInDeg(this.routeBefor) && (charInDeg(this.routeBefor) != 0 || this.bodyAngle <= 180))
                     {
                         angle = inRad(angle);
                         x = SQUARE_SIZE * 0.25 * Math.cos(angle + Math.PI * 3 / 2);
@@ -213,7 +213,6 @@ function Player(cordX, cordY, towerState, persChar, consts)
                     else
                     {
                         angle = inRad(angle);
-                        console.log('y');
                         x = SQUARE_SIZE * 0.25 * Math.cos(angle + Math.PI / 2);
                         y = SQUARE_SIZE * 0.25 * Math.sin(angle + Math.PI / 2);
                     }
