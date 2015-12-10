@@ -12,6 +12,11 @@ var UP = 87;
 var RIGHT = 68;
 var DOWN = 83;
 
+var LEFT_CHAR = "l";
+var DOWN_CHAR = "d";
+var RIGHT_CHAR = "r";
+var UP_CHAR = "u";
+
 var PLAYER_CHAR = "y";
 var ENEMY_CHAR = "e";
 var SPRINT_ENEMY_CHAR = "s";
