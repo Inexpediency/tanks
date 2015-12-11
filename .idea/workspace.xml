@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10516ce3-8416-4ca5-9541-a2fab5378970" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/necessary_function.js" afterPath="$PROJECT_DIR$/js/necessary_function.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/persons.js" afterPath="$PROJECT_DIR$/js/persons.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -45,29 +47,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="necessaryFunction.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="215" column="8" selection-start-line="215" selection-start-column="8" selection-end-line="215" selection-end-column="8" />
-              <folding>
-                <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-                <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-                <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-                <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-                <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-                <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-                <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-                <element signature="n#!!block;n#patrol#0" expanded="false" />
-                <element signature="n#!!block;n#fire#0" expanded="false" />
-                <element signature="n#!!block;n#atack#0" expanded="false" />
-                <element signature="n#!!block;n#chase#0" expanded="false" />
-                <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="levels.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/levels.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -78,23 +57,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gameLogic.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
+      <file leaf-file-name="necessary_function.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/necessary_function.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="315" column="23" selection-start-line="315" selection-start-column="18" selection-end-line="315" selection-end-column="23" />
-              <folding>
-                <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.44396082">
+              <caret line="268" column="8" selection-start-line="268" selection-start-column="8" selection-end-line="268" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constants.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="constants.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/constants.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="13" />
+              <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="71" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -104,8 +81,13 @@
         <entry file="file://$PROJECT_DIR$/js/persons.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="206" column="124" selection-start-line="206" selection-start-column="124" selection-end-line="206" selection-end-column="124" />
-              <folding />
+              <caret line="90" column="8" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
+              <folding>
+                <element signature="e#1649#1784#0" expanded="false" />
+                <element signature="e#1870#2089#0" expanded="false" />
+                <element signature="e#2262#2376#0" expanded="false" />
+                <element signature="e#2415#2506#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -141,8 +123,9 @@
         <option value="$PROJECT_DIR$/js/result_screen.js" />
         <option value="$PROJECT_DIR$/js/necessaryFunction.js" />
         <option value="$PROJECT_DIR$/js/constants.js" />
-        <option value="$PROJECT_DIR$/js/persons.js" />
         <option value="$PROJECT_DIR$/js/gameLogic.js" />
+        <option value="$PROJECT_DIR$/js/persons.js" />
+        <option value="$PROJECT_DIR$/js/necessary_function.js" />
       </list>
     </option>
   </component>
@@ -160,7 +143,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
+    <option name="width" value="1932" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -186,8 +169,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -289,10 +272,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27864584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27818373" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -311,26 +294,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27864584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -345,18 +308,138 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/js/necessaryFunction.js</url>
-          <line>190</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/js/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="48" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/persons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/levels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="72" selection-start-line="33" selection-start-column="72" selection-end-line="33" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/necessary_function.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="137" column="14" selection-start-line="137" selection-start-column="11" selection-end-line="137" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="48" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/persons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/levels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="72" selection-start-line="33" selection-start-column="72" selection-end-line="33" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/necessary_function.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="215" column="10" selection-start-line="215" selection-start-column="10" selection-end-line="215" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="48" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/persons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -371,41 +454,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="234" column="1" selection-start-line="234" selection-start-column="1" selection-end-line="234" selection-end-column="1" />
           <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -431,41 +488,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="293" column="22" selection-start-line="293" selection-start-column="12" selection-end-line="293" selection-end-column="22" />
           <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -491,41 +522,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="72" selection-start-line="177" selection-start-column="72" selection-end-line="177" selection-end-column="72" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -551,41 +556,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="72" selection-start-line="177" selection-start-column="72" selection-end-line="177" selection-end-column="72" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -611,41 +590,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="175" column="9" selection-start-line="175" selection-start-column="9" selection-end-line="175" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -671,41 +624,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/persons.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="200" column="23" selection-start-line="200" selection-start-column="23" selection-end-line="200" selection-end-column="23" />
           <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -720,16 +647,6 @@
     <entry file="file://$PROJECT_DIR$/img/button.png">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/commonFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="5" selection-start-line="56" selection-start-column="5" selection-end-line="56" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#44#0" expanded="false" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/start_screen.html">
@@ -767,14 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/result_screen.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4820457">
@@ -798,41 +707,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/necessaryFunction.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="215" column="8" selection-start-line="215" selection-start-column="8" selection-end-line="215" selection-end-column="8" />
-          <folding>
-            <element signature="n#!!block;n#isDegCel#0" expanded="false" />
-            <element signature="n#!!block;n#translateDividers#0" expanded="false" />
-            <element signature="n#!!block;n#culcBodyAngle#0" expanded="false" />
-            <element signature="n#!!block;n#moveBangs#0" expanded="false" />
-            <element signature="n#!!block;n#checkXFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#checkYFireWay#0" expanded="false" />
-            <element signature="n#!!block;n#calcMoving#0" expanded="false" />
-            <element signature="n#!!block;n#patrol#0" expanded="false" />
-            <element signature="n#!!block;n#fire#0" expanded="false" />
-            <element signature="n#!!block;n#atack#0" expanded="false" />
-            <element signature="n#!!block;n#chase#0" expanded="false" />
-            <element signature="n#!!block;n#isPlayerFound#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="315" column="23" selection-start-line="315" selection-start-column="18" selection-end-line="315" selection-end-column="23" />
-          <folding>
-            <element signature="n#!!block;n#initPauseButton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/persons.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="206" column="124" selection-start-line="206" selection-start-column="124" selection-end-line="206" selection-end-column="124" />
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -840,7 +718,28 @@
     <entry file="file://$PROJECT_DIR$/js/constants.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="13" />
+          <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="71" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/persons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="8" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
+          <folding>
+            <element signature="e#1649#1784#0" expanded="false" />
+            <element signature="e#1870#2089#0" expanded="false" />
+            <element signature="e#2262#2376#0" expanded="false" />
+            <element signature="e#2415#2506#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/necessary_function.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44396082">
+          <caret line="268" column="8" selection-start-line="268" selection-start-column="8" selection-end-line="268" selection-end-column="8" />
           <folding />
         </state>
       </provider>

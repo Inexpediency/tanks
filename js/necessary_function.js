@@ -112,9 +112,62 @@ function getCurrentChar(deg)
     }
     else
     {
-        return "n"
+        return null;
     }
 
+}
+
+function getXDirect(char)
+{
+    if (char == RIGHT_CHAR)
+    {
+        return 1;
+    }
+    else if (char == LEFT_CHAR)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+function getYDirect(char)
+{
+    if (char == DOWN_CHAR)
+    {
+        return 1;
+    }
+    else if (char == UP_CHAR)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+function reverseChar(char)
+{
+    if (char == UP_CHAR)
+    {
+        return DOWN_CHAR;
+    }
+    else if (char == DOWN_CHAR)
+    {
+        return UP_CHAR;
+    }
+    else if (char == RIGHT_CHAR)
+    {
+        return LEFT_CHAR;
+    }
+    else if (char == LEFT_CHAR)
+    {
+        return RIGHT_CHAR;
+    }
+    return NOTHING_CHAR;
 }
 
 function translateCharInRightDeg(char)

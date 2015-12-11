@@ -25,6 +25,7 @@ function Player(cordX, cordY, towerState, personalChar, consts)
         this.body.src = consts.bodyImageAddres;
         this.x = cordX;
         this.y = cordY;
+        this.isTankReturn = 1;
         this.drawingX = this.x * SQUARE_SIZE;
         this.drawingY = this.y * SQUARE_SIZE;
         this.finalBodeState = towerState;
@@ -36,12 +37,17 @@ function Player(cordX, cordY, towerState, personalChar, consts)
     {
         this.towerAngle = calcTowerAngel(this.towerAngle, translateCharInRightDeg(this.towerState), this.rotateStep);
         this.lastFireTime++;
-        g_gameField[this.y][this.x] = NOTHING_CHAR;
         var residueX = this.drawingX - this.x * SQUARE_SIZE;
         var residueY = this.drawingY - this.y * SQUARE_SIZE;
         if(residueX  == 0 && residueY  == 0)
         {
             this.bodyAngle = calcBodyAngle(this.bodyAngle, translateCharInRightDeg(this.finalBodeState), this.rotateSpeed);
+        }
+        if (residueX != 0 || residueY != 0 || !isAngelRight(this.bodyAngle))
+        {
+            createDustParticles(this.drawingX, this.drawingY,
+                                translateCharInRightDeg(this.finalBodeState),
+                                this.bodyAngle, this.motionBefore);
         }
         if (this.fire && this.lastFireTime > consts.reloadingTime && getTowerPos(this.towerAngle, this.towerState) &&
             residueX  == 0 && residueY  == 0)
@@ -50,122 +56,49 @@ function Player(cordX, cordY, towerState, personalChar, consts)
             this.lastFireTime = 0;
             this.fire = false;
         }
-        if ((getCurrentChar(this.bodyAngle) == RIGHT_CHAR || getCurrentChar(this.bodyAngle) == LEFT_CHAR) &&
-            (this.motion == RIGHT_CHAR && residueY == 0  || this.motionBefore == RIGHT_CHAR) &&
-            (g_gameField[this.y][this.x + 1] == NOTHING_CHAR ||
-             residueX != 0))
-        {
-            if (getPlayerCell(this.x + 1, this.y) ||
-                g_gameField[this.y][this.x + 1] == PLAYER_CHAR)
-            {
-                this.motionBefore = LEFT_CHAR;
-                this.motion = NOTHING_CHAR;
-            }
-            else
-            {
-                this.motionBefore = RIGHT_CHAR;
-                this.drawingX += this.speed;
-                residueX = this.drawingX - this.x * SQUARE_SIZE;
-                if (Math.abs(residueX) >= Math.floor(SQUARE_SIZE / 2))
-                {
-                    this.x++;
-                }
-                if (residueX == 0)
-                {
-                    this.motionBefore = NOTHING_CHAR;
-                }
-            }
-        }
-        else if ((getCurrentChar(this.bodyAngle) == UP_CHAR || getCurrentChar(this.bodyAngle) == DOWN_CHAR) &&
-                 (this.motion == DOWN_CHAR && residueX == 0 || this.motionBefore == DOWN_CHAR) &&
-                 (g_gameField[this.y + 1][this.x] == NOTHING_CHAR ||
-                  residueY != 0))
-        {
-            if (getPlayerCell(this.x, this.y + 1) ||
-                g_gameField[this.y + 1][this.x] == PLAYER_CHAR)
-            {
-                this.motionBefore = UP_CHAR;
-                this.motion = NOTHING_CHAR;
-            }
-            else
-            {
-                this.motionBefore = DOWN_CHAR;
-                this.drawingY += this.speed;
-                residueY = this.drawingY - this.y * SQUARE_SIZE;
-                if (Math.abs(residueY) >= Math.floor(SQUARE_SIZE / 2))
-                {
-                    this.y++;
-                }
-                if (residueY == 0)
-                {
-                    this.motionBefore = NOTHING_CHAR;
-                }
-            }
-        }
-        else if ((getCurrentChar(this.bodyAngle) == RIGHT_CHAR || getCurrentChar(this.bodyAngle) == LEFT_CHAR) &&
-                 (this.motion == LEFT_CHAR && residueY == 0 || this.motionBefore == LEFT_CHAR) &&
-                 (g_gameField[this.y][this.x - 1] == NOTHING_CHAR ||
-                  residueX != 0))
-        {
-            if (getPlayerCell(this.x - 1, this.y) ||
-                g_gameField[this.y][this.x - 1] == PLAYER_CHAR)
-            {
-                this.motionBefore = RIGHT_CHAR;
-                this.motion = NOTHING_CHAR;
-            }
-            else
-            {
-                this.motionBefore = LEFT_CHAR;
-                this.drawingX -= this.speed;
-                residueX = this.drawingX - this.x * SQUARE_SIZE;
-                if (Math.abs(residueX) >= Math.floor(SQUARE_SIZE / 2))
-                {
-                    this.x--;
-                }
-                if (residueX == 0)
-                {
-                    this.motionBefore = NOTHING_CHAR;
-                }
-            }
-        }
-        else if ((getCurrentChar(this.bodyAngle) == UP_CHAR || getCurrentChar(this.bodyAngle) == DOWN_CHAR) &&
-                 (this.motion == UP_CHAR && residueX == 0 || this.motionBefore == UP_CHAR) &&
-                 (g_gameField[this.y - 1][this.x] == NOTHING_CHAR ||
-                  residueY != 0))
-        {
-            if (getPlayerCell(this.x, this.y - 1) ||
-                g_gameField[this.y - 1][this.x] == PLAYER_CHAR)
-            {
-                this.motionBefore = DOWN_CHAR;
-                this.motion = NOTHING_CHAR;
-            }
-            else
-            {
-                this.motionBefore = UP_CHAR;
-                this.drawingY -= this.speed;
-                residueY = this.drawingY - this.y * SQUARE_SIZE;
-                if (Math.abs(residueY) >= Math.floor(SQUARE_SIZE / 2))
-                {
-                    this.y--;
-                }
-                if (residueY == 0)
-                {
-                    this.motionBefore = NOTHING_CHAR;
-                }
-            }
-        }
-        else
-        {
-            this.motion = NOTHING_CHAR;
-        }
         if (this.health <= 1)
         {
             createSmokeParticles(this.drawingX, this.drawingY, this.bodyAngle);
         }
-        if (residueX != 0 || residueY != 0 || !isAngelRight(this.bodyAngle))
+        g_gameField[this.y][this.x] = NOTHING_CHAR;
+        if (getCurrentChar(this.bodyAngle) != null && this.motionBefore == NOTHING_CHAR)
         {
-            createDustParticles(this.drawingX, this.drawingY,
-                                translateCharInRightDeg(this.finalBodeState), this.bodyAngle, this.motionBefore);
+            this.motionBefore = this.motion;
+        }
+        var stepX = getXDirect(this.motionBefore);
+        var stepY = getYDirect(this.motionBefore);
+        this.drawingX += stepX * this.speed;
+        this.drawingY += stepY * this.speed;
+        this.x += stepX;
+        this.y += stepY;
+        residueX = this.drawingX % SQUARE_SIZE;
+        residueY = this.drawingY % SQUARE_SIZE;
+        if ((residueY < SQUARE_SIZE / 2 && stepY < 0) || (residueY > SQUARE_SIZE / 2 && stepY > 0))
+        {
+            this.y -= stepY;
+        }
+        if ((residueX < SQUARE_SIZE / 2 && stepX < 0) || (residueX > SQUARE_SIZE / 2 && stepX > 0))
+        {
+            this.x -= stepX;
+        }
+        if (g_gameField[this.y][this.x] != NOTHING_CHAR && this.isTankReturn)
+        {
+            this.motionBefore = reverseChar(this.motionBefore);
+            this.motion = NOTHING_CHAR;
+            this.isTankReturn = 0;
+        }
+        if (this.drawingX % SQUARE_SIZE == 0 && this.drawingY % SQUARE_SIZE == 0)
+        {
+            this.motionBefore = NOTHING_CHAR;
+            this.isTankReturn = 1;
+        }
+        if ((residueY > SQUARE_SIZE / 2 && stepY < 0) || (residueY < SQUARE_SIZE / 2 && stepY > 0))
+        {
+            this.y -= stepY;
+        }
+        if ((residueX > SQUARE_SIZE / 2 && stepX < 0) || (residueX < SQUARE_SIZE / 2 && stepX > 0))
+        {
+            this.x -= stepX;
         }
         g_gameField[this.y][this.x] = this.character;
     };
@@ -208,9 +141,8 @@ function Ball(cordX, cordY, route)
             return 1;
         }
         g_gameField[this.y][this.x] = NOTHING_CHAR;
-        var stepX = Math.round(Math.cos(inRad(translateCharInRightDeg(this.route))));
-        var stepY = Math.round(Math.sin(inRad(translateCharInRightDeg(this.route))));
-        console.log(stepY);
+        var stepX = getXDirect(this.route);
+        var stepY = getYDirect(this.route);
         this.x += stepX;
         this.y += stepY;
         if (g_gameField[this.y][this.x] == BARRICADE_CHAR)
