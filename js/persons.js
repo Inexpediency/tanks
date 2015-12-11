@@ -208,40 +208,17 @@ function Ball(cordX, cordY, route)
             return 1;
         }
         g_gameField[this.y][this.x] = NOTHING_CHAR;
-        switch (this.route)
+        var stepX = Math.round(Math.cos(inRad(translateCharInRightDeg(this.route))));
+        var stepY = Math.round(Math.sin(inRad(translateCharInRightDeg(this.route))));
+        console.log(stepY);
+        this.x += stepX;
+        this.y += stepY;
+        if (g_gameField[this.y][this.x] == BARRICADE_CHAR)
         {
-            case UP_CHAR:
-                if (g_gameField[this.y - 1][this.x] == BARRICADE_CHAR)
-                {
-                    g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
-                    return 1;
-                }
-                this.y--;
-                break;
-            case DOWN_CHAR:
-                if (g_gameField[this.y + 1][this.x] == BARRICADE_CHAR)
-                {
-                    g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
-                    return 1;
-                }
-                this.y++;
-                break;
-            case RIGHT_CHAR:
-                if (g_gameField[this.y][this.x + 1] == BARRICADE_CHAR)
-                {
-                    g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
-                    return 1;
-                }
-                this.x++;
-                break;
-            case LEFT_CHAR:
-                if (g_gameField[this.y][this.x - 1] == BARRICADE_CHAR)
-                {
-                    g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
-                    return 1;
-                }
-                this.x--;
-                break;
+            this.x -= stepX;
+            this.y -= stepY;
+            g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
+            return 1;
         }
         if (g_gameField[this.y][this.x] == BALL_CHAR)
         {

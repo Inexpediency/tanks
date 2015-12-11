@@ -135,7 +135,7 @@ function translateCharInRightDeg(char)
     {
         return 0;
     }
-
+    return NaN;
 }
 
 function inRad(angle)
