@@ -5,59 +5,36 @@ var g_ctx;
 var g_canvas;
 var g_gameField = [[]];
 var g_currentLevel = 0;
-var g_enemy;
-var g_AllBangs;
-var g_Smoke;
-var g_Dust;
-var g_Balls;
-var g_player;
+var g_enemy = [];
+var g_bangs = [];
+var g_smoke = [];
+var g_dust = [];
+var g_balls = [];
+var g_player = {};
 
-var g_traveledBarricage = new Image;
-g_traveledBarricage.src = TRAVELED_BARRICADE_ADDRESS;
-var g_barricage = new Image;
-g_barricage.src = BARRICADE_ADDRESS;
+var g_traveledBarricade = new Image();
+g_traveledBarricade.src = TRAVELED_BARRICADE_ADDRESS;
+var g_barricade = new Image();
+g_barricade.src = BARRICADE_ADDRESS;
 var g_sparkImg = new Image();
 g_sparkImg.src = SPARK_ADDRESS;
-var g_smokeImg = new Image;
+var g_smokeImg = new Image();
 g_smokeImg.src = SMOKE_ADDRESS;
-var g_dustImg = new Image;
+var g_dustImg = new Image();
 g_dustImg.src = DUST_ADDRESS;
-var g_ballImg = new Image;
+var g_ballImg = new Image();
 g_ballImg.src = BALL_ADDRESS;
-
-window.onload = function()
-{
-    g_currentLevel = parseInt(parseQueryString().level);
-    if (isNaN(g_currentLevel) || g_currentLevel >= g_levels.length || g_currentLevel < 0)
-    {
-        window.location = START_SCREEN_ADDRESS;
-    }
-    initCanvas();
-    init();
-    initPauseButton();
-};
 
 function init()
 {
-    initGlobVar();
     initField();
     initPlayers();
     startGame();
 }
 
-function initGlobVar()
-{
-    g_player = {};
-    g_enemy = [];
-    g_Balls = [];
-    g_AllBangs = [];
-    g_Smoke = [];
-    g_Dust = [];
-}
-
 function initField()
 {
-    g_gameField = copyMas(g_levels[g_currentLevel]);
+    g_gameField = copyArray(g_levels[g_currentLevel]);
     g_canvas.height = (g_gameField.length) * SQUARE_SIZE;
     g_canvas.width = (g_gameField[0].length) * SQUARE_SIZE;
     g_canvas.style.marginLeft = -parseInt(g_canvas.width / 2) + "px";
@@ -78,27 +55,11 @@ function initPauseButton()
     pauseButton.isPause = 0;
     pauseButton.onmouseover = function()
     {
-        if (this.isPause)
-        {
-            this.style.background = "url(\"" + PLAY_BUTTON_ADDRESS_HOVER + "\")";
-        }
-        else
-        {
-            this.style.background = "url(\"" + PAUSE_BUTTON_ADDRESS_HOVER + "\")";
-        }
-        this.style.backgroundSize = "cover";
+        changeButtonState(this, PLAY_BUTTON_ADDRESS_HOVER, PAUSE_BUTTON_ADDRESS_HOVER);
     };
     pauseButton.onmouseout = function()
     {
-        if (this.isPause)
-        {
-            this.style.background = "url(\"" + PLAY_BUTTON_ADDRESS + "\")";
-        }
-        else
-        {
-            this.style.background = "url(\"" + PAUSE_BUTTON_ADDRESS + "\")";
-        }
-        this.style.backgroundSize = "cover";
+        changeButtonState(this, PLAY_BUTTON_ADDRESS, PAUSE_BUTTON_ADDRESS);
     };
     pauseButton.onmousedown = function()
     {
@@ -117,51 +78,58 @@ function initPauseButton()
     };
     pauseButton.onmouseup = function()
     {
-        if (this.isPause)
-        {
-            this.style.background = "url(\"" + PLAY_BUTTON_ADDRESS_HOVER + "\")";
-        }
-        else
-        {
-            this.style.background = "url(\"" + PAUSE_BUTTON_ADDRESS_HOVER + "\")";
-        }
-        this.style.backgroundSize = "cover";
+        changeButtonState(this, PLAY_BUTTON_ADDRESS_HOVER, PAUSE_BUTTON_ADDRESS_HOVER);
     };
+}
+
+function changeButtonState(button, startAddress, finishAddress)
+{
+    if (button.isPause)
+    {
+        button.style.background = "url(\"" + startAddress + "\")";
+    }
+    else
+    {
+        button.style.background = "url(\"" + finishAddress + "\")";
+    }
+    button.style.backgroundSize = "cover";
 }
 
 function initPlayers()
 {
-    var currentElement;
     for (var y = 0; y < g_gameField.length; y++)
     {
         for (var x = 0; x < g_gameField[y].length; x++)
         {
-            if (g_gameField[y][x] == PLAYER_CHAR)
+            var currentCell = g_gameField[y][x];
+            if (currentCell == PLAYER_CHAR)
             {
                 initHealthBlock();
-                g_player = new Player(x, y, UP_CHAR, PLAYER_CHAR, PLAYER_CONSTS);
+                g_player = new Player(x, y, PLAYER_CHAR, PLAYER_CONSTS);
                 g_player.initDefault();
             }
-            else if (g_gameField[y][x] == ENEMY_CHAR)
+            else if (currentCell == ENEMY_CHAR)
             {
-                currentElement = g_enemy.length;
-                g_enemy[currentElement] = new Player(x, y, UP_CHAR, ENEMY_CHAR, ENEMY_CONSTS);
-                g_enemy[currentElement].initDefault();
+                createEnemy(x, y, ENEMY_CHAR, ENEMY_CONSTS);
             }
-            else if (g_gameField[y][x] == SPRINT_ENEMY_CHAR)
+            else if (currentCell == SPRINT_ENEMY_CHAR)
             {
-                currentElement = g_enemy.length;
-                g_enemy[currentElement] = new Player(x, y, UP_CHAR, SPRINT_ENEMY_CHAR, SPRINT_ENEMY_CONSTS);
-                g_enemy[currentElement].initDefault();
+                createEnemy(x, y, SPRINT_ENEMY_CHAR, SPRINT_ENEMY_CONSTS);
             }
-            else if (g_gameField[y][x] == ARMOR_ENEMY_CHAR)
+            else if (currentCell == ARMOR_ENEMY_CHAR)
             {
-                currentElement = g_enemy.length;
-                g_enemy[currentElement] = new Player(x, y, UP_CHAR, ARMOR_ENEMY_CHAR, ARMOR_ENEMY_CONSTS);
-                g_enemy[currentElement].initDefault();
+                createEnemy(x, y, ARMOR_ENEMY_CHAR, ARMOR_ENEMY_CONSTS);
             }
         }
     }
+}
+
+function createEnemy(x, y, char, consts)
+{
+    var currentElement = g_enemy.length;
+    g_enemy[currentElement] = new Player(x, y, char, consts);
+    g_enemy[currentElement].initDefault();
+
 }
 
 function startGame()
@@ -206,11 +174,11 @@ function drawField()
 {
     g_ctx.clearRect(0, 0, g_canvas.width, g_canvas.height);
     g_contextCtx.clearRect(0, 0, g_context.width, g_context.height);
-    drawStaticParticle(g_Dust);
+    drawStaticParticle(g_dust);
     drawGrid();
     drawObjects();
     drawBangs();
-    drawStaticParticle(g_Smoke);
+    drawStaticParticle(g_smoke);
     drawPlayerHealth();
 }
 
@@ -226,7 +194,7 @@ function drawObjects()
             {
                 g_ctx.translate(x * SQUARE_SIZE + 0.5 * SQUARE_SIZE, y * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
                 g_ctx.rotate(angle);
-                g_ctx.drawImage(g_traveledBarricage, -SQUARE_SIZE / 2, -SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE);
+                g_ctx.drawImage(g_traveledBarricade, -SQUARE_SIZE / 2, -SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE);
                 g_ctx.rotate(-angle);
                 g_ctx.translate(-x * SQUARE_SIZE - 0.5 * SQUARE_SIZE, -y * SQUARE_SIZE - 0.5 * SQUARE_SIZE);
             }
@@ -234,15 +202,15 @@ function drawObjects()
             {
                 g_ctx.translate(x * SQUARE_SIZE + 0.5 * SQUARE_SIZE, y * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
                 g_ctx.rotate(angle);
-                g_ctx.drawImage(g_barricage, -SQUARE_SIZE / 2, -SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE);
+                g_ctx.drawImage(g_barricade, -SQUARE_SIZE / 2, -SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE);
                 g_ctx.rotate(-angle);
                 g_ctx.translate(-x * SQUARE_SIZE - 0.5 * SQUARE_SIZE, -y * SQUARE_SIZE - 0.5 * SQUARE_SIZE);
             }
             else if (g_gameField[y][x] == BALL_CHAR)
             {
-                g_Balls[findElement(x, y, g_Balls)].draw();
+                g_balls[findElement(x, y, g_balls)].draw();
             }
-            else if (getPlayerCell(x, y))
+            else if (isTankAtCell(x, y))
             {
                 g_enemy[findElement(x, y, g_enemy)].draw();
             }
@@ -272,6 +240,18 @@ function showResultScreen()
     var isWin = +(g_player.health > 0);
     window.location = RESULT_SCREEN_ADDRESS + "?isWin=" + isWin + "&currentLevel=" + g_currentLevel + "&";
 }
+
+window.onload = function()
+{
+    g_currentLevel = parseInt(parseQueryString().level);
+    if (isNaN(g_currentLevel) || g_currentLevel >= g_levels.length || g_currentLevel < 0)
+    {
+        window.location = START_SCREEN_ADDRESS;
+    }
+    initCanvas();
+    init();
+    initPauseButton();
+};
 
 window.onkeydown = function(event)
 {
@@ -313,31 +293,21 @@ window.onkeydown = function(event)
 
 window.onkeyup = function(event)
 {
-    switch (event.which)
+    var key = event.which;
+    if (key == DOWN && g_player.motion == DOWN_CHAR)
     {
-        case DOWN:
-            if (g_player.motion == DOWN_CHAR)
-            {
-                g_player.motion = NOTHING_CHAR;
-            }
-            break;
-        case LEFT:
-            if (g_player.motion == LEFT_CHAR)
-            {
-                g_player.motion = NOTHING_CHAR;
-            }
-            break;
-        case UP:
-            if (g_player.motion == UP_CHAR)
-            {
-                g_player.motion = NOTHING_CHAR;
-            }
-            break;
-        case RIGHT:
-            if (g_player.motion == RIGHT_CHAR)
-            {
-                g_player.motion = NOTHING_CHAR;
-            }
-            break;
+        g_player.motion = NOTHING_CHAR;
+    }
+    else if (key == LEFT && g_player.motion == LEFT_CHAR)
+    {
+        g_player.motion = NOTHING_CHAR;
+    }
+    else if (key == UP && g_player.motion == UP_CHAR)
+    {
+        g_player.motion = NOTHING_CHAR;
+    }
+    else if (key == RIGHT && g_player.motion == RIGHT_CHAR)
+    {
+        g_player.motion = NOTHING_CHAR;
     }
 };

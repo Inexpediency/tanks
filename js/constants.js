@@ -52,6 +52,7 @@ var PAUSE_BUTTON_ADDRESS_CLICK = "img/pause_button_click.png";
 var FPS = 30;
 var DELAY = 1000 / FPS;
 var BANG_TIME = 13;
+var MAX_VISIBLE_HEALTH = 3;
 var LAST_X_SPARK_STATE = 7;
 var LAST_Y_SPARK_STATE = 5;
 var LAST_X_SMOKE_STATE = 7;

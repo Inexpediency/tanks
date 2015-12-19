@@ -1,7 +1,7 @@
 /**
  * Created by Vasiliy on 9/30/2015.
  */
-function Player(cordX, cordY, towerState, personalChar, consts)
+function Player(cordX, cordY, personalChar, consts)
 {
     this.initDefault = function()
     {
@@ -10,8 +10,8 @@ function Player(cordX, cordY, towerState, personalChar, consts)
         this.normalSpeed = consts.speedNormal;
         this.patrolSpeed = consts.speedPatrol;
         this.rotateSpeed = translateDividers(this.speed, 90);
-        this.bodyAngle = translateCharInRightDeg(towerState);
-        this.towerAngle = translateCharInRightDeg(towerState);
+        this.bodyAngle = translateCharInRightDeg(UP_CHAR);
+        this.towerAngle = translateCharInRightDeg(UP_CHAR);
         this.rotateStep = consts.rotateTowerSpeed;
         this.fire = false;
         this.lastFireTime = 0;
@@ -28,10 +28,10 @@ function Player(cordX, cordY, towerState, personalChar, consts)
         this.isTankReturn = 1;
         this.drawingX = this.x * SQUARE_SIZE;
         this.drawingY = this.y * SQUARE_SIZE;
-        this.finalBodeState = towerState;
+        this.finalBodeState = UP_CHAR;
         this.motion = NOTHING_CHAR;
         this.motionBefore = NOTHING_CHAR;
-        this.towerState = towerState;
+        this.towerState = UP_CHAR;
     };
     this.move = function()
     {
@@ -49,7 +49,7 @@ function Player(cordX, cordY, towerState, personalChar, consts)
                                 translateCharInRightDeg(this.finalBodeState),
                                 this.bodyAngle, this.motionBefore);
         }
-        if (this.fire && this.lastFireTime > consts.reloadingTime && getTowerPos(this.towerAngle, this.towerState) &&
+        if (this.fire && this.lastFireTime > consts.reloadingTime && isTowerPosRight(this.towerAngle, this.towerState) &&
             residueX  == 0 && residueY  == 0)
         {
             calcFireDirection(this);
@@ -60,47 +60,7 @@ function Player(cordX, cordY, towerState, personalChar, consts)
         {
             createSmokeParticles(this.drawingX, this.drawingY, this.bodyAngle);
         }
-        g_gameField[this.y][this.x] = NOTHING_CHAR;
-        if (getCurrentChar(this.bodyAngle) != null && this.motionBefore == NOTHING_CHAR)
-        {
-            this.motionBefore = this.motion;
-        }
-        var stepX = getXDirect(this.motionBefore);
-        var stepY = getYDirect(this.motionBefore);
-        this.drawingX += stepX * this.speed;
-        this.drawingY += stepY * this.speed;
-        this.x += stepX;
-        this.y += stepY;
-        residueX = this.drawingX % SQUARE_SIZE;
-        residueY = this.drawingY % SQUARE_SIZE;
-        if ((residueY < SQUARE_SIZE / 2 && stepY < 0) || (residueY > SQUARE_SIZE / 2 && stepY > 0))
-        {
-            this.y -= stepY;
-        }
-        if ((residueX < SQUARE_SIZE / 2 && stepX < 0) || (residueX > SQUARE_SIZE / 2 && stepX > 0))
-        {
-            this.x -= stepX;
-        }
-        if (g_gameField[this.y][this.x] != NOTHING_CHAR && this.isTankReturn)
-        {
-            this.motionBefore = reverseChar(this.motionBefore);
-            this.motion = NOTHING_CHAR;
-            this.isTankReturn = 0;
-        }
-        if (this.drawingX % SQUARE_SIZE == 0 && this.drawingY % SQUARE_SIZE == 0)
-        {
-            this.motionBefore = NOTHING_CHAR;
-            this.isTankReturn = 1;
-        }
-        if ((residueY > SQUARE_SIZE / 2 && stepY < 0) || (residueY < SQUARE_SIZE / 2 && stepY > 0))
-        {
-            this.y -= stepY;
-        }
-        if ((residueX > SQUARE_SIZE / 2 && stepX < 0) || (residueX < SQUARE_SIZE / 2 && stepX > 0))
-        {
-            this.x -= stepX;
-        }
-        g_gameField[this.y][this.x] = this.character;
+        moveTank(this);
     };
     this.draw = function()
     {
@@ -126,14 +86,14 @@ function Ball(cordX, cordY, route)
         if (g_gameField[this.y][this.x] == TRAVELED_BARRICADE_CHAR)
         {
             g_gameField[this.y][this.x] = NOTHING_CHAR;
-            g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
+            g_bangs[g_bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
         var isDamaged = calcHealth(this.x, this.y);
         if (g_gameField[this.y][this.x] == NOTHING_CHAR || isDamaged)
         {
             g_gameField[this.y][this.x] = NOTHING_CHAR;
-            g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
+            g_bangs[g_bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
         if (g_gameField[this.y][this.x] == BARRICADE_CHAR)
@@ -149,7 +109,7 @@ function Ball(cordX, cordY, route)
         {
             this.x -= stepX;
             this.y -= stepY;
-            g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
+            g_bangs[g_bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
         if (g_gameField[this.y][this.x] == BALL_CHAR)
@@ -160,7 +120,7 @@ function Ball(cordX, cordY, route)
         if (g_gameField[this.y][this.x] == TRAVELED_BARRICADE_CHAR)
         {
             g_gameField[this.y][this.x] = NOTHING_CHAR;
-            g_AllBangs[g_AllBangs.length] = new Bang(this.x, this.y);
+            g_bangs[g_bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
         g_gameField[this.y][this.x] = BALL_CHAR;

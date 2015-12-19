@@ -10,21 +10,6 @@ var g_contextCtx;
 var g_intervalId;
 var g_url;
 
-
-function getFileName()
-{
-    var url = window.location.href;
-    while (url.indexOf("/") != -1)
-    {
-        url = url.substring(url.indexOf("/") + 1, url.length);
-    }
-    if (url.indexOf("?") != -1)
-    {
-        url = url.substring(0, url.indexOf("?"));
-    }
-    return url;
-}
-
 if (getFileName(window.location.href) != "index.html")
 {
     window.addEventListener("DOMContentLoaded", shadowControl);
@@ -47,6 +32,20 @@ if (getFileName(window.location.href) != "index.html")
             };
         }
     };
+}
+
+function getFileName()
+{
+    var url = window.location.href;
+    while (url.indexOf("/") != -1)
+    {
+        url = url.substring(url.indexOf("/") + 1, url.length);
+    }
+    if (url.indexOf("?") != -1)
+    {
+        url = url.substring(0, url.indexOf("?"));
+    }
+    return url;
 }
 
 function drawGoOutShadow()

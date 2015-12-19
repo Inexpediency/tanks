@@ -2,28 +2,21 @@
  * Created by Vasiliy on 10/4/2015.
  */
 
-function copyMas(mas)
+function copyArray(arr)
 {
     var result = [];
-    for (var i = 0; i < mas.length; ++i)
+    for (var i = 0; i < arr.length; ++i)
     {
-        result[i] = mas[i].slice();
+        result[i] = arr[i].slice();
     }
     return result;
 }
 
-function getPlayerCell(x, y)
+function isTankAtCell(x, y)
 {
-    if (g_gameField[y][x] == ARMOR_ENEMY_CHAR ||
-        g_gameField[y][x] == SPRINT_ENEMY_CHAR ||
-        g_gameField[y][x] == ENEMY_CHAR)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+    return g_gameField[y][x] == ARMOR_ENEMY_CHAR ||
+           g_gameField[y][x] == SPRINT_ENEMY_CHAR ||
+           g_gameField[y][x] == ENEMY_CHAR;
 }
 
 function initHealthBlock()
@@ -43,7 +36,7 @@ function drawPlayerHealth()
 {
     var healthBlock = document.getElementById("health");
     healthBlock.innerHTML = "";
-    if (g_player.health > 3)
+    if (g_player.health > MAX_VISIBLE_HEALTH)
     {
         var health = new Image();
         health.src = HEALTH_ADDRES;
@@ -61,35 +54,21 @@ function drawPlayerHealth()
     }
 }
 
-function getTowerPos(angle, towerState)
+function isTowerPosRight(angle, towerState)
 {
-    if (angle == 0 && towerState == RIGHT_CHAR||
-        angle == 90 && towerState == UP_CHAR||
-        angle == 180 && towerState == LEFT_CHAR||
-        angle == 270 && towerState == DOWN_CHAR)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+    return angle == 0 && towerState == RIGHT_CHAR||
+           angle == 90 && towerState == UP_CHAR||
+           angle == 180 && towerState == LEFT_CHAR||
+           angle == 270 && towerState == DOWN_CHAR
 }
 
 function isAngelRight(angle)
 {
-    if (angle == 0 ||
-        angle == 90 ||
-        angle == 180||
-        angle == 270 ||
-        angle == 360)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+    return angle == 0 ||
+           angle == 90 ||
+           angle == 180||
+           angle == 270 ||
+           angle == 360
 }
 
 function getCurrentChar(deg)
@@ -110,11 +89,7 @@ function getCurrentChar(deg)
     {
         return RIGHT_CHAR;
     }
-    else
-    {
-        return null;
-    }
-
+    return null;
 }
 
 function getXDirect(char)
@@ -127,10 +102,7 @@ function getXDirect(char)
     {
         return -1;
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 function getYDirect(char)
@@ -143,10 +115,7 @@ function getYDirect(char)
     {
         return -1;
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 function reverseChar(char)
@@ -262,6 +231,51 @@ function calcTowerAngel(startAngle, finalAngle, currentStep)
     }
 }
 
+function moveTank(tank)
+{
+    g_gameField[tank.y][tank.x] = NOTHING_CHAR;
+    if (getCurrentChar(tank.bodyAngle) != null && tank.motionBefore == NOTHING_CHAR)
+    {
+        tank.motionBefore = tank.motion;
+    }
+    var stepX = getXDirect(tank.motionBefore);
+    var stepY = getYDirect(tank.motionBefore);
+    tank.drawingX += stepX * tank.speed;
+    tank.drawingY += stepY * tank.speed;
+    tank.x += stepX;
+    tank.y += stepY;
+    residueX = tank.drawingX % SQUARE_SIZE;
+    residueY = tank.drawingY % SQUARE_SIZE;
+    if ((residueY < SQUARE_SIZE / 2 && stepY < 0) || (residueY > SQUARE_SIZE / 2 && stepY > 0))
+    {
+        tank.y -= stepY;
+    }
+    if ((residueX < SQUARE_SIZE / 2 && stepX < 0) || (residueX > SQUARE_SIZE / 2 && stepX > 0))
+    {
+        tank.x -= stepX;
+    }
+    if (g_gameField[tank.y][tank.x] != NOTHING_CHAR && tank.isTankReturn)
+    {
+        tank.motionBefore = reverseChar(tank.motionBefore);
+        tank.motion = NOTHING_CHAR;
+        tank.isTankReturn = 0;
+    }
+    if (tank.drawingX % SQUARE_SIZE == 0 && tank.drawingY % SQUARE_SIZE == 0)
+    {
+        tank.motionBefore = NOTHING_CHAR;
+        tank.isTankReturn = 1;
+    }
+    if ((residueY > SQUARE_SIZE / 2 && stepY < 0) || (residueY < SQUARE_SIZE / 2 && stepY > 0))
+    {
+        tank.y -= stepY;
+    }
+    if ((residueX > SQUARE_SIZE / 2 && stepX < 0) || (residueX < SQUARE_SIZE / 2 && stepX > 0))
+    {
+        tank.x -= stepX;
+    }
+    g_gameField[tank.y][tank.x] = tank.character;
+}
+
 function moveEnemy()
 {
     for (var i = 0; i < g_enemy.length; i++)
@@ -273,20 +287,20 @@ function moveEnemy()
 
 function moveBangs()
 {
-    for (var i = 0; i < g_AllBangs.length; i++)
+    for (var i = 0; i < g_bangs.length; i++)
     {
-        if (g_AllBangs[i].move())
+        if (g_bangs[i].move())
         {
-            g_AllBangs.splice(i, 1);
+            g_bangs.splice(i, 1);
         }
     }
 }
 
 function drawBangs()
 {
-    for (var i = 0; i < g_AllBangs.length; i++)
+    for (var i = 0; i < g_bangs.length; i++)
     {
-        g_AllBangs[i].draw();
+        g_bangs[i].draw();
     }
 }
 
@@ -303,11 +317,11 @@ function drawStaticParticle(mas)
 
 function moveBalls()
 {
-    for (var i = 0; i < g_Balls.length; i++)
+    for (var i = 0; i < g_balls.length; i++)
     {
-        if (g_Balls[i].move())
+        if (g_balls[i].move())
         {
-            g_Balls.splice(i, 1);
+            g_balls.splice(i, 1);
         }
     }
 }
@@ -323,7 +337,7 @@ function calcHealth(x, y)
         g_gameField[y][x] = PLAYER_CHAR;
         return 1;
     }
-    else if (getPlayerCell(x, y))
+    else if (isTankAtCell(x, y))
     {
         var woundedEnemy = findElement(x, y, g_enemy);
         if (g_enemy[woundedEnemy].health - 1 > 0)
@@ -399,7 +413,7 @@ function calcMoving(enemy)
     patrol(enemy);
     if (isPlayerFound(g_player.x, g_player.y, enemy.x, enemy.y))
     {
-        fire(enemy);
+        //fire(enemy);
     }
 }
 
@@ -575,19 +589,19 @@ function calcFireDirection(player)
 {
     if (player.towerState == UP_CHAR)
     {
-        g_Balls[g_Balls.length] = new Ball(player.x, player.y - 1, player.towerState);
+        g_balls[g_balls.length] = new Ball(player.x, player.y - 1, player.towerState);
     }
     else if (player.towerState == DOWN_CHAR)
     {
-        g_Balls[g_Balls.length] = new Ball(player.x, player.y + 1, player.towerState);
+        g_balls[g_balls.length] = new Ball(player.x, player.y + 1, player.towerState);
     }
     else if (player.towerState == RIGHT_CHAR)
     {
-        g_Balls[g_Balls.length] = new Ball(player.x + 1, player.y, player.towerState);
+        g_balls[g_balls.length] = new Ball(player.x + 1, player.y, player.towerState);
     }
     else if (player.towerState == LEFT_CHAR)
     {
-        g_Balls[g_Balls.length] = new Ball(player.x - 1, player.y, player.towerState);
+        g_balls[g_balls.length] = new Ball(player.x - 1, player.y, player.towerState);
     }
 }
 
@@ -611,7 +625,7 @@ function createSmokeParticles(x, y, angle)
         {
             calcY += randNumb(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
         }
-        g_Smoke[g_Smoke.length] = new DynamicParticle(g_smokeImg, calcX, calcY,
+        g_smoke[g_smoke.length] = new DynamicParticle(g_smokeImg, calcX, calcY,
             0, 0,
             LAST_X_SMOKE_STATE, LAST_Y_SMOKE_STATE,
             SQUARE_SIZE / 2, SQUARE_SIZE / 2);
@@ -670,7 +684,7 @@ function createDustParticles(x, y, finalAngle, angle, motion)
             calcY += SQUARE_SIZE / 4 + randNumb(0, SQUARE_SIZE / 2);
             calcX += randNumb(0, SQUARE_SIZE);
         }
-        g_Dust[g_Dust.length] = new DynamicParticle(g_dustImg, calcX, calcY, 0, 0, LAST_X_DUST_STATE, LAST_Y_DUST_STATE, SQUARE_SIZE / 40, SQUARE_SIZE / 40);
+        g_dust[g_dust.length] = new DynamicParticle(g_dustImg, calcX, calcY, 0, 0, LAST_X_DUST_STATE, LAST_Y_DUST_STATE, SQUARE_SIZE / 40, SQUARE_SIZE / 40);
     }
 }
 
