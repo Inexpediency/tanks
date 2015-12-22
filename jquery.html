@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery Test</title>
+  <script src="js/jquery-1.11.3.min.js"></script>
+  <script>
+      // вызывается, когда документ загружен - document.ready
+      $(function() {
+          console.log("Document ready");
+
+          // получение элемента по id
+          $('#mySpan').text('Hello World!');
+
+          // получение элемента по классу
+          // обход массива полученных элементов
+          $('.myClass').each(function() {
+              $(this).html("<span>World Hello</span>");
+          });
+      });
+
+      // window.onload
+      $(window).load(function() {
+          console.log("Window loaded");
+      })
+  </script>
+</head>
+<body>
+  <h1>jQuery Test</h1>
+  <span id="mySpan">Hello</span>
+  <div class="myClass"></div>
+  <div class="myClass"></div>
+</body>
+</html>
