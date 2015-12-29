@@ -1,9 +1,7 @@
 /**
  * Created by Vasiliy on 11/26/2015.
  */
-window.addEventListener("DOMContentLoaded", initHtmlValues);
-
-function initHtmlValues()
+$(window).ready(function()
 {
     var queryString = parseQueryString();
     var button = document.getElementById("button");
@@ -60,4 +58,4 @@ function initHtmlValues()
             button.style.background = "url(\"img/restart_button_click.png\") no-repeat";
         };
     }
-}
+});

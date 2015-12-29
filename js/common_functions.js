@@ -8,69 +8,8 @@ g_shadow.level = SHADOW_LEVEL;
 var g_context;
 var g_contextCtx;
 var g_intervalId;
-var g_url;
 
-if (getFileName(window.location.href) != "index.html")
-{
-    window.addEventListener("DOMContentLoaded", shadowControl);
-    function shadowControl()
-    {
-        initContext();
-        g_intervalId = setInterval(drawCameShadow, DELAY);
-        var aTags = document.getElementsByTagName("a");
-        for (var i = 0; i < aTags.length; ++i)
-        {
-            aTags[i].hrefTemp = aTags[i].href;
-            aTags[i].removeAttribute("href");
-            aTags[i].onclick = function ()
-            {
-                g_context.style.width = "100%";
-                g_url = this.hrefTemp;
-                this.removeAttribute("href");
-                clearInterval(g_intervalId);
-                g_intervalId = setInterval(drawGoOutShadow, DELAY);
-            };
-        }
-    };
-}
 
-function getFileName()
-{
-    var url = window.location.href;
-    while (url.indexOf("/") != -1)
-    {
-        url = url.substring(url.indexOf("/") + 1, url.length);
-    }
-    if (url.indexOf("?") != -1)
-    {
-        url = url.substring(0, url.indexOf("?"));
-    }
-    return url;
-}
-
-function drawGoOutShadow()
-{
-    g_contextCtx.clearRect(0, 0, g_context.width, g_context.height);
-    drawShadow(SHADOW_LEVEL, 1);
-    if (SHADOW_LEVEL <= g_shadow.level)
-    {
-        clearInterval(g_intervalId);
-        window.location = g_url;
-        console.log(g_url);
-    }
-}
-
-function drawCameShadow()
-{
-    g_contextCtx.clearRect(0, 0, g_context.width, g_context.height);
-    drawShadow(0, -1);
-    document.body.style.display = "block";
-    if (0 >= g_shadow.level)
-    {
-        clearInterval(g_intervalId);
-        g_context.style.width = "0";
-    }
-}
 
 function initContext()
 {

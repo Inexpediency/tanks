@@ -49,50 +49,50 @@ function initCanvas()
 
 function initPauseButton()
 {
-    var pauseButton = document.getElementById("pauseButton");
-    pauseButton.style.background = "url(\"" + PAUSE_BUTTON_ADDRESS + "\")";
-    pauseButton.style.backgroundSize = "cover";
+    var pauseButton = $("#pauseButton");
+    pauseButton.css("background", "url(\"" + PAUSE_BUTTON_ADDRESS + "\")");
+    pauseButton.css("backgroundSize", "cover");
     pauseButton.isPause = 0;
-    pauseButton.onmouseover = function()
+    pauseButton.mouseover(function()
     {
-        changeButtonState(this, PLAY_BUTTON_ADDRESS_HOVER, PAUSE_BUTTON_ADDRESS_HOVER);
-    };
-    pauseButton.onmouseout = function()
+        changeButtonState(pauseButton, PLAY_BUTTON_ADDRESS_HOVER, PAUSE_BUTTON_ADDRESS_HOVER);
+    });
+    pauseButton.mouseout(function()
     {
-        changeButtonState(this, PLAY_BUTTON_ADDRESS, PAUSE_BUTTON_ADDRESS);
-    };
-    pauseButton.onmousedown = function()
+        changeButtonState(pauseButton, PLAY_BUTTON_ADDRESS, PAUSE_BUTTON_ADDRESS);
+    });
+    pauseButton.mousedown(function()
     {
-        if (this.isPause)
+        if (pauseButton.isPause)
         {
             g_intervalId = setInterval(gameTick, DELAY);
-            this.style.background = "url(\"" + PAUSE_BUTTON_ADDRESS_CLICK + "\")";
+            pauseButton.css("background", "url(\"" + PAUSE_BUTTON_ADDRESS_CLICK + "\")");
         }
         else
         {
             clearInterval(g_intervalId);
-            this.style.background = "url(\"" + PLAY_BUTTON_ADDRESS_CLICK + "\")";
+            pauseButton.css("background", "url(\"" + PLAY_BUTTON_ADDRESS_CLICK + "\")");
         }
-        this.isPause = !this.isPause;
-        this.style.backgroundSize = "cover";
-    };
-    pauseButton.onmouseup = function()
+        pauseButton.isPause = !pauseButton.isPause;
+        pauseButton.css("backgroundSize", "cover");
+    });
+    pauseButton.mouseup(function()
     {
-        changeButtonState(this, PLAY_BUTTON_ADDRESS_HOVER, PAUSE_BUTTON_ADDRESS_HOVER);
-    };
+        changeButtonState(pauseButton, PLAY_BUTTON_ADDRESS_HOVER, PAUSE_BUTTON_ADDRESS_HOVER);
+    });
 }
 
 function changeButtonState(button, startAddress, finishAddress)
 {
     if (button.isPause)
     {
-        button.style.background = "url(\"" + startAddress + "\")";
+        button.css("background", "url(\"" + startAddress + "\")");
     }
     else
     {
-        button.style.background = "url(\"" + finishAddress + "\")";
+        button.css("background", "url(\"" + finishAddress + "\")");
     }
-    button.style.backgroundSize = "cover";
+    button.css("backgroundSize", "cover");
 }
 
 function initPlayers()
@@ -241,7 +241,7 @@ function showResultScreen()
     window.location = RESULT_SCREEN_ADDRESS + "?isWin=" + isWin + "&currentLevel=" + g_currentLevel + "&";
 }
 
-window.onload = function()
+$(window).ready(function()
 {
     g_currentLevel = parseInt(parseQueryString().level);
     if (isNaN(g_currentLevel) || g_currentLevel >= g_levels.length || g_currentLevel < 0)
@@ -251,9 +251,9 @@ window.onload = function()
     initCanvas();
     init();
     initPauseButton();
-};
+});
 
-window.onkeydown = function(event)
+$(window).keydown(function(event)
 {
     switch (event.which)
     {
@@ -289,9 +289,9 @@ window.onkeydown = function(event)
             g_player.finalBodeState = RIGHT_CHAR;
             break;
     }
-};
+});
 
-window.onkeyup = function(event)
+$(window).keyup(function(event)
 {
     var key = event.which;
     if (key == DOWN && g_player.motion == DOWN_CHAR)
@@ -310,4 +310,4 @@ window.onkeyup = function(event)
     {
         g_player.motion = NOTHING_CHAR;
     }
-};
+});

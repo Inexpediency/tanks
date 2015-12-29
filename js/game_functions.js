@@ -23,25 +23,22 @@ function initHealthBlock()
 {
     var health = new Image();
     health.src = HEALTH_ADDRES;
-    var healthBlock = document.getElementById("health_block");
-    health.onload = function()
+    $(health).load(function()
     {
-        healthBlock.style.width = (health.width * 3) + "px";
-        var controlPanel = document.getElementById("controlPanel");
-        controlPanel.style.width = (255 + parseInt(healthBlock.style.width)) + "px"
-    }
+        $("#health").width(health.width * MAX_VISIBLE_HEALTH + "px");
+        $("#controlPanel").width(255 + parseInt($("#health").width()) + "px");
+    });
 }
 
 function drawPlayerHealth()
 {
-    var healthBlock = document.getElementById("health");
-    healthBlock.innerHTML = "";
+    var healthBlock = $("#health");
+    healthBlock.html("");
     if (g_player.health > MAX_VISIBLE_HEALTH)
     {
         var health = new Image();
         health.src = HEALTH_ADDRES;
-        healthBlock.appendChild(health);
-        healthBlock.innerHTML = healthBlock.innerHTML + " x" + g_player.health;
+        healthBlock.append(health, " x" + g_player.health);
     }
     else
     {
@@ -49,7 +46,7 @@ function drawPlayerHealth()
         {
             var health = new Image();
             health.src = HEALTH_ADDRES;
-            healthBlock.appendChild(health);
+            healthBlock.append(health);
         }
     }
 }
@@ -413,7 +410,7 @@ function calcMoving(enemy)
     patrol(enemy);
     if (isPlayerFound(g_player.x, g_player.y, enemy.x, enemy.y))
     {
-        //fire(enemy);
+        fire(enemy);
     }
 }
 
