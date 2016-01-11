@@ -5,16 +5,16 @@ var g_shadow = new Image();
 g_shadow.src = SHADOW_ADDRESS;
 g_shadow.level = SHADOW_LEVEL;
 
-var g_context;
-var g_contextCtx;
+var g_shadowCanvas;
+var g_shadowCtx;
 var g_intervalId;
 
 
 
 function initContext()
 {
-    g_context = document.getElementById("context");
-    g_contextCtx = g_context.getContext("2d");
+    g_shadowCanvas = document.getElementById("context");
+    g_shadowCtx = g_shadowCanvas.getContext("2d");
 }
 
 function parseQueryString()
@@ -52,15 +52,11 @@ function parseQueryString()
     return result;
 }
 
-function drawShadow(last, step)
+function drawShadow(step)
 {
-    if ((g_shadow.level < last && step > 0) ||
-        (g_shadow.level > last && step < 0))
-    {
-        g_shadow.level = g_shadow.level + step;
-    }
+    g_shadow.level = g_shadow.level + step;
     for (var i = 0; i < g_shadow.level; ++i)
     {
-        g_contextCtx.drawImage(g_shadow, 0, 0, g_context.width, g_context.height);
+        g_shadowCtx.drawImage(g_shadow, 0, 0, g_shadowCanvas.width, g_shadowCanvas.height);
     }
 }

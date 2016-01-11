@@ -1,0 +1,45 @@
+/**
+ * Created by Vasiliy on 1/6/2016.
+ */
+function Bang(x, y)
+{
+    this.x = x;
+    this.y = y;
+    this.liveTime = BANG_TIME;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.fireRadius = (SQUARE_SIZE - SQUARE_SIZE % 12) / 12;
+    this.fireParticles = [];
+    this.move = function()
+    {
+        for (var i = 0; i < this.liveTime; ++i)
+        {
+            var finalX = randNumb(-this.fireRadius, this.fireRadius);
+            var finalY = randSign() * Math.sqrt(this.fireRadius * this.fireRadius - finalX * finalX);
+            var startX = this.x * SQUARE_SIZE + (SQUARE_SIZE - SQUARE_SIZE % 2) / 2;
+            var startY = this.y * SQUARE_SIZE + (SQUARE_SIZE - SQUARE_SIZE % 2) / 2;
+            this.fireParticles[this.fireParticles.length] = new DynamicParticle(g_sparkImg, startX, startY,
+                finalX / SPARK_SPEED, finalY / SPARK_SPEED,
+                LAST_X_SPARK_STATE, LAST_Y_SPARK_STATE,
+                SQUARE_SIZE / 3, SQUARE_SIZE / 3);
+        }
+        this.moveFireParticles();
+        this.liveTime--;
+        if (this.liveTime <= 0 && this.fireParticles.length == 0)
+        {
+            return 1;
+        }
+        return 0;
+    };
+    this.draw = function()
+    {
+        for (var i = this.fireParticles.length - 1; i >= 0; --i)
+        {
+            this.fireParticles[i].draw()
+        }
+    };
+    this.moveFireParticles = function()
+    {
+        moveArrObj(this.fireParticles);
+    };
+}

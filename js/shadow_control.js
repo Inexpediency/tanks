@@ -14,7 +14,7 @@ $(window).ready(function()
         currEl.removeAttr("href");
         currEl.click(function()
         {
-            g_context.style.width = "100%";
+            g_shadowCanvas.style.width = "100%";
             g_url = currEl.hrefTemp;
             clearInterval(g_intervalId);
             g_intervalId = setInterval(drawGoOutShadow, DELAY);
@@ -38,8 +38,8 @@ function getFileName()
 
 function drawGoOutShadow()
 {
-    g_contextCtx.clearRect(0, 0, g_context.width, g_context.height);
-    drawShadow(SHADOW_LEVEL, 1);
+    g_shadowCtx.clearRect(0, 0, g_shadowCanvas.width, g_shadowCanvas.height);
+    drawShadow(1);
     if (SHADOW_LEVEL <= g_shadow.level)
     {
         clearInterval(g_intervalId);
@@ -51,11 +51,11 @@ function drawGoOutShadow()
 function drawCameShadow()
 {
     $("body").css("display", "block");
-    g_contextCtx.clearRect(0, 0, g_context.width, g_context.height);
-    drawShadow(0, -1);
+    g_shadowCtx.clearRect(0, 0, g_shadowCanvas.width, g_shadowCanvas.height);
+    drawShadow(-1);
     if (0 >= g_shadow.level)
     {
         clearInterval(g_intervalId);
-        g_context.style.width = "0";
+        g_shadowCanvas.style.width = "0";
     }
 }
