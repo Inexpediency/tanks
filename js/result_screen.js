@@ -7,12 +7,10 @@ $(window).ready(function()
     var button = document.getElementById("button");
     var message = document.getElementById("message");
     var buttonImg = new Image();
-    console.log(parseInt(queryString["isWin"]));
     if (parseInt(queryString["isWin"]))
     {
         message.innerHTML = "Победа!";
         button.href = button.href + "level=" + (parseInt(queryString["currentLevel"]) + 1) + "&";
-        console.log(button.href);
         buttonImg.src = "./img/next_button.png";
         buttonImg.onload = function()
         {

@@ -1,61 +1,52 @@
 /**
  * Created by Vasiliy on 12/29/2015.
  */
-var g_url;
 
 $(window).ready(function()
 {
-    initContext();
-    g_intervalId = setInterval(drawCameShadow, DELAY);
+    var shadowMaker = new ShadowMaker();
     $("a").each(function()
     {
         var currEl = $(this);
-        currEl.hrefTemp = currEl.attr("href");
+        currEl.href = currEl.attr("href");
         currEl.removeAttr("href");
         currEl.click(function()
         {
-            g_shadowCanvas.style.width = "100%";
-            g_url = currEl.hrefTemp;
-            clearInterval(g_intervalId);
-            g_intervalId = setInterval(drawGoOutShadow, DELAY);
+            shadowMaker.href = currEl.href;
+            shadowMaker.shadow.canvas.style.width = "100%";
+            shadowMaker.intervalId = setInterval(shadowMaker.drawGoOutShadow, DELAY);
         });
     });
 });
 
-function getFileName()
+function ShadowMaker()
 {
-    var url = window.location.href;
-    while (url.indexOf("/") != -1)
-    {
-        url = url.substring(url.indexOf("/") + 1, url.length);
-    }
-    if (url.indexOf("?") != -1)
-    {
-        url = url.substring(0, url.indexOf("?"));
-    }
-    return url;
-}
+    this.shadow = new Shadow();
 
-function drawGoOutShadow()
-{
-    g_shadowCtx.clearRect(0, 0, g_shadowCanvas.width, g_shadowCanvas.height);
-    drawShadow(1);
-    if (SHADOW_LEVEL <= g_shadow.level)
+    var currItm = this;
+    this.drawCameShadow = function()
     {
-        clearInterval(g_intervalId);
-        window.location = g_url;
-        console.log(g_url);
-    }
-}
+        console.log(currItm.shadow.level);
+        $("body").css("display", "block");
+        currItm.shadow.ctx.clearRect(0, 0, currItm.shadow.canvas.width, currItm.shadow.canvas.height);
+        currItm.shadow.drawShadow(-1);
+        if (currItm.shadow.level == 0)
+        {
+            currItm.shadow.canvas.style.width = "0";
+            clearInterval(currItm.intervalId);
+        }
+    };
 
-function drawCameShadow()
-{
-    $("body").css("display", "block");
-    g_shadowCtx.clearRect(0, 0, g_shadowCanvas.width, g_shadowCanvas.height);
-    drawShadow(-1);
-    if (0 >= g_shadow.level)
+    this.drawGoOutShadow = function()
     {
-        clearInterval(g_intervalId);
-        g_shadowCanvas.style.width = "0";
-    }
+        currItm.shadow.ctx.clearRect(0, 0, currItm.shadow.canvas.width, currItm.shadow.canvas.height);
+        currItm.shadow.drawShadow(1);
+        if (currItm.shadow.level == SHADOW_LEVEL)
+        {
+            clearInterval(currItm.intervalId);
+            window.location = currItm.href;
+        }
+    };
+
+    this.intervalId = setInterval(this.drawCameShadow, DELAY);
 }

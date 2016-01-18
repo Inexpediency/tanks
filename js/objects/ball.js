@@ -4,10 +4,15 @@
 
 function Ball(cordX, cordY, route, field)
 {
+    var commonFunctionObj = new CommonFunctionObj();
+
     this.x = cordX;
     this.y = cordY;
     this.route = route;
+    this.img = new Image();
+    this.img.src = BALL_ADDRESS;
     field.gameField[this.y][this.x] = field.gameField[this.y][this.x] == NOTHING_CHAR ? BALL_CHAR : field.gameField[this.y][this.x];
+
     this.move = function()
     {
         if (field.gameField[this.y][this.x] == TRAVELED_BARRICADE_CHAR)
@@ -16,7 +21,7 @@ function Ball(cordX, cordY, route, field)
             field.bangs[field.bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
-        var isDamaged = calcHealth(this.x, this.y, field);
+        var isDamaged = this._calcHealth();
         if (field.gameField[this.y][this.x] == NOTHING_CHAR || isDamaged)
         {
             field.gameField[this.y][this.x] = NOTHING_CHAR;
@@ -28,8 +33,8 @@ function Ball(cordX, cordY, route, field)
             return 1;
         }
         field.gameField[this.y][this.x] = NOTHING_CHAR;
-        var stepX = getXDirect(this.route);
-        var stepY = getYDirect(this.route);
+        var stepX = commonFunctionObj.getXDirect(this.route);
+        var stepY = commonFunctionObj.getYDirect(this.route);
         this.x += stepX;
         this.y += stepY;
         if (field.gameField[this.y][this.x] == BARRICADE_CHAR)
@@ -53,8 +58,27 @@ function Ball(cordX, cordY, route, field)
         field.gameField[this.y][this.x] = BALL_CHAR;
         return 0;
     };
+
     this.draw = function()
     {
-            drawRotatedObj(translateCharInRightDeg(this.route), g_ballImg, (this.x + 0.5) * SQUARE_SIZE, (this.y + 0.5) * SQUARE_SIZE, SQUARE_SIZE / 3, SQUARE_SIZE / 3, 0);
+        commonFunctionObj.drawRotatedObj(commonFunctionObj.translateCharInRightDeg(this.route), this.img,
+                                        (this.x + 0.5) * SQUARE_SIZE,
+                                        (this.y + 0.5) * SQUARE_SIZE,
+                                        SQUARE_SIZE / 3, SQUARE_SIZE / 3, 0);
+    };
+
+    this._calcHealth = function()
+    {
+        var tank = commonFunctionObj.findElement(this.x, this.y, field.players);
+        if (field.players[tank] != null)
+        {
+            field.players[tank].health--;
+            if (field.players[tank].health <= 0)
+            {
+                field.players.splice(tank, 1);
+            }
+            return 1;
+        }
+        return 0;
     };
 }

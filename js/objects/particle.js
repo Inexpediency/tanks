@@ -3,6 +3,9 @@
  */
 function DynamicParticle(img, x, y, SpeedX, SpeedY, lastX, lastY, width, height)
 {
+    var canvas = document.getElementById("gameField");
+    var ctx = canvas.getContext("2d");
+
     this.x = x;
     this.y = y;
     this.speedY = SpeedY;
@@ -11,6 +14,7 @@ function DynamicParticle(img, x, y, SpeedX, SpeedY, lastX, lastY, width, height)
     this.stateY = 0;
     this.sparkWidth = img.width / (lastX + 1);
     this.sparkHeight = img.height / (lastY + 1);
+
     this.move = function()
     {
         this.x += this.speedX;
@@ -20,16 +24,14 @@ function DynamicParticle(img, x, y, SpeedX, SpeedY, lastX, lastY, width, height)
         {
             this.stateX = 0;
             this.stateY++;
-            if (this.stateY > lastY)
-            {
-                return 1;
-            }
+            return this.stateY > lastY;
         }
         return 0;
     };
+
     this.draw = function()
     {
-        g_ctx.drawImage(
+        ctx.drawImage(
             img,
             this.sparkWidth * this.stateX,
             this.sparkHeight * this.stateY, this.sparkWidth, this.sparkHeight,
