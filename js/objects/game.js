@@ -25,7 +25,10 @@ function Game(level)
             if (game.shadow.level == 0 ||
                 game.shadow.level == SHADOW_LEVEL)
             {
-                game.shadow.canvas.style.width = "0";
+                if (game.shadow.level == 0)
+                {
+                    game.shadow.canvas.style.width = "0";
+                }
                 game.isShadowVisible = 0;
             }
         }
