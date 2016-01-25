@@ -7,13 +7,9 @@ $(window).ready(function()
     {
         window.location = START_SCREEN_ADDRESS;
     }
-    var game = new Game(currentLevel);
     var canvas = document.getElementById("gameField");
+    var game = new Game(currentLevel);
     canvas.height = (game.field.gameField.length) * SQUARE_SIZE;
     canvas.width = (game.field.gameField[0].length) * SQUARE_SIZE;
-    canvas.style.marginLeft = -parseInt(g_canvas.width / 2) + "px";
-    game.initHealthBlock();
-    game.initKeys(game.field.player);
-    game.initPauseButton();
-    game.intervalId = setInterval(game.tick, DELAY);
+    canvas.style.marginLeft = -parseInt(canvas.width / 2) + "px";
 });

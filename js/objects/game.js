@@ -177,4 +177,9 @@ function Game(level)
             }
         });
     }
+
+    game.initHealthBlock();
+    game.initKeys(game.field.player);
+    game.initPauseButton();
+    game.intervalId = setInterval(game.tick, DELAY);
 }

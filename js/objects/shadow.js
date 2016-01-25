@@ -11,7 +11,6 @@ function Shadow()
 
     this.drawShadow = function(step)
     {
-        console.log(this.level);
         this.level = this.level + step;
         for (var i = 0; i < this.level; ++i)
         {

@@ -24,7 +24,6 @@ function Ball(cordX, cordY, route, field)
         var isDamaged = this._calcHealth();
         if (field.gameField[this.y][this.x] == NOTHING_CHAR || isDamaged)
         {
-            field.gameField[this.y][this.x] = NOTHING_CHAR;
             field.bangs[field.bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
@@ -75,10 +74,26 @@ function Ball(cordX, cordY, route, field)
             field.players[tank].health--;
             if (field.players[tank].health <= 0)
             {
+                this._createBonus();
                 field.players.splice(tank, 1);
             }
             return 1;
         }
         return 0;
     };
+
+    this._createBonus = function()
+    {
+        var bonus = new Health(); // потом будет решаеться какой бонус выпадет
+        if (field.bonus.length < MAX_BONUS_COUNT &&
+            bonus.dropeChance > commonFunctionObj.randNumb(1, 100))
+        {
+            field.gameField[this.y][this.x] = BONUS_CHAR;
+            field.bonus[field.bonus.length] = new Bonus(this.x, this.y, bonus, field);
+        }
+        else
+        {
+            field.gameField[this.y][this.x] = NOTHING_CHAR;
+        }
+    }
 }

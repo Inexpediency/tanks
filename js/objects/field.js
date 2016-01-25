@@ -12,6 +12,7 @@ function Field(currentLevel)
     this.players = [];
     this.balls = [];
     this.bangs = [];
+    this.bonus = [];
     this.traveledBarricadeImg = new Image();
     this.traveledBarricadeImg.src = TRAVELED_BARRICADE_ADDRESS;
     this.barricadeImg = new Image();
@@ -22,6 +23,7 @@ function Field(currentLevel)
         commonFunctionObj.moveArrObj(this.balls);
         commonFunctionObj.moveArrObj(this.bangs);
         commonFunctionObj.moveArrObj(this.players);
+        commonFunctionObj.moveArrObj(this.bonus);
     };
 
     this.draw = function()
@@ -57,6 +59,10 @@ function Field(currentLevel)
                 else if (currentEl == BALL_CHAR)
                 {
                     this.balls[commonFunctionObj.findElement(x, y, this.balls)].draw();
+                }
+                else if (currentEl == BONUS_CHAR)
+                {
+                    this.bonus[commonFunctionObj.findElement(x, y, this.bonus)].draw();
                 }
                 else if (currentEl != NOTHING_CHAR)
                 {

@@ -17,6 +17,7 @@ var DOWN_CHAR = "d";
 var RIGHT_CHAR = "r";
 var UP_CHAR = "u";
 
+var BONUS_CHAR = "o";
 var PLAYER_CHAR = "y";
 var ENEMY_CHAR = "e";
 var SPRINT_ENEMY_CHAR = "s";
@@ -32,6 +33,7 @@ var GRID_COLOR = "#000000";
 
 var SHADOW_LEVEL = 43;
 
+var HEALTH_BONUS_ADDRESS = "./img/bonus/health.png";
 var SPARK_ADDRESS = "./img/spark.png";
 var SMOKE_ADDRESS = "./img/smoke.png";
 var DUST_ADDRESS = "./img/dust.png";
@@ -62,6 +64,8 @@ var LAST_Y_DUST_STATE = 2;
 var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
 var DUST_COUNT = 60;
+var BONUS_TIME = 1000000;
+var MAX_BONUS_COUNT = 10;
 
 //speed делитель SQUARE_SIZE / 2
 //rotateTowerSpeed делитель 90
