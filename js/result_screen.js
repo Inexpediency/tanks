@@ -4,56 +4,47 @@
 $(window).ready(function()
 {
     var queryString = parseQueryString();
-    var button = document.getElementById("button");
-    var message = document.getElementById("message");
-    var buttonImg = new Image();
+    console.log(queryString);
+    var button = new Button;
     if (parseInt(queryString["isWin"]))
     {
-        message.innerHTML = "Победа!";
-        button.href = button.href + "level=" + (parseInt(queryString["currentLevel"]) + 1) + "&";
-        buttonImg.src = "./img/next_button.png";
-        buttonImg.onload = function()
-        {
-            button.style.width = buttonImg.width + "px";
-            button.style.height = buttonImg.height + "px";
-
-            button.style.background = "url(\"" + PLAY_BUTTON_ADDRESS + "\") no-repeat";
-        };
-        button.onmouseover = function()
-        {
-            button.style.background = "url(\"" + PLAY_BUTTON_ADDRESS_HOVER + "\") no-repeat";
-        };
-        button.onmouseout = function()
-        {
-            button.style.background = "url(\"" + PLAY_BUTTON_ADDRESS + "\") no-repeat";
-        };
-        button.onclick = function()
-        {
-            button.style.background = "url(\"" + PLAY_BUTTON_ADDRESS_CLICK + "\") no-repeat";
-        };
+        button.init("Победа!", "img/next_button", parseInt(queryString["currentLevel"]) + 1);
     }
     else
     {
-        message.innerHTML = "Поражение...";
-        button.href = button.href + "level=" + queryString["currentLevel"] + "&";
-        buttonImg.src = "./img/restart_button.png";
-        buttonImg.onload = function()
-        {
-            button.style.width = buttonImg.width + "px";
-            button.style.height = buttonImg.height + "px";
-            button.style.background = "url(\"img/restart_button.png\") no-repeat";
-        };
-        button.onmouseover = function()
-        {
-            button.style.background = "url(\"img/restart_button_hover.png\") no-repeat";
-        };
-        button.onmouseout = function()
-        {
-            button.style.background = "url(\"img/restart_button.png\") no-repeat";
-        }
-        button.onclick = function()
-        {
-            button.style.background = "url(\"img/restart_button_click.png\") no-repeat";
-        };
+        button.init("Поражение...", "img/restart_button", queryString["currentLevel"]);
     }
+    var shadowMaker = new ShadowMaker();
 });
+
+function Button()
+{
+    this.element = $("#button");
+    this.message = $("#message");
+    this.img = new Image();
+    this.init = function(message, address, level)
+    {
+        this.message.html(message);
+        this.element.attr("href", (this.element.attr("href") + "level=" + level + "&"));
+        this.img.src = address + ".png";
+        var currentContext = this;
+        this.img.onload = function()
+        {
+            currentContext.element.css("width", currentContext.img.width + "px");
+            currentContext.element.css("height", currentContext.img.height + "px");
+            currentContext.element.css("background", "url(\"" + address + ".png\") no-repeat");
+        };
+        this.element.mouseover(function()
+        {
+            currentContext.element.css("background", "url(\"" + address + "_hover.png\") no-repeat");
+        });
+        this.element.mouseout(function()
+        {
+            currentContext.element.css("background", "url(\"" + address + ".png\") no-repeat");
+        });
+        this.element.mousedown(function()
+        {
+            currentContext.element.css("background", "url(\"" + address + "_click.png\") no-repeat");
+        });
+    }
+}

@@ -220,7 +220,6 @@ function Tank(cordX, cordY, personalChar, consts, field)
             if (field.gameField[this.y][this.x] == BONUS_CHAR)
             {
                 var bonus = field.bonus[commonFunctionObj.findElement(this.x, this.y, field.bonus)];
-                field.gameField[this.y][this.x] = NOTHING_CHAR;
                 bonus.type.upgrade(this);
             }
             else

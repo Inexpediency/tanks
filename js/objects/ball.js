@@ -31,7 +31,10 @@ function Ball(cordX, cordY, route, field)
         {
             return 1;
         }
-        field.gameField[this.y][this.x] = NOTHING_CHAR;
+        if (field.gameField[this.y][this.x] != BONUS_CHAR)
+        {
+            field.gameField[this.y][this.x] = NOTHING_CHAR;
+        }
         var stepX = commonFunctionObj.getXDirect(this.route);
         var stepY = commonFunctionObj.getYDirect(this.route);
         this.x += stepX;
@@ -54,7 +57,10 @@ function Ball(cordX, cordY, route, field)
             field.bangs[field.bangs.length] = new Bang(this.x, this.y);
             return 1;
         }
-        field.gameField[this.y][this.x] = BALL_CHAR;
+        if (field.gameField[this.y][this.x] != BONUS_CHAR)
+        {
+            field.gameField[this.y][this.x] = BALL_CHAR;
+        }
         return 0;
     };
 

@@ -12,7 +12,6 @@ function Bonus(x, y, type, field)
     this.stageX = 0;
     this.stageY = 0;
     this.type = type;
-    this.used = 0;
 
     this.move = function()
     {
@@ -21,6 +20,7 @@ function Bonus(x, y, type, field)
         {
             return 1;
         }
+        field.gameField[this.y][this.x] = BONUS_CHAR;
         this.stageX++;
         if (this.stageX == this.type.maxStageX)
         {
