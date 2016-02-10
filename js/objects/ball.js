@@ -2,64 +2,44 @@
  * Created by Vasiliy on 1/6/2016.
  */
 
-function Ball(cordX, cordY, route, field)
+function Ball(x, y, route, field)
 {
     var commonFunctionObj = new CommonFunctionObj();
 
-    this.x = cordX;
-    this.y = cordY;
+    this.x = x;
+    this.y = y;
     this.route = route;
     this.img = new Image();
     this.img.src = BALL_ADDRESS;
-    field.gameField[this.y][this.x] = field.gameField[this.y][this.x] == NOTHING_CHAR ? BALL_CHAR : field.gameField[this.y][this.x];
 
     this.move = function()
     {
-        if (field.gameField[this.y][this.x] == TRAVELED_BARRICADE_CHAR)
-        {
-            field.gameField[this.y][this.x] = NOTHING_CHAR;
-            field.bangs[field.bangs.length] = new Bang(this.x, this.y);
-            return 1;
-        }
-        var isDamaged = this._calcHealth();
-        if (field.gameField[this.y][this.x] == NOTHING_CHAR || isDamaged)
-        {
-            field.bangs[field.bangs.length] = new Bang(this.x, this.y);
-            return 1;
-        }
-        if (field.gameField[this.y][this.x] == BARRICADE_CHAR)
-        {
-            return 1;
-        }
-        if (field.gameField[this.y][this.x] != BONUS_CHAR)
-        {
-            field.gameField[this.y][this.x] = NOTHING_CHAR;
-        }
         var stepX = commonFunctionObj.getXDirect(this.route);
         var stepY = commonFunctionObj.getYDirect(this.route);
-        this.x += stepX;
-        this.y += stepY;
-        if (field.gameField[this.y][this.x] == BARRICADE_CHAR)
+        this.x += stepX * BALL_SPEED;
+        this.y += stepY * BALL_SPEED;
+        for(var i = 0; i < field.players.length; ++i)
         {
-            this.x -= stepX;
-            this.y -= stepY;
-            field.bangs[field.bangs.length] = new Bang(this.x, this.y);
-            return 1;
+            if(this._getIntersection(field.players[i].drawingX, field.players[i].drawingY, field.players[i].width, field.players[i].height))
+            {
+                field.bangs[field.bangs.length] = new Bang(this.x, this.y);
+                this._calcHealth(field.players[i]);
+                return 1;
+            }
         }
-        if (field.gameField[this.y][this.x] == BALL_CHAR)
+
+        for(var i = 0; i < field.barricades.length; ++i)
         {
-            field.gameField[this.y][this.x] = NOTHING_CHAR;
-            return 1;
-        }
-        if (field.gameField[this.y][this.x] == TRAVELED_BARRICADE_CHAR)
-        {
-            field.gameField[this.y][this.x] = NOTHING_CHAR;
-            field.bangs[field.bangs.length] = new Bang(this.x, this.y);
-            return 1;
-        }
-        if (field.gameField[this.y][this.x] != BONUS_CHAR)
-        {
-            field.gameField[this.y][this.x] = BALL_CHAR;
+            if(this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
+            {
+                if (field.barricades[i].character == TRAVELED_BARRICADE_CHAR)
+                {
+                    field.gameField[field.barricades[i].y / SQUARE_SIZE][field.barricades[i].x / SQUARE_SIZE] = NOTHING_CHAR;
+                    field.barricades.splice(i, 1);
+                }
+                field.bangs[field.bangs.length] = new Bang(this.x, this.y);
+                return 1;
+            }
         }
         return 0;
     };
@@ -67,39 +47,48 @@ function Ball(cordX, cordY, route, field)
     this.draw = function()
     {
         commonFunctionObj.drawRotatedObj(commonFunctionObj.translateCharInRightDeg(this.route), this.img,
-                                        (this.x + 0.5) * SQUARE_SIZE,
-                                        (this.y + 0.5) * SQUARE_SIZE,
+                                        this.x + 0.5 * SQUARE_SIZE,
+                                        this.y + 0.5 * SQUARE_SIZE,
                                         SQUARE_SIZE / 3, SQUARE_SIZE / 3, 0);
     };
 
-    this._calcHealth = function()
+    this._calcHealth = function(tank)
     {
-        var tank = commonFunctionObj.findElement(this.x, this.y, field.players);
-        if (field.players[tank] != null)
+        if (tank != null)
         {
-            field.players[tank].health--;
-            if (field.players[tank].health <= 0)
+            tank.health--;
+            if (tank.health <= 0)
             {
-                this._createBonus();
-                field.players.splice(tank, 1);
+                this._createBonus(tank.drawingX, tank.drawingY);
+                field.players.splice(commonFunctionObj.findElement(tank.x, tank.y, field.players), 1);
             }
             return 1;
         }
         return 0;
     };
 
-    this._createBonus = function()
+    this._createBonus = function(x, y)
     {
-        var bonus = new Health(); // потом будет решаеться какой бонус выпадет
-        if (field.bonus.length < MAX_BONUS_COUNT &&
-            bonus.dropeChance > commonFunctionObj.randNumb(1, 100))
+        var randNumb = commonFunctionObj.randNumb(1, 4);
+        var bonus;
+        if (randNumb == 1)
         {
-            field.gameField[this.y][this.x] = BONUS_CHAR;
-            field.bonus[field.bonus.length] = new Bonus(this.x, this.y, bonus, field);
+            bonus = new HealthBonus();
         }
         else
         {
-            field.gameField[this.y][this.x] = NOTHING_CHAR;
+            bonus = new HealthBonus();
+        }
+        if (field.bonus.length < MAX_BONUS_COUNT &&
+            bonus.dropeChance > commonFunctionObj.randNumb(1, 100))
+        {
+            field.bonus[field.bonus.length] = new Bonus(x, y, bonus, field);
         }
     }
+    
+    this._getIntersection = function(x, y, w, h)
+    {
+        return (((this.x + 0.5 * SQUARE_SIZE > x) && (x + w > this.x + 0.5 * SQUARE_SIZE)) &&
+                ((this.y + 0.5 * SQUARE_SIZE > y) && (y + h > this.y + 0.5 * SQUARE_SIZE)));
+    };
 }

@@ -172,6 +172,6 @@ function CommonFunctionObj()
                 }
             }
         }
-        return 90;
+        return resultSystem;
     };
 }

@@ -1,6 +1,8 @@
 /**
  * Created by Vasiliy on 9/30/2015.
  */
+var SQUARE_SIZE = 2 * 3 * 5 * 2;
+
 var TOWER_LEFT = 37;
 var TOWER_UP = 38;
 var TOWER_RIGHT = 39;
@@ -17,13 +19,11 @@ var DOWN_CHAR = "d";
 var RIGHT_CHAR = "r";
 var UP_CHAR = "u";
 
-var BONUS_CHAR = "o";
 var PLAYER_CHAR = "y";
 var ENEMY_CHAR = "e";
 var SPRINT_ENEMY_CHAR = "s";
 var ARMOR_ENEMY_CHAR = "a";
 var BARRICADE_CHAR = "b";
-var BALL_CHAR = "f";
 var NOTHING_CHAR = "0";
 var TRAVELED_BARRICADE_CHAR = "r";
 
@@ -34,14 +34,15 @@ var GRID_COLOR = "#000000";
 var SHADOW_LEVEL = 43;
 
 var HEALTH_BONUS_ADDRESS = "./img/bonus/health.png";
+var SPEED_BONUS_ADDRESS = "./img/bonus/speed.png";
 var SPARK_ADDRESS = "./img/spark.png";
 var SMOKE_ADDRESS = "./img/smoke.png";
 var DUST_ADDRESS = "./img/dust.png";
-var BALL_ADDRESS = "./img/ball.png"
+var BALL_ADDRESS = "./img/ball.png";
 var BARRICADE_ADDRESS = "./img/barricade.png";
 var TRAVELED_BARRICADE_ADDRESS = "./img/traveld_barricade.png";
 var HEALTH_ADDRES = "./img/health.png";
-var RESULT_SCREEN_ADDRESS = "result_screen.html"
+var RESULT_SCREEN_ADDRESS = "result_screen.html";
 var START_SCREEN_ADDRESS = "start_screen.html";
 var SHADOW_ADDRESS = "img/shadow.png";
 var PLAY_BUTTON_ADDRESS = "img/next_button.png";
@@ -61,6 +62,7 @@ var LAST_X_SMOKE_STATE = 7;
 var LAST_Y_SMOKE_STATE = 4;
 var LAST_X_DUST_STATE = 2;
 var LAST_Y_DUST_STATE = 2;
+var BALL_SPEED = SQUARE_SIZE / 2;
 var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
 var DUST_COUNT = 60;
@@ -112,5 +114,3 @@ var ARMOR_ENEMY_CONSTS = {
     reloadingTime: 50,
     foundRadius: 12
 };
-
-var SQUARE_SIZE = 2 * 3 * 5 * 2;
