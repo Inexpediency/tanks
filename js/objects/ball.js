@@ -2,12 +2,14 @@
  * Created by Vasiliy on 1/6/2016.
  */
 
-function Ball(x, y, route, field)
+function Ball(x, y, w, h, route, field)
 {
     var commonFunctionObj = new CommonFunctionObj();
 
     this.x = x;
     this.y = y;
+    this.width = w;
+    this.height = h;
     this.route = route;
     this.img = new Image();
     this.img.src = BALL_ADDRESS;
@@ -18,9 +20,9 @@ function Ball(x, y, route, field)
         var stepY = commonFunctionObj.getYDirect(this.route);
         this.x += stepX * BALL_SPEED;
         this.y += stepY * BALL_SPEED;
-        for(var i = 0; i < field.players.length; ++i)
+        for (var i = 0; i < field.players.length; ++i)
         {
-            if(this._getIntersection(field.players[i].drawingX, field.players[i].drawingY, field.players[i].width, field.players[i].height))
+            if(this._getIntersection(field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
             {
                 field.bangs[field.bangs.length] = new Bang(this.x, this.y);
                 this._calcHealth(field.players[i]);
@@ -28,13 +30,12 @@ function Ball(x, y, route, field)
             }
         }
 
-        for(var i = 0; i < field.barricades.length; ++i)
+        for (var i = 0; i < field.barricades.length; ++i)
         {
             if(this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
             {
                 if (field.barricades[i].character == TRAVELED_BARRICADE_CHAR)
                 {
-                    field.gameField[field.barricades[i].y / SQUARE_SIZE][field.barricades[i].x / SQUARE_SIZE] = NOTHING_CHAR;
                     field.barricades.splice(i, 1);
                 }
                 field.bangs[field.bangs.length] = new Bang(this.x, this.y);
@@ -47,9 +48,7 @@ function Ball(x, y, route, field)
     this.draw = function()
     {
         commonFunctionObj.drawRotatedObj(commonFunctionObj.translateCharInRightDeg(this.route), this.img,
-                                        this.x + 0.5 * SQUARE_SIZE,
-                                        this.y + 0.5 * SQUARE_SIZE,
-                                        SQUARE_SIZE / 3, SQUARE_SIZE / 3, 0);
+                                        this.x, this.y, this.width, this.height, 0);
     };
 
     this._calcHealth = function(tank)
@@ -59,7 +58,7 @@ function Ball(x, y, route, field)
             tank.health--;
             if (tank.health <= 0)
             {
-                this._createBonus(tank.drawingX, tank.drawingY);
+                this._createBonus(tank.x - tank.width / 2, tank.y - tank.height / 2);
                 field.players.splice(commonFunctionObj.findElement(tank.x, tank.y, field.players), 1);
             }
             return 1;
@@ -75,9 +74,17 @@ function Ball(x, y, route, field)
         {
             bonus = new HealthBonus();
         }
+        else if (randNumb == 2)
+        {
+            bonus = new SpeedBonus();
+        }
+        else if (randNumb == 3)
+        {
+            bonus = new TowerSpeedBonus();
+        }
         else
         {
-            bonus = new HealthBonus();
+            bonus = new FireSpeedBonus();
         }
         if (field.bonus.length < MAX_BONUS_COUNT &&
             bonus.dropeChance > commonFunctionObj.randNumb(1, 100))
@@ -85,10 +92,10 @@ function Ball(x, y, route, field)
             field.bonus[field.bonus.length] = new Bonus(x, y, bonus, field);
         }
     }
-    
+
     this._getIntersection = function(x, y, w, h)
     {
-        return (((this.x + 0.5 * SQUARE_SIZE > x) && (x + w > this.x + 0.5 * SQUARE_SIZE)) &&
-                ((this.y + 0.5 * SQUARE_SIZE > y) && (y + h > this.y + 0.5 * SQUARE_SIZE)));
+        return (((this.x + this.width / 2 > x - w / 2) && (x + w / 2 > this.x - this.width / 2) &&
+        (this.y + this.height / 2 > y - h / 2) && (y + h / 2 > this.y - this.height / 2)));
     };
 }

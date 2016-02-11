@@ -35,6 +35,8 @@ var SHADOW_LEVEL = 43;
 
 var HEALTH_BONUS_ADDRESS = "./img/bonus/health.png";
 var SPEED_BONUS_ADDRESS = "./img/bonus/speed.png";
+var TOWER_SPEED_BONUS_ADDRESS = "./img/bonus/tower_rotate_bonus.png";
+var FIRE_SPEED_BONUS_ADDRESS = "./img/bonus/fire_speed_bonus.png";
 var SPARK_ADDRESS = "./img/spark.png";
 var SMOKE_ADDRESS = "./img/smoke.png";
 var DUST_ADDRESS = "./img/dust.png";
@@ -62,7 +64,7 @@ var LAST_X_SMOKE_STATE = 7;
 var LAST_Y_SMOKE_STATE = 4;
 var LAST_X_DUST_STATE = 2;
 var LAST_Y_DUST_STATE = 2;
-var BALL_SPEED = SQUARE_SIZE / 2;
+var BALL_SPEED = SQUARE_SIZE / 1.2;
 var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
 var DUST_COUNT = 60;
@@ -75,8 +77,8 @@ var PLAYER_CONSTS = {
     towerImgAddres: "img/tower_p.png",
     bodyImageAddres: "img/body_p.png",
     rotateTowerSpeed: 9,
-    speedNormal: 3,
-    speedPatrol: 3,
+    speedNormal: 6,
+    speedPatrol: 6,
     health: 6,
     reloadingTime: 40,
     foundRadius: 10

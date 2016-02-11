@@ -3,7 +3,7 @@
  */
 function Game(level)
 {
-    var arrController = new CommonFunctionObj();
+    var commonFunctionObj = new CommonFunctionObj();
 
     this.field = new Field(level);
     this.paused = 0;
@@ -18,7 +18,7 @@ function Game(level)
         if (game.isShadowVisible)
         {
             $("body").css("display", "block");
-            arrController.moveArrObj(game.field.bangs);
+            commonFunctionObj.moveArrObj(game.field.bangs);
             game.field.draw();
             game.shadow.ctx.clearRect(0, 0, game.shadow.canvas.width, game.shadow.canvas.height);
             game.shadow.drawShadow(game.shadowStep);
@@ -37,7 +37,7 @@ function Game(level)
             game.field.move();
             game.field.draw();
         }
-        var playerNumb = arrController.findTank(game.field.players, PLAYER_CHAR);
+        var playerNumb = commonFunctionObj.findTank(game.field.players, PLAYER_CHAR);
         if ((playerNumb == undefined ||
             game.field.players[playerNumb + 1]  == undefined &&
             game.field.players[playerNumb - 1]  == undefined) && game.shadow.level == 0)
@@ -142,19 +142,31 @@ function Game(level)
                     break;
                 case UP:
                     player.motion = UP_CHAR;
-                    player.finalBodeState = UP_CHAR;
+                    if (commonFunctionObj.isAngelRight(player.angle))
+                    {
+                        player.finalBodeState = UP_CHAR;
+                    }
                     break;
                 case DOWN:
                     player.motion = DOWN_CHAR;
-                    player.finalBodeState = DOWN_CHAR;
+                    if (commonFunctionObj.isAngelRight(player.angle))
+                    {
+                        player.finalBodeState = DOWN_CHAR;
+                    }
                     break;
                 case LEFT:
                     player.motion = LEFT_CHAR;
-                    player.finalBodeState = LEFT_CHAR;
+                    if (commonFunctionObj.isAngelRight(player.angle))
+                    {
+                        player.finalBodeState = LEFT_CHAR;
+                    }
                     break;
                 case RIGHT:
                     player.motion = RIGHT_CHAR;
-                    player.finalBodeState = RIGHT_CHAR;
+                    if (commonFunctionObj.isAngelRight(player.angle))
+                    {
+                        player.finalBodeState = RIGHT_CHAR;
+                    }
                     break;
             }
         });

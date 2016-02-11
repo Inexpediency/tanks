@@ -7,13 +7,13 @@ function SpeedBonus()
     this.img.src = SPEED_BONUS_ADDRESS;
     this.maxStageX = 3;
     this.maxStageY = 3;
-    this.dropeChance = 100;
+    this.dropeChance = 30;
     this.width = 32;
     this.height = 32;
 
     this.upgrade = function(tank)
     {
-        tank.speed = tank.commonFunctionObj.translateDividers(tank.speed, SQUARE_SIZE);
+        tank.speed++;
         tank.rotateSpeed = tank.commonFunctionObj.translateDividers(tank.speed, 90);
     };
 }

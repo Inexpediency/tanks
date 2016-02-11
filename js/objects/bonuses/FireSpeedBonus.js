@@ -4,15 +4,15 @@
 function FireSpeedBonus()
 {
     this.img = new Image();
-    this.img.src =  HEALTH_BONUS_ADDRESS;
+    this.img.src =  FIRE_SPEED_BONUS_ADDRESS;
     this.maxStageX = 3;
     this.maxStageY = 3;
-    this.dropeChance = 100;
+    this.dropeChance = 40;
     this.width = 32;
     this.height = 32;
 
     this.upgrade = function(tank)
     {
-        tank.health++;
+        tank.reloadingTime = tank.reloadingTime > 0 ? (tank.reloadingTime - 3) : 0;
     };
 }

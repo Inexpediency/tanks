@@ -1,7 +1,7 @@
 /**
  * Created by Vasiliy on 9/30/2015.
  */
-function Tank(cordX, cordY, personalChar, consts, field)
+function Tank(x, y, personalChar, consts, field)
 {
     this.commonFunctionObj = new CommonFunctionObj();
 
@@ -9,10 +9,11 @@ function Tank(cordX, cordY, personalChar, consts, field)
     this.speed = consts.speedPatrol;
 
     this.rotateSpeed = this.commonFunctionObj.translateDividers(this.speed, 90);
-    this.bodyAngle = this.commonFunctionObj.translateCharInRightDeg(RIGHT_CHAR);
+    this.angle = this.commonFunctionObj.translateCharInRightDeg(RIGHT_CHAR);
+    this.isCrosed = 0;
     this.towerAngle = this.commonFunctionObj.translateCharInRightDeg(RIGHT_CHAR);
-    this.rotateStep = consts.rotateTowerSpeed;
-    this.finalBodeState = UP_CHAR;
+    this.rotateTowerSpeed = consts.rotateTowerSpeed;
+    this.finalBodeState = RIGHT_CHAR;
 
     this.fire = false;
     this.lastFireTime = 0;
@@ -30,19 +31,17 @@ function Tank(cordX, cordY, personalChar, consts, field)
     this.dustImg = new Image();
     this.dustImg.src = DUST_ADDRESS;
 
-    this.x = cordX;
-    this.y = cordY;
     var currItm = this;
 
     $(currItm.body).load(function()
     {
-        currItm.width = SQUARE_SIZE;
-        currItm.height = currItm.width / currItm.body.width  * currItm.body.height;
+        currItm.startWidth = SQUARE_SIZE;
+        currItm.startHeight = currItm.startWidth / currItm.body.width  * currItm.body.height;
+        currItm.width = currItm.startWidth;
+        currItm.height = currItm.startHeight;
+        currItm.x = x * SQUARE_SIZE + currItm.width / 2;
+        currItm.y = y * SQUARE_SIZE + currItm.height / 2;
     });
-
-    this.drawingX = this.x * SQUARE_SIZE;
-    this.drawingY = this.y * SQUARE_SIZE;
-
     this.motion = NOTHING_CHAR;
     this.motionBefore = NOTHING_CHAR;
     this.towerState = UP_CHAR;
@@ -60,8 +59,9 @@ function Tank(cordX, cordY, personalChar, consts, field)
         }
         this.towerAngle = this._calcTowerAngel();
         this.lastFireTime++;
-        this.bodyAngle = this._calcBodyAngle();
-        if (this.motion != NOTHING_CHAR || !this._isAngelRight(this.bodyAngle))
+        this.angle = this._calcBodyAngle();
+        this._resize();
+        if (this.motion != NOTHING_CHAR || !this.commonFunctionObj.isAngelRight(this.angle))
         {
             this._createDustParticles();
         }
@@ -71,9 +71,9 @@ function Tank(cordX, cordY, personalChar, consts, field)
         }
         if (this.fire && this.lastFireTime > consts.reloadingTime && this._isTowerPosRight())
         {
-            var x = this.drawingX + this.commonFunctionObj.getXDirect(this.towerState) * SQUARE_SIZE / 2;
-            var y = this.drawingY + this.commonFunctionObj.getYDirect(this.towerState) * SQUARE_SIZE / 2;
-            field.balls[field.balls.length] = new Ball(x, y, this.towerState, field);
+            var x = this.x;
+            var y = this.y;
+            field.balls[field.balls.length] = new Ball(x, y, SQUARE_SIZE / 3, SQUARE_SIZE / 3, this.towerState, field);
             this.lastFireTime = 0;
             this.fire = false;
         }
@@ -85,9 +85,11 @@ function Tank(cordX, cordY, personalChar, consts, field)
 
     this.draw = function()
     {
+        this.commonFunctionObj.ctx.fillStyle = "#ff5553";
+        this.commonFunctionObj.ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
         this.commonFunctionObj.drawArrObj(this.dusts);
-        this.commonFunctionObj.drawRotatedObj(this.bodyAngle, this.body, this.drawingX + 0.5 * SQUARE_SIZE, this.drawingY + 0.5 * SQUARE_SIZE, this.width, this.height, 0);
-        this.commonFunctionObj.drawRotatedObj(this.towerAngle, this.tower, this.drawingX + 0.5 * SQUARE_SIZE, this.drawingY + 0.5 * SQUARE_SIZE, this.towerWidth, this.towerHeight, 1);
+        this.commonFunctionObj.drawRotatedObj(this.angle, this.body, this.x, this.y, this.startWidth, this.startHeight, 0);
+        this.commonFunctionObj.drawRotatedObj(this.towerAngle, this.tower, this.x, this.y, this.towerWidth, this.towerHeight, 1);
         this.commonFunctionObj.drawArrObj(this.smoke);
     };
 
@@ -97,17 +99,15 @@ function Tank(cordX, cordY, personalChar, consts, field)
         var calcY;
         for (var i = 0; i < SMOKE_COUNT; ++i)
         {
-            calcX = this.drawingX;
-            calcY = this.drawingY;
-            calcX += SQUARE_SIZE * 0.5;
-            calcY += SQUARE_SIZE * 0.5;
-            calcX += this.commonFunctionObj.randNumb(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.cos(this.commonFunctionObj.inRad(this.bodyAngle));
-            calcY += this.commonFunctionObj.randNumb(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.sin(this.commonFunctionObj.inRad(this.bodyAngle));
-            if ((this._getCurrentChar(this.bodyAngle) == UP_CHAR || (this._getCurrentChar(this.bodyAngle) == DOWN_CHAR)))
+            calcX = this.x;
+            calcY = this.y;
+            calcX += this.commonFunctionObj.randNumb(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.cos(this.commonFunctionObj.inRad(this.angle));
+            calcY += this.commonFunctionObj.randNumb(-SQUARE_SIZE / 8, SQUARE_SIZE / 8) * Math.sin(this.commonFunctionObj.inRad(this.angle));
+            if ((this._getCurrentChar(this.angle) == UP_CHAR || (this._getCurrentChar(this.angle) == DOWN_CHAR)))
             {
                 calcX += this.commonFunctionObj.randNumb(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
             }
-            if ((this._getCurrentChar(this.bodyAngle) == RIGHT_CHAR || (this._getCurrentChar(this.bodyAngle) == LEFT_CHAR)))
+            if ((this._getCurrentChar(this.angle) == RIGHT_CHAR || (this._getCurrentChar(this.angle) == LEFT_CHAR)))
             {
                 calcY += this.commonFunctionObj.randNumb(-SQUARE_SIZE / 12, SQUARE_SIZE / 12)
             }
@@ -126,13 +126,11 @@ function Tank(cordX, cordY, personalChar, consts, field)
         var finalAngle = this.commonFunctionObj.translateCharInRightDeg(this.finalBodeState);
         for (var i = 0; i < DUST_COUNT; ++i)
         {
-            calcX = this.drawingX;
-            calcY = this.drawingY;
-            if (!this._isAngelRight(this.bodyAngle))
+            calcX = this.x;
+            calcY = this.y;
+            if (!this.commonFunctionObj.isAngelRight(this.angle))
             {
-                calcAngle = this.bodyAngle;
-                calcX += SQUARE_SIZE * 0.5;
-                calcY += SQUARE_SIZE * 0.5;
+                calcAngle = this.angle;
                 if (calcAngle < finalAngle || (finalAngle == 0 && calcAngle >= 180))
                 {
                     calcAngle += (this.commonFunctionObj.randSign() >= 0) * 180;
@@ -151,25 +149,10 @@ function Tank(cordX, cordY, personalChar, consts, field)
                 calcX += Math.cos(calcAngle) * radius;
                 calcY += Math.sin(calcAngle) * radius;
             }
-            else if (this.motionBefore == DOWN_CHAR)
+            else
             {
-                calcX += SQUARE_SIZE / 4 + this.commonFunctionObj.randNumb(0, SQUARE_SIZE / 2);
-                calcY += SQUARE_SIZE + this.commonFunctionObj.randNumb(-SQUARE_SIZE, 0);
-            }
-            else if (this.motionBefore == UP_CHAR)
-            {
-                calcX += SQUARE_SIZE / 4 + this.commonFunctionObj.randNumb(0, SQUARE_SIZE / 2);
-                calcY += this.commonFunctionObj.randNumb(0, SQUARE_SIZE);
-            }
-            else if (this.motionBefore == RIGHT_CHAR)
-            {
-                calcY += SQUARE_SIZE / 4 + this.commonFunctionObj.randNumb(0, SQUARE_SIZE / 2);
-                calcX += SQUARE_SIZE + this.commonFunctionObj.randNumb(-SQUARE_SIZE, 0);
-            }
-            else if (this.motionBefore == LEFT_CHAR)
-            {
-                calcY += SQUARE_SIZE / 4 + this.commonFunctionObj.randNumb(0, SQUARE_SIZE / 2);
-                calcX += this.commonFunctionObj.randNumb(0, SQUARE_SIZE);
+                calcX += this.commonFunctionObj.randNumb(-this.width / 2, this.width / 2);
+                calcY += this.commonFunctionObj.randNumb(-this.height / 2 , this.height / 2);
             }
             this.dusts[this.dusts.length] = new DynamicParticle(this.dustImg, calcX, calcY,
                 0, 0, LAST_X_DUST_STATE, LAST_Y_DUST_STATE, SQUARE_SIZE / 40, SQUARE_SIZE / 40);
@@ -178,7 +161,7 @@ function Tank(cordX, cordY, personalChar, consts, field)
 
     this._moveTank = function()
     {
-        if (this._isCharSame(this._getCurrentChar(this.bodyAngle), this.motion))
+        if (this._isCharSame(this._getCurrentChar(this.angle), this.motion))
         {
             this.motionBefore = this.motion;
         }
@@ -188,61 +171,110 @@ function Tank(cordX, cordY, personalChar, consts, field)
         }
         var stepX = this.commonFunctionObj.getXDirect(this.motionBefore);
         var stepY = this.commonFunctionObj.getYDirect(this.motionBefore);
-        this.drawingX += stepX * this.speed;
-        this.drawingY += stepY * this.speed;
+        this.x += stepX * this.speed;
+        this.y += stepY * this.speed;
+        this._getIntersectionBonus(stepX, stepY);
+        this._getIntersectionBarricades(stepX, stepY);
+        this._getIntersectionPlayers(stepX, stepY);
+    };
 
+    this._getIntersectionBarricades = function(stepX, stepY)
+    {
         for (var i = 0; i < field.barricades.length; ++i)
         {
             if (this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
             {
-                this.drawingX -= stepX * this.speed;
-                this.drawingY -= stepY * this.speed;
-                this.motionBefore = NOTHING_CHAR;
-                this.motion = NOTHING_CHAR;
+                if (this.commonFunctionObj.isAngelRight(this.angle))
+                {
+                    this.x -= stepX * this.speed;
+                    this.y -= stepY * this.speed;
+                    this.motionBefore = NOTHING_CHAR;
+                    this.motion = NOTHING_CHAR;
+                }
+                else if (this.isCrosed)
+                {
+                    this.isCrosed = 0;
+                    this._returnStartAngle();
+
+                }
             }
         }
+    };
 
+    this._getIntersectionBonus = function(stepX, stepY)
+    {
         for (var i = 0; i < field.bonus.length; ++i)
         {
-            if (this._getIntersection(field.bonus[i].x, field.bonus[i].y, SQUARE_SIZE, SQUARE_SIZE))
+            if (this._getIntersection(field.bonus[i].x + SQUARE_SIZE / 2, field.bonus[i].y + SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE))
             {
-                this.drawingX -= stepX * this.speed;
-                this.drawingY -= stepY * this.speed;
+                this.x -= stepX * this.speed;
+                this.y -= stepY * this.speed;
                 this.motionBefore = NOTHING_CHAR;
                 var bonus = field.bonus[i];
                 bonus.type.upgrade(this);
                 bonus.used = 1;
             }
         }
+    };
 
+    this._getIntersectionPlayers = function(stepX, stepY)
+    {
         for (var i = 0; i < field.players.length; ++i)
         {
-            if (field.players[i].drawingX != this.drawingX || field.players[i].drawingY != this.drawingY)
+            if (field.players[i].x != this.x || field.players[i].y != this.y)
             {
-                if(this._getIntersection(field.players[i].drawingX, field.players[i].drawingY, field.players[i].width, field.players[i].height))
+                if(this._getIntersection(field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
                 {
-                    this.drawingX -= stepX * this.speed;
-                    this.drawingY -= stepY * this.speed;
-                    this.motionBefore = NOTHING_CHAR;
-                    this.motion = NOTHING_CHAR;
+                    if (this.commonFunctionObj.isAngelRight(this.angle))
+                    {
+                        this.x -= stepX * this.speed;
+                        this.y -= stepY * this.speed;
+                        this.motionBefore = NOTHING_CHAR;
+                        this.motion = NOTHING_CHAR;
+                    }
+                    else if (this.isCrosed)
+                    {
+                        this.isCrosed = 0;
+                        this._returnStartAngle();
+                    }
                 }
             }
         }
     };
 
+    this._getRotateIntersectionPlayers = function()
+    {
+        for (var i = 0; i < field.players.length; ++i)
+        {
+            if ((field.players[i].x != this.x || field.players[i].y != this.y) &&
+                this._getIntersection(field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
+            {
+                return 1;
+            }
+        }
+        return 0;
+    };
+
+    this._getRotateIntersectionBarricades = function()
+    {
+        for (var i = 0; i < field.barricades.length; ++i)
+        {
+            if (this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
+            {
+                return 1;
+            }
+        }
+        return 0;
+    };
+
     this._calcMoving = function()
     {
         this._patrol();
-        var player = field.player;
-        if (this._isPlayerFound(player.x, player.y, this.x, this.y))
-        {
-            this._fire();
-        }
     };
 
     this._patrol = function()
     {
-        if (this.motion == NOTHING_CHAR && this._isAngelRight(this.bodyAngle))
+        if (this.motion == NOTHING_CHAR && this.commonFunctionObj.isAngelRight(this.angle))
         {
             var direction = this.commonFunctionObj.randNumb(0, 4);
             if (direction == 0)
@@ -272,88 +304,12 @@ function Tank(cordX, cordY, personalChar, consts, field)
         }
     };
 
-    this._fire = function()
-    {
-        if (this.x == field.player.x)
-        {
-            this.fire = 1;
-            if (this.y > field.player.y)
-            {
-                this.towerState = DOWN_CHAR;
-            }
-            else
-            {
-                this.towerState = UP_CHAR;
-            }
-        }
-        else
-        {
-            this.fire = 1;
-            if (this.x > field.player.x)
-            {
-                this.towerState = LEFT_CHAR;
-            }
-            else
-            {
-                this.towerState = RIGHT_CHAR;
-            }
-        }
-    };
-
-    this._isPlayerFound = function(plaX, plaY, enX, enY)
-    {
-        var y;
-        var sign;
-        if (plaX == enX)
-        {
-            sign = plaY > enY ? 1 : -1;
-            for (y = enY; (y > plaY && sign < 0) || (y < plaY && sign > 0); y = y + sign)
-            {
-                if (field.gameField[y][enX] == BARRICADE_CHAR ||
-                    field.gameField[y][enX] == TRAVELED_BARRICADE_CHAR)
-                {
-                    return 0;
-                }
-            }
-            return 1;
-        }
-        else
-        {
-            var squareHalf = Math.floor(SQUARE_SIZE / 2);
-            sign = plaX > enX ? Math.floor(SQUARE_SIZE / 10) : -Math.floor(SQUARE_SIZE / 10);
-            var x1 = enX * SQUARE_SIZE + squareHalf;
-            var y1 = enY * SQUARE_SIZE + squareHalf;
-            var x2 = plaX * SQUARE_SIZE + squareHalf;
-            var y2 = plaY * SQUARE_SIZE + squareHalf;
-            for (var x = x1; (x > x2 && sign < 0) || (x < x2 && sign > 0); x += sign)
-            {
-                y = Math.floor((((x - x1) * (y2 - y1) / (x2 - x1)) + y1) / SQUARE_SIZE);
-                if (field.gameField[y][Math.floor(x / SQUARE_SIZE)] == BARRICADE_CHAR ||
-                    field.gameField[y][Math.floor(x / SQUARE_SIZE)] == TRAVELED_BARRICADE_CHAR)
-                {
-                    return 0;
-                }
-            }
-            return 1;
-
-        }
-    };
-
     this._isTowerPosRight = function()
     {
         return this.towerAngle == 0 && this.towerState == RIGHT_CHAR||
                this.towerAngle == 90 && this.towerState == UP_CHAR||
                this.towerAngle == 180 && this.towerState == LEFT_CHAR||
                this.towerAngle == 270 && this.towerState == DOWN_CHAR
-    };
-
-    this._isAngelRight = function(angle)
-    {
-        return angle == 0 ||
-            angle == 90 ||
-            angle == 180||
-            angle == 270 ||
-            angle == 360
     };
 
     this._isCharSame = function(char1, char2)
@@ -406,9 +362,23 @@ function Tank(cordX, cordY, personalChar, consts, field)
     this._calcBodyAngle = function()
     {
         var finalAngle = this.commonFunctionObj.translateCharInRightDeg(this.finalBodeState);
-        var finalAngle = finalAngle == 0 && this.bodyAngle > 180 ? 360 : finalAngle;
-        var stAngle = this.bodyAngle == 360 && finalAngle <= 180 ? 0 : this.bodyAngle;
+        finalAngle = finalAngle == 0 && this.angle > 180 ? 360 : finalAngle;
+        var stAngle = this.angle == 360 && finalAngle <= 180 ? 0 : this.angle;
         stAngle = stAngle == 0 && finalAngle > 180 ? 360 : stAngle;
+        if (this.commonFunctionObj.isAngelRight(stAngle) && stAngle != finalAngle)
+        {
+            if (stAngle > finalAngle)
+            {
+                this.angle -= 90;
+            }
+            else
+            {
+                this.angle += 90;
+            }
+            this._resize();
+            this.isCrosed = this._getRotateIntersectionBarricades() || this._getRotateIntersectionPlayers();
+            console.log(this.isCrosed);
+        }
         if (stAngle != finalAngle &&
             Math.abs(stAngle - finalAngle) != 180)
         {
@@ -424,11 +394,24 @@ function Tank(cordX, cordY, personalChar, consts, field)
         return stAngle;
     };
 
-    this._swapWidthHeight = function()
+    this._resize = function()
     {
-        var temp = this.width;
-        this.width = this.height;
-        this.height = temp;
+        var angleW;
+        var angleH;
+        if (this.angle <= 180 && this.angle >= 90 || this.angle <= 360 && this.angle >= 270)
+        {
+            angleW = this.commonFunctionObj.inRad(this.angle) - Math.atan(this.startHeight / this.startWidth);
+            angleH = this.commonFunctionObj.inRad(this.angle) + Math.atan(this.startHeight / this.startWidth);
+        }
+        else
+        {
+            angleW = this.commonFunctionObj.inRad(this.angle) + Math.atan(this.startHeight / this.startWidth);
+            angleH = this.commonFunctionObj.inRad(this.angle) - Math.atan(this.startHeight / this.startWidth);
+        }
+        var w = Math.abs(Math.cos(angleW)) * Math.sqrt(this.startWidth * this.startWidth + this.startHeight * this.startHeight);
+        var h = Math.abs(Math.sin(angleH)) * Math.sqrt(this.startWidth * this.startWidth + this.startHeight * this.startHeight);
+        this.width = w;
+        this.height = h;
     };
 
     this._calcTowerAngel = function()
@@ -441,11 +424,11 @@ function Tank(cordX, cordY, personalChar, consts, field)
             stAngle = this.towerAngle == 0 && finalAngle > 180 ? 360 : this.towerAngle;
             if (stAngle < calcFinalAngle)
             {
-                return stAngle + this.rotateStep;
+                return stAngle + this.rotateTowerSpeed;
             }
             else
             {
-                return stAngle - this.rotateStep;
+                return stAngle - this.rotateTowerSpeed;
             }
         }
         else
@@ -454,9 +437,25 @@ function Tank(cordX, cordY, personalChar, consts, field)
         }
     };
 
+    this._returnStartAngle = function()
+    {
+        var finalAngle = this.commonFunctionObj.translateCharInRightDeg(this.finalBodeState);
+        finalAngle = finalAngle == 0 && this.angle > 180 ? 360 : finalAngle;
+        if (this.angle > finalAngle)
+        {
+            finalAngle += 90;
+        }
+        else
+        {
+            finalAngle -= 90;
+        }
+        finalAngle = finalAngle >= 360 ? finalAngle - 360 : finalAngle;
+        this.finalBodeState = this.commonFunctionObj.translateRightDegInChar(finalAngle);
+    };
+
     this._getIntersection = function(x, y, w, h)
     {
-        return (((this.drawingX + this.width > x) && (x + w > this.drawingX)&&
-                 (this.drawingY + this.height > y) && (y + h > this.drawingY)));
+        return (((this.x + this.width / 2 >= x - w / 2) && (x + w / 2 >= this.x - this.width / 2)&&
+                 (this.y + this.height / 2 >= y - h / 2) && (y + h / 2 >= this.y - this.height / 2)));
     };
-};
+}

@@ -5,14 +5,14 @@ function Barricade(x, y, img, character)
 {
     this.commonFunctionObj = new CommonFunctionObj();
 
-    this.x = x;
-    this.y = y;
-    this.angle = this.commonFunctionObj.randNumb(0, 366);
+    this.x = x + 0.5 * SQUARE_SIZE;
+    this.y = y + 0.5 * SQUARE_SIZE;
+    this.angle = 0;//this.commonFunctionObj.randNumb(0, 359);
     this.character = character;
 
     this.draw = function()
     {
-        this.commonFunctionObj.drawRotatedObj(this.angle, img, this.x + 0.5 * SQUARE_SIZE,
-            this.y + 0.5 * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, 0);
+        this.commonFunctionObj.drawRotatedObj(this.angle, img, this.x,
+            this.y, SQUARE_SIZE, SQUARE_SIZE, 0);
     };
 }

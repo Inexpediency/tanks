@@ -7,7 +7,7 @@ function HealthBonus()
     this.img.src =  HEALTH_BONUS_ADDRESS;
     this.maxStageX = 3;
     this.maxStageY = 3;
-    this.dropeChance = 100;
+    this.dropeChance = 80;
     this.width = 32;
     this.height = 32;
 

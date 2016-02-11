@@ -21,8 +21,8 @@ function Bang(x, y)
         {
             var finalX = commonFunctionObj.randNumb(-this.fireRadius, this.fireRadius);
             var finalY = commonFunctionObj.randSign() * Math.sqrt(this.fireRadius * this.fireRadius - finalX * finalX);
-            var startX = this.x + (SQUARE_SIZE - SQUARE_SIZE % 2) / 2;
-            var startY = this.y + (SQUARE_SIZE - SQUARE_SIZE % 2) / 2;
+            var startX = this.x;
+            var startY = this.y;
             this.fireParticles[this.fireParticles.length] = new DynamicParticle(this.sparkImg, startX, startY,
                 finalX / SPARK_SPEED, finalY / SPARK_SPEED,
                 LAST_X_SPARK_STATE, LAST_Y_SPARK_STATE,

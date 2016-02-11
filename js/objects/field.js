@@ -31,7 +31,6 @@ function Field(currentLevel)
     this.draw = function()
     {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //this._drawGrid();
         commonFunctionObj.drawArrObj(this.balls);
         commonFunctionObj.drawArrObj(this.bonus);
         commonFunctionObj.drawArrObj(this.players);
@@ -96,23 +95,6 @@ function Field(currentLevel)
                 healthBlock.append(health);
             }
         }
-    };
-
-    this._drawGrid = function()
-    {
-        ctx.strokeStyle = GRID_COLOR;
-        ctx.beginPath();
-        for (var i = 0; i < this.gameField[0].length; ++i)
-        {
-            ctx.moveTo(i * SQUARE_SIZE, 0);
-            ctx.lineTo(i * SQUARE_SIZE, canvas.height);
-        }
-        for (var i = 0; i < this.gameField.length; ++i)
-        {
-            ctx.moveTo(0, i * SQUARE_SIZE);
-            ctx.lineTo(canvas.width, i * SQUARE_SIZE);
-        }
-        ctx.stroke();
     };
 
     this._initFieldElements();

@@ -3,8 +3,8 @@
  */
 function CommonFunctionObj()
 {
-    var canvas = document.getElementById("gameField");
-    var ctx = canvas.getContext("2d");
+    this.canvas = document.getElementById("gameField");
+    this.ctx = this.canvas.getContext("2d");
 
     this.copyArray = function(arr)
     {
@@ -111,6 +111,27 @@ function CommonFunctionObj()
         return NaN;
     };
 
+    this.translateRightDegInChar = function(char)
+    {
+        if (char == 90)
+        {
+            return UP_CHAR;
+        }
+        else if (char == 180)
+        {
+            return LEFT_CHAR;
+        }
+        else if (char == 270)
+        {
+            return DOWN_CHAR;
+        }
+        else if (char == 0)
+        {
+            return RIGHT_CHAR;
+        }
+        return NaN;
+    };
+
     this.inRad = function(angle)
     {
         return -angle / 180 * Math.PI;
@@ -137,18 +158,27 @@ function CommonFunctionObj()
 
     this.drawRotatedObj = function(angle, img, x, y, w, h, isTower)
     {
-        ctx.translate(x, y);
-        ctx.rotate(this.inRad(angle));
+        this.ctx.translate(x, y);
+        this.ctx.rotate(this.inRad(angle));
         if (isTower)
         {
-            ctx.drawImage(img, -w / 5, -h / 2, w, h);
+            this.ctx.drawImage(img, -w / 5, -h / 2, w, h);
         }
         else
         {
-            ctx.drawImage(img, -w / 2, -h / 2, w, h);
+            this.ctx.drawImage(img, -w / 2, -h / 2, w, h);
         }
-        ctx.rotate(-this.inRad(angle));
-        ctx.translate(-x, -y);
+        this.ctx.rotate(-this.inRad(angle));
+        this.ctx.translate(-x, -y);
+    };
+
+    this.isAngelRight = function(angle)
+    {
+        return angle == 0 ||
+            angle == 90 ||
+            angle == 180||
+            angle == 270 ||
+            angle == 360
     };
 
     this.translateDividers = function(transleted, resultSystem)
@@ -174,4 +204,15 @@ function CommonFunctionObj()
         }
         return resultSystem;
     };
+
+    this.nextDivider = function(numb, syst)
+    {
+        for (var i = 2; i <= syst; i++)
+        {
+            if (syst % i == 0 && numb < i)
+            {
+                return i;
+            }
+        }
+    }
 }
