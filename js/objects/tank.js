@@ -4,6 +4,7 @@
 function Tank(x, y, personalChar, consts, field)
 {
     this.commonFunctionObj = new CommonFunctionObj();
+    this.collisions = new Collisions(field);
 
     this.health = consts.health;
     this.speed = consts.speedPatrol;
@@ -173,98 +174,9 @@ function Tank(x, y, personalChar, consts, field)
         var stepY = this.commonFunctionObj.getYDirect(this.motionBefore);
         this.x += stepX * this.speed;
         this.y += stepY * this.speed;
-        this._getIntersectionBonus(stepX, stepY);
-        this._getIntersectionBarricades(stepX, stepY);
-        this._getIntersectionPlayers(stepX, stepY);
-    };
-
-    this._getIntersectionBarricades = function(stepX, stepY)
-    {
-        for (var i = 0; i < field.barricades.length; ++i)
-        {
-            if (this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
-            {
-                if (this.commonFunctionObj.isAngelRight(this.angle))
-                {
-                    this.x -= stepX * this.speed;
-                    this.y -= stepY * this.speed;
-                    this.motionBefore = NOTHING_CHAR;
-                    this.motion = NOTHING_CHAR;
-                }
-                else if (this.isCrosed)
-                {
-                    this.isCrosed = 0;
-                    this._returnStartAngle();
-
-                }
-            }
-        }
-    };
-
-    this._getIntersectionBonus = function(stepX, stepY)
-    {
-        for (var i = 0; i < field.bonus.length; ++i)
-        {
-            if (this._getIntersection(field.bonus[i].x + SQUARE_SIZE / 2, field.bonus[i].y + SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE))
-            {
-                this.x -= stepX * this.speed;
-                this.y -= stepY * this.speed;
-                this.motionBefore = NOTHING_CHAR;
-                var bonus = field.bonus[i];
-                bonus.type.upgrade(this);
-                bonus.used = 1;
-            }
-        }
-    };
-
-    this._getIntersectionPlayers = function(stepX, stepY)
-    {
-        for (var i = 0; i < field.players.length; ++i)
-        {
-            if (field.players[i].x != this.x || field.players[i].y != this.y)
-            {
-                if(this._getIntersection(field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
-                {
-                    if (this.commonFunctionObj.isAngelRight(this.angle))
-                    {
-                        this.x -= stepX * this.speed;
-                        this.y -= stepY * this.speed;
-                        this.motionBefore = NOTHING_CHAR;
-                        this.motion = NOTHING_CHAR;
-                    }
-                    else if (this.isCrosed)
-                    {
-                        this.isCrosed = 0;
-                        this._returnStartAngle();
-                    }
-                }
-            }
-        }
-    };
-
-    this._getRotateIntersectionPlayers = function()
-    {
-        for (var i = 0; i < field.players.length; ++i)
-        {
-            if ((field.players[i].x != this.x || field.players[i].y != this.y) &&
-                this._getIntersection(field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
-            {
-                return 1;
-            }
-        }
-        return 0;
-    };
-
-    this._getRotateIntersectionBarricades = function()
-    {
-        for (var i = 0; i < field.barricades.length; ++i)
-        {
-            if (this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
-            {
-                return 1;
-            }
-        }
-        return 0;
+        this.collisions.getIntersectionBonus(this, stepX, stepY);
+        this.collisions.getIntersectionBarricades(this, stepX, stepY);
+        this.collisions.getIntersectionPlayers(this, stepX, stepY);
     };
 
     this._calcMoving = function()
@@ -376,7 +288,7 @@ function Tank(x, y, personalChar, consts, field)
                 this.angle += 90;
             }
             this._resize();
-            this.isCrosed = this._getRotateIntersectionBarricades() || this._getRotateIntersectionPlayers();
+            this.isCrosed = this.collisions.getRotateIntersectionBarricades(this) || this.collisions.getRotateIntersectionPlayers(this);
             console.log(this.isCrosed);
         }
         if (stAngle != finalAngle &&
@@ -451,11 +363,5 @@ function Tank(x, y, personalChar, consts, field)
         }
         finalAngle = finalAngle >= 360 ? finalAngle - 360 : finalAngle;
         this.finalBodeState = this.commonFunctionObj.translateRightDegInChar(finalAngle);
-    };
-
-    this._getIntersection = function(x, y, w, h)
-    {
-        return (((this.x + this.width / 2 >= x - w / 2) && (x + w / 2 >= this.x - this.width / 2)&&
-                 (this.y + this.height / 2 >= y - h / 2) && (y + h / 2 >= this.y - this.height / 2)));
     };
 }

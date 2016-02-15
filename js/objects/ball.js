@@ -5,6 +5,8 @@
 function Ball(x, y, w, h, route, field)
 {
     var commonFunctionObj = new CommonFunctionObj();
+    var collisions = new Collisions(field);
+    console.log(collisions);
 
     this.x = x;
     this.y = y;
@@ -22,7 +24,7 @@ function Ball(x, y, w, h, route, field)
         this.y += stepY * BALL_SPEED;
         for (var i = 0; i < field.players.length; ++i)
         {
-            if(this._getIntersection(field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
+            if(collisions.getIntersection(this, field.players[i].x, field.players[i].y, field.players[i].width, field.players[i].height))
             {
                 field.bangs[field.bangs.length] = new Bang(this.x, this.y);
                 this._calcHealth(field.players[i]);
@@ -32,7 +34,7 @@ function Ball(x, y, w, h, route, field)
 
         for (var i = 0; i < field.barricades.length; ++i)
         {
-            if(this._getIntersection(field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
+            if(collisions.getIntersection(this, field.barricades[i].x, field.barricades[i].y, SQUARE_SIZE, SQUARE_SIZE))
             {
                 if (field.barricades[i].character == TRAVELED_BARRICADE_CHAR)
                 {
@@ -91,11 +93,5 @@ function Ball(x, y, w, h, route, field)
         {
             field.bonus[field.bonus.length] = new Bonus(x, y, bonus, field);
         }
-    }
-
-    this._getIntersection = function(x, y, w, h)
-    {
-        return (((this.x + this.width / 2 > x - w / 2) && (x + w / 2 > this.x - this.width / 2) &&
-        (this.y + this.height / 2 > y - h / 2) && (y + h / 2 > this.y - this.height / 2)));
     };
 }
