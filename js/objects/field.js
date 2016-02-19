@@ -4,6 +4,7 @@
 function Field(currentLevel)
 {
     var commonFunctionObj = new CommonFunctionObj();
+    this.eventController = new EventController();
     var canvas = document.getElementById("gameField");
     var ctx = canvas.getContext("2d");
 
@@ -96,6 +97,40 @@ function Field(currentLevel)
             }
         }
     };
+
+    this._createBonus = function(x, y)
+    {
+        var randNumb = commonFunctionObj.randNumb(1, 4);
+        var bonus;
+        if (randNumb == 1)
+        {
+            bonus = new HealthBonus();
+        }
+        else if (randNumb == 2)
+        {
+            bonus = new SpeedBonus();
+        }
+        else if (randNumb == 3)
+        {
+            bonus = new TowerSpeedBonus();
+        }
+        else
+        {
+            bonus = new FireSpeedBonus();
+        }
+        if (this.bonus.length < MAX_BONUS_COUNT &&
+            bonus.dropeChance > commonFunctionObj.randNumb(1, 100))
+        {
+            this.bonus[this.bonus.length] = new Bonus(x, y, SQUARE_SIZE, SQUARE_SIZE, bonus, this);
+        }
+    };
+
+    var curItm = this;
+    this.eventController.listen("tankDestroyed", function(tank)
+    {
+        curItm._createBonus(tank.x, tank.y);
+        curItm.players.splice(commonFunctionObj.findElement(tank.x, tank.y, curItm.players), 1);
+    });
 
     this._initFieldElements();
     this.player = this.players[commonFunctionObj.findTank(this.players, PLAYER_CHAR)];

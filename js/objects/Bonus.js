@@ -1,13 +1,15 @@
 /**
  * Created by Vasiliy on 2/9/2016.
  */
-function Bonus(x, y, type)
+function Bonus(x, y, width, height, type)
 {
     var canvas = document.getElementById("gameField");
     var ctx = canvas.getContext("2d");
 
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
     this.time = BONUS_TIME;
     this.stageX = 0;
     this.stageY = 0;
@@ -41,7 +43,7 @@ function Bonus(x, y, type)
             this.type.width * this.stageX,
             this.type.height * this.stageY,
             this.type.width, this.type.height,
-            this.x, this.y,
-            SQUARE_SIZE, SQUARE_SIZE);
+            this.x - this.width / 2, this.y - this.height / 2,
+            this.width, this.height);
     };
 };

@@ -4,7 +4,7 @@
 function Tank(x, y, personalChar, consts, field)
 {
     this.commonFunctionObj = new CommonFunctionObj();
-    this.collisions = new Collisions(field);
+    this.collisions = new Collisions();
 
     this.health = consts.health;
     this.speed = consts.speedPatrol;
@@ -43,6 +43,15 @@ function Tank(x, y, personalChar, consts, field)
         currItm.x = x * SQUARE_SIZE + currItm.width / 2;
         currItm.y = y * SQUARE_SIZE + currItm.height / 2;
     });
+    field.eventController.listen("tankDamaged", function(ball)
+    {
+        if (currItm.collisions.getIntersection(currItm, ball))
+        {
+            console.log(currItm);
+            currItm._calcHealth();
+        }
+    });
+
     this.motion = NOTHING_CHAR;
     this.motionBefore = NOTHING_CHAR;
     this.towerState = UP_CHAR;
@@ -72,9 +81,7 @@ function Tank(x, y, personalChar, consts, field)
         }
         if (this.fire && this.lastFireTime > consts.reloadingTime && this._isTowerPosRight())
         {
-            var x = this.x;
-            var y = this.y;
-            field.balls[field.balls.length] = new Ball(x, y, SQUARE_SIZE / 3, SQUARE_SIZE / 3, this.towerState, field);
+            field.balls[field.balls.length] = new Ball(this.x, this.y, SQUARE_SIZE / 3, SQUARE_SIZE / 3, this.towerState, field);
             this.lastFireTime = 0;
             this.fire = false;
         }
@@ -174,9 +181,32 @@ function Tank(x, y, personalChar, consts, field)
         var stepY = this.commonFunctionObj.getYDirect(this.motionBefore);
         this.x += stepX * this.speed;
         this.y += stepY * this.speed;
-        this.collisions.getIntersectionBonus(this, stepX, stepY);
-        this.collisions.getIntersectionBarricades(this, stepX, stepY);
-        this.collisions.getIntersectionPlayers(this, stepX, stepY);
+        var currBonus = this.collisions.getIntersectedObj(this, field.bonus);
+        if (currBonus != null)
+        {
+            this.x -= stepX * this.speed;
+            this.y -= stepY * this.speed;
+            this.motionBefore = NOTHING_CHAR;
+            currBonus.type.upgrade(this);
+            currBonus.used = 1;
+        }
+        if (this.collisions.isIntersectedObj(this, field.barricades) ||
+            this.collisions.isIntersectedObj(this, field.players))
+        {
+            if (this.commonFunctionObj.isAngelRight(this.angle))
+            {
+                this.x -= stepX * this.speed;
+                this.y -= stepY * this.speed;
+                this.motionBefore = NOTHING_CHAR;
+                this.motion = NOTHING_CHAR;
+            }
+            else if (this.isCrosed)
+            {
+                this.isCrosed = 0;
+                this._returnStartAngle();
+
+            }
+        }
     };
 
     this._calcMoving = function()
@@ -288,8 +318,7 @@ function Tank(x, y, personalChar, consts, field)
                 this.angle += 90;
             }
             this._resize();
-            this.isCrosed = this.collisions.getRotateIntersectionBarricades(this) || this.collisions.getRotateIntersectionPlayers(this);
-            console.log(this.isCrosed);
+            this.isCrosed = this.collisions.isIntersectedObj(this, field.barricades) || this.collisions.isIntersectedObj(this, field.players);
         }
         if (stAngle != finalAngle &&
             Math.abs(stAngle - finalAngle) != 180)
@@ -363,5 +392,17 @@ function Tank(x, y, personalChar, consts, field)
         }
         finalAngle = finalAngle >= 360 ? finalAngle - 360 : finalAngle;
         this.finalBodeState = this.commonFunctionObj.translateRightDegInChar(finalAngle);
+    };
+
+    this._calcHealth = function()
+    {
+        if (this != null)
+        {
+            this.health--;
+            if (this.health <= 0)
+            {
+                field.eventController.dispatch('tankDestroyed', this);
+            }
+        }
     };
 }
