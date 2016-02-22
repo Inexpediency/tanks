@@ -23,6 +23,7 @@ function Ball(x, y, w, h, route, field)
         if (damagedPlayer != null)
         {
             field.bangs[field.bangs.length] = new Bang(this.x, this.y);
+            console.log(1);
             field.eventController.dispatch("tankDamaged", this);
             return 1;
         }
@@ -34,6 +35,13 @@ function Ball(x, y, w, h, route, field)
                 field.barricades.splice(commonFunctionObj.findElement(barricade.x, barricade.y, field.barricades), 1);
             }
             field.bangs[field.bangs.length] = new Bang(this.x, this.y);
+            return 1;
+        }
+        var damagedBalls = collisions.getIntersectedObj(this, field.balls);
+        if (damagedBalls != null)
+        {
+            field.bangs[field.bangs.length] = new Bang((this.x + damagedBalls.x) / 2, (this.y + damagedBalls.y) / 2);
+            field.balls.splice(commonFunctionObj.findElement(damagedBalls.x, damagedBalls.y, field.balls));
             return 1;
         }
         return 0;

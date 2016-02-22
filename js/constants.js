@@ -19,6 +19,7 @@ var DOWN_CHAR = "d";
 var RIGHT_CHAR = "r";
 var UP_CHAR = "u";
 
+var RANDOM_LEVEL_CHAR = "r";
 var PLAYER_CHAR = "y";
 var ENEMY_CHAR = "e";
 var SPRINT_ENEMY_CHAR = "s";
@@ -27,11 +28,13 @@ var BARRICADE_CHAR = "b";
 var NOTHING_CHAR = "0";
 var TRAVELED_BARRICADE_CHAR = "r";
 
-var ACCELERATION = 2;
-
-var GRID_COLOR = "#000000";
-
 var SHADOW_LEVEL = 43;
+
+var MAX_FIELD_LENGTH = 16;
+var MIN_FIELD_LENGTH = 10;
+var MAX_ENEMY_COUNT = 7;
+var MIN_ENEMY_COUNT = 3;
+var BARRICADE_COUNT = 40;
 
 var HEALTH_BONUS_ADDRESS = "./img/bonus/health.png";
 var SPEED_BONUS_ADDRESS = "./img/bonus/speed.png";
@@ -64,14 +67,13 @@ var LAST_X_SMOKE_STATE = 7;
 var LAST_Y_SMOKE_STATE = 4;
 var LAST_X_DUST_STATE = 2;
 var LAST_Y_DUST_STATE = 2;
-var BALL_SPEED = SQUARE_SIZE / 1.2;
+var BALL_SPEED = SQUARE_SIZE / 1.22;
 var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
 var DUST_COUNT = 60;
 var BONUS_TIME = 1000000;
 var MAX_BONUS_COUNT = 10;
 
-//speed делитель SQUARE_SIZE / 2
 //rotateTowerSpeed делитель 90
 var PLAYER_CONSTS = {
     towerImgAddres: "img/tower_p.png",

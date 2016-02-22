@@ -4,8 +4,16 @@
 function Game(level)
 {
     var commonFunctionObj = new CommonFunctionObj();
+    var mapCreator = new MapCreator();
 
-    this.field = new Field(level);
+    if (level == RANDOM_LEVEL_CHAR)
+    {
+        this.field = new Field(mapCreator.createField());
+    }
+    else
+    {
+        this.field = new Field(commonFunctionObj.copyArray(g_levels[level]));
+    }
     this.paused = 0;
     this.isShadowVisible = 1;
     this.shadowStep = -1;
@@ -57,7 +65,7 @@ function Game(level)
     this._showResultScreen = function()
     {
         var isWin = +(this.field.player.health > 0);
-        window.location = RESULT_SCREEN_ADDRESS + "?isWin=" + isWin + "&currentLevel=" + this.field.currentLevel + "&";
+        window.location = RESULT_SCREEN_ADDRESS + "?isWin=" + isWin + "&currentLevel=" + level + "&";
     };
 
     this.initHealthBlock = function()
@@ -191,7 +199,7 @@ function Game(level)
                 player.motion = NOTHING_CHAR;
             }
         });
-    }
+    };
 
     game.initHealthBlock();
     game.initKeys(game.field.player);

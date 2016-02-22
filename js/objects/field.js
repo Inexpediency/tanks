@@ -1,15 +1,15 @@
 /**
  * Created by Vasiliy on 1/6/2016.
  */
-function Field(currentLevel)
+function Field(gameField)
 {
     var commonFunctionObj = new CommonFunctionObj();
     this.eventController = new EventController();
+    var collisions = new Collisions();
     var canvas = document.getElementById("gameField");
     var ctx = canvas.getContext("2d");
 
-    this.currentLevel = currentLevel;
-    this.gameField = commonFunctionObj.copyArray(g_levels[currentLevel]);//потом надо сделать через сервер и AJAX
+    this.gameField = gameField;//потом надо сделать через сервер и AJAX
     this.players = [];
     this.balls = [];
     this.bangs = [];
@@ -125,11 +125,23 @@ function Field(currentLevel)
         }
     };
 
-    var curItm = this;
+    var thisPtr = this;
     this.eventController.listen("tankDestroyed", function(tank)
     {
-        curItm._createBonus(tank.x, tank.y);
-        curItm.players.splice(commonFunctionObj.findElement(tank.x, tank.y, curItm.players), 1);
+        thisPtr._createBonus(tank.x, tank.y);
+        thisPtr.players.splice(commonFunctionObj.findElement(tank.x, tank.y, thisPtr.players), 1);
+    });
+
+
+    this.eventController.listen("tankDamaged", function(ball)
+    {
+        for (var i = 0; i < thisPtr.players.length; ++i)
+        {
+            if (collisions.getIntersection(thisPtr.players[i], ball))
+            {
+                thisPtr.players[i]._calcHealth();
+            }
+        }
     });
 
     this._initFieldElements();

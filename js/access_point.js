@@ -3,7 +3,7 @@
 $(window).ready(function()
 {
     var currentLevel = parseQueryString().level;
-    if (isNaN(currentLevel) || currentLevel >= g_levels.length || currentLevel < 0)
+    if ((isNaN(currentLevel) || currentLevel >= g_levels.length || currentLevel < 0) && currentLevel != "r")
     {
         window.location = START_SCREEN_ADDRESS;
     }

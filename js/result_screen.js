@@ -6,13 +6,27 @@ $(window).ready(function()
     var queryString = parseQueryString();
     console.log(queryString);
     var button = new Button;
-    if (parseInt(queryString["isWin"]))
+    if (queryString["currentLevel"] != "r")
     {
-        button.init("Победа!", "img/next_button", parseInt(queryString["currentLevel"]) + 1);
+        if (parseInt(queryString["isWin"]))
+        {
+            button.init("Победа!", "img/next_button", parseInt(queryString["currentLevel"]) + 1);
+        }
+        else
+        {
+            button.init("Поражение...", "img/restart_button", queryString["currentLevel"]);
+        }
     }
     else
     {
-        button.init("Поражение...", "img/restart_button", queryString["currentLevel"]);
+        if (parseInt(queryString["isWin"]))
+        {
+            button.init("Победа!", "img/next_button", parseInt(queryString["currentLevel"]));
+        }
+        else
+        {
+            button.init("Поражение...", "img/restart_button", queryString["currentLevel"]);
+        }
     }
     var shadowMaker = new ShadowMaker();
 });

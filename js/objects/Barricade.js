@@ -9,7 +9,7 @@ function Barricade(x, y, img, character)
     this.y = y + 0.5 * SQUARE_SIZE;
     this.width = SQUARE_SIZE;
     this.height = SQUARE_SIZE;
-    this.angle = 0;//this.commonFunctionObj.randNumb(0, 359);
+    this.angle = 0;
     this.character = character;
 
     this.draw = function()

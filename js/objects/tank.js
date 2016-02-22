@@ -32,24 +32,16 @@ function Tank(x, y, personalChar, consts, field)
     this.dustImg = new Image();
     this.dustImg.src = DUST_ADDRESS;
 
-    var currItm = this;
+    var thisPtr = this;
 
-    $(currItm.body).load(function()
+    $(thisPtr.body).load(function()
     {
-        currItm.startWidth = SQUARE_SIZE;
-        currItm.startHeight = currItm.startWidth / currItm.body.width  * currItm.body.height;
-        currItm.width = currItm.startWidth;
-        currItm.height = currItm.startHeight;
-        currItm.x = x * SQUARE_SIZE + currItm.width / 2;
-        currItm.y = y * SQUARE_SIZE + currItm.height / 2;
-    });
-    field.eventController.listen("tankDamaged", function(ball)
-    {
-        if (currItm.collisions.getIntersection(currItm, ball))
-        {
-            console.log(currItm);
-            currItm._calcHealth();
-        }
+        thisPtr.startWidth = SQUARE_SIZE;
+        thisPtr.startHeight = thisPtr.startWidth / thisPtr.body.width  * thisPtr.body.height;
+        thisPtr.width = thisPtr.startWidth;
+        thisPtr.height = thisPtr.startHeight;
+        thisPtr.x = x * SQUARE_SIZE + SQUARE_SIZE / 2;
+        thisPtr.y = y * SQUARE_SIZE + SQUARE_SIZE / 2;
     });
 
     this.motion = NOTHING_CHAR;
