@@ -21,7 +21,7 @@ $(window).ready(function()
     {
         if (parseInt(queryString["isWin"]))
         {
-            button.init("Победа!", "img/next_button", parseInt(queryString["currentLevel"]));
+            button.init("Победа!", "img/next_button", queryString["currentLevel"]);
         }
         else
         {
@@ -41,24 +41,24 @@ function Button()
         this.message.html(message);
         this.element.attr("href", (this.element.attr("href") + "level=" + level + "&"));
         this.img.src = address + ".png";
-        var currentContext = this;
+        var thisPtr = this;
         this.img.onload = function()
         {
-            currentContext.element.css("width", currentContext.img.width + "px");
-            currentContext.element.css("height", currentContext.img.height + "px");
-            currentContext.element.css("background", "url(\"" + address + ".png\") no-repeat");
+            thisPtr.element.css("width", thisPtr.img.width + "px");
+            thisPtr.element.css("height", thisPtr.img.height + "px");
+            thisPtr.element.css("background", "url(\"" + address + ".png\") no-repeat");
         };
         this.element.mouseover(function()
         {
-            currentContext.element.css("background", "url(\"" + address + "_hover.png\") no-repeat");
+            thisPtr.element.css("background", "url(\"" + address + "_hover.png\") no-repeat");
         });
         this.element.mouseout(function()
         {
-            currentContext.element.css("background", "url(\"" + address + ".png\") no-repeat");
+            thisPtr.element.css("background", "url(\"" + address + ".png\") no-repeat");
         });
         this.element.mousedown(function()
         {
-            currentContext.element.css("background", "url(\"" + address + "_click.png\") no-repeat");
+            thisPtr.element.css("background", "url(\"" + address + "_click.png\") no-repeat");
         });
     }
 }

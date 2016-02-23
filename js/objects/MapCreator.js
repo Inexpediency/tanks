@@ -12,7 +12,7 @@ function MapCreator()
         var FIELD_W = commonFunctionObj.randNumb(MIN_FIELD_LENGTH, MAX_FIELD_LENGTH);
         var playerCord = this._initPlayerPlace(field, FIELD_W, FIELD_H);
         var PROBABILITY_ENEMY_COUNT = commonFunctionObj.randNumb(MIN_ENEMY_COUNT, MAX_ENEMY_COUNT);
-        var enemyDropProbability = PROBABILITY_ENEMY_COUNT / ((FIELD_W - 1) * (FIELD_H - 1));
+        var enemyDropProbability = PROBABILITY_ENEMY_COUNT / ((MAX_FIELD_LENGTH - 1) * (MAX_FIELD_LENGTH - 1));
         var barricadeDropProbability = BARRICADE_COUNT / ((FIELD_W - 1) * (FIELD_H - 1));
         var enemyCount = 0;
         for (var y = 0; y < FIELD_H; ++y)
@@ -44,7 +44,7 @@ function MapCreator()
                 }
             }
         }
-        if (this.checkField(playerCord, enemyCount, field))
+        if (enemyCount != 0 && this.checkField(playerCord, enemyCount, field))
         {
             return field;
         }
@@ -60,8 +60,8 @@ function MapCreator()
         var x = commonFunctionObj.randNumb(1, w - 2);
         var y = commonFunctionObj.randNumb(1, h - 2);
         field[y] = [];
-        field[y][x] = PLAYER_CHAR;
-        return {x: x, y: y};
+        field[y][1] = PLAYER_CHAR;
+        return {x: 1, y: y};
     };
 
     this._createTank = function(field, x, y)

@@ -1,47 +1,47 @@
 /**
  * Created by Vasiliy on 1/6/2016.
  */
-function Bang(x, y)
+function Bang(x, y, field)
 {
-    var commonFunctionObj = new CommonFunctionObj();
+    var canvas = document.getElementById("gameField");
+    var ctx = canvas.getContext("2d");
 
     this.x = x;
     this.y = y;
-    this.liveTime = BANG_TIME;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.fireRadius = (SQUARE_SIZE - SQUARE_SIZE % 12) / 12;
-    this.fireParticles = [];
-    this.sparkImg = new Image();
-    this.sparkImg.src = SPARK_ADDRESS;
+    this.stateX = 0;
+    this.stateY = 0;
+    this.img = new Image();
+    this.img.src = BANG_ADDRESS;
+    var LAST_STATE_X = 7;
+    var LAST_STATE_Y = 5;
+    this.sparkWidth = 256;
+    this.sparkHeight = 256;
+    this.width = SQUARE_SIZE;
+    this.height = SQUARE_SIZE;
 
     this.move = function()
     {
-        for (var i = 0; i < this.liveTime; ++i)
+        this.stateX++;
+        if (this.stateX > LAST_STATE_X)
         {
-            var finalX = commonFunctionObj.randNumb(-this.fireRadius, this.fireRadius);
-            var finalY = commonFunctionObj.randSign() * Math.sqrt(this.fireRadius * this.fireRadius - finalX * finalX);
-            var startX = this.x;
-            var startY = this.y;
-            this.fireParticles[this.fireParticles.length] = new DynamicParticle(this.sparkImg, startX, startY,
-                finalX / SPARK_SPEED, finalY / SPARK_SPEED,
-                LAST_X_SPARK_STATE, LAST_Y_SPARK_STATE,
-                SQUARE_SIZE / 3, SQUARE_SIZE / 3);
-        }
-        commonFunctionObj.moveArrObj(this.fireParticles);
-        this.liveTime--;
-        if (this.liveTime <= 0 && this.fireParticles.length == 0)
-        {
-            return 1;
+            this.stateX = 0;
+            this.stateY++;
+            if (LAST_STATE_Y / 3 < this.stateY)
+            {
+                field.eventController.dispatch("bangOver", this);
+            }
+            return this.stateY > LAST_STATE_Y;
         }
         return 0;
     };
 
     this.draw = function()
     {
-        for (var i = this.fireParticles.length - 1; i >= 0; --i)
-        {
-            this.fireParticles[i].draw()
-        }
+        ctx.drawImage(
+            this.img,
+            this.sparkWidth * this.stateX,
+            this.sparkHeight * this.stateY, this.sparkWidth, this.sparkHeight,
+            this.x - this.width / 2, this.y - this.height / 2,
+            this.width, this.height);
     };
 }

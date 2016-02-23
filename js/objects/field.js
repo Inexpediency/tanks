@@ -144,6 +144,18 @@ function Field(gameField)
         }
     });
 
+    this.eventController.listen("bangOver", function(bang)
+    {
+        for (var i = 0; i < thisPtr.barricades.length; ++i)
+        {
+            if (thisPtr.barricades[i].character == TRAVELED_BARRICADE_CHAR &&
+                collisions.getIntersection(thisPtr.barricades[i], bang))
+            {
+                thisPtr.barricades.splice(i, 1);
+            }
+        }
+    });
+
     this._initFieldElements();
     this.player = this.players[commonFunctionObj.findTank(this.players, PLAYER_CHAR)];
 }

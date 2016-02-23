@@ -30,17 +30,17 @@ var TRAVELED_BARRICADE_CHAR = "r";
 
 var SHADOW_LEVEL = 43;
 
-var MAX_FIELD_LENGTH = 16;
+var MAX_FIELD_LENGTH = 15;
 var MIN_FIELD_LENGTH = 10;
 var MAX_ENEMY_COUNT = 7;
 var MIN_ENEMY_COUNT = 3;
-var BARRICADE_COUNT = 40;
+var BARRICADE_COUNT = 80;
 
 var HEALTH_BONUS_ADDRESS = "./img/bonus/health.png";
 var SPEED_BONUS_ADDRESS = "./img/bonus/speed.png";
 var TOWER_SPEED_BONUS_ADDRESS = "./img/bonus/tower_rotate_bonus.png";
 var FIRE_SPEED_BONUS_ADDRESS = "./img/bonus/fire_speed_bonus.png";
-var SPARK_ADDRESS = "./img/spark.png";
+var BANG_ADDRESS = "./img/spark.png";
 var SMOKE_ADDRESS = "./img/smoke.png";
 var DUST_ADDRESS = "./img/dust.png";
 var BALL_ADDRESS = "./img/ball.png";

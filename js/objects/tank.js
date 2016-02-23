@@ -295,10 +295,8 @@ function Tank(x, y, personalChar, consts, field)
 
     this._calcBodyAngle = function()
     {
-        var finalAngle = this.commonFunctionObj.translateCharInRightDeg(this.finalBodeState);
-        finalAngle = finalAngle == 0 && this.angle > 180 ? 360 : finalAngle;
-        var stAngle = this.angle == 360 && finalAngle <= 180 ? 0 : this.angle;
-        stAngle = stAngle == 0 && finalAngle > 180 ? 360 : stAngle;
+        var finalAngle = this.commonFunctionObj.translateCharInRightDeg(this.finalBodeState) % 360;
+        var stAngle = this.angle % 360;
         if (this.commonFunctionObj.isAngelRight(stAngle) && stAngle != finalAngle)
         {
             if (stAngle > finalAngle)
