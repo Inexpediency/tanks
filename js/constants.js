@@ -59,16 +59,12 @@ var PAUSE_BUTTON_ADDRESS_CLICK = "img/pause_button_click.png";
 
 var FPS = 30;
 var DELAY = 1000 / FPS;
-var BANG_TIME = 13;
 var MAX_VISIBLE_HEALTH = 3;
-var LAST_X_SPARK_STATE = 7;
-var LAST_Y_SPARK_STATE = 5;
 var LAST_X_SMOKE_STATE = 7;
 var LAST_Y_SMOKE_STATE = 4;
 var LAST_X_DUST_STATE = 2;
 var LAST_Y_DUST_STATE = 2;
 var BALL_SPEED = SQUARE_SIZE / 1.22;
-var SPARK_SPEED = 10;
 var SMOKE_COUNT = 2;
 var DUST_COUNT = 60;
 var BONUS_TIME = 1000000;
@@ -79,9 +75,9 @@ var PLAYER_CONSTS = {
     towerImgAddres: "img/tower_p.png",
     bodyImageAddres: "img/body_p.png",
     rotateTowerSpeed: 9,
-    speedNormal: 6,
-    speedPatrol: 6,
-    health: 6,
+    speedNormal: 4,
+    speedPatrol: 4,
+    health: 5,
     reloadingTime: 40,
     foundRadius: 10
 };
@@ -90,8 +86,8 @@ var ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
     bodyImageAddres: "img/tank_body.png",
     rotateTowerSpeed: 6,
-    speedNormal: 2,
-    speedPatrol: 2,
+    speedNormal: 3,
+    speedPatrol: 3,
     health: 4,
     reloadingTime: 47,
     foundRadius: 10
@@ -99,10 +95,10 @@ var ENEMY_CONSTS = {
 
 var SPRINT_ENEMY_CONSTS = {
     towerImgAddres: "img/tower_e.png",
-    bodyImageAddres: "img/tank_body.png",
+    bodyImageAddres: "img/speed_body.png",
     rotateTowerSpeed: 6,
-    speedNormal: 3,
-    speedPatrol: 3,
+    speedNormal: 4,
+    speedPatrol: 4,
     health: 3,
     reloadingTime: 40,
     foundRadius: 10

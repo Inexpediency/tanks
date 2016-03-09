@@ -23,7 +23,6 @@ function Ball(x, y, w, h, route, field)
         if (damagedPlayer != null)
         {
             field.bangs[field.bangs.length] = new Bang(this.x, this.y, field);
-            console.log(1);
             field.eventController.dispatch("tankDamaged", this);
             return 1;
         }

@@ -85,8 +85,6 @@ function Tank(x, y, personalChar, consts, field)
 
     this.draw = function()
     {
-        this.commonFunctionObj.ctx.fillStyle = "#ff5553";
-        this.commonFunctionObj.ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
         this.commonFunctionObj.drawArrObj(this.dusts);
         this.commonFunctionObj.drawRotatedObj(this.angle, this.body, this.x, this.y, this.startWidth, this.startHeight, 0);
         this.commonFunctionObj.drawRotatedObj(this.towerAngle, this.tower, this.x, this.y, this.towerWidth, this.towerHeight, 1);
@@ -196,43 +194,165 @@ function Tank(x, y, personalChar, consts, field)
             {
                 this.isCrosed = 0;
                 this._returnStartAngle();
-
             }
         }
     };
 
     this._calcMoving = function()
     {
-        this._patrol();
+        if (!this._fire())
+        {
+            this._patrol();
+        }
+    };
+
+    this._fire = function()
+    {
+        if (field.player.x + field.player.width / 2 > this.x &&
+            field.player.x - field.player.width / 2 < this.x)
+        {
+            if (this.y > field.player.y &&
+                !this._getXUpIntersection(field.barricades) &&
+                !this._getXUpIntersection(field.players))
+            {
+                this.towerState = UP_CHAR;
+                this.fire = true;
+                this.motion = NOTHING_CHAR;
+                return 1;
+            }
+            if (this.y < field.player.y &&
+                !this._getXDownIntersection(field.barricades) &&
+                !this._getXDownIntersection(field.players))
+            {
+                this.towerState = DOWN_CHAR;
+                this.fire = true;
+                this.motion = NOTHING_CHAR;
+                return 1;
+            }
+        }
+        if (field.player.y + field.player.height / 2 > this.y &&
+            field.player.y - field.player.height / 2 < this.y)
+        {
+            if (this.x > field.player.x &&
+                !this._getYLeftIntersection(field.barricades) &&
+                !this._getYLeftIntersection(field.players))
+            {
+                this.towerState = LEFT_CHAR;
+                this.fire = true;
+                this.motion = NOTHING_CHAR;
+                return 1;
+            }
+            if (this.x < field.player.x &&
+                !this._getYRightIntersection(field.barricades) &&
+                !this._getYRightIntersection(field.players))
+            {
+                this.towerState = RIGHT_CHAR;
+                this.fire = true;
+                this.motion = NOTHING_CHAR;
+                return 1;
+            }
+        }
+        return 0;
+    };
+
+    this._getXUpIntersection = function(arr)
+    {
+        for (var i = 0; i < arr.length; ++i)
+        {
+            if (this.y > arr[i].y  && arr[i].y > field.player.y &&
+                this.x <= arr[i].x + arr[i].width / 2 &&
+                this.x >= arr[i].x - arr[i].width / 2 &&
+                (this.x != arr[i].x || this.y != arr[i].y))
+            {
+                return 1;
+            }
+        }
+        return 0;
+    };
+
+    this._getXDownIntersection = function(arr)
+    {
+        for (var i = 0; i < arr.length; ++i)
+        {
+            if (this.y < arr[i].y && arr[i].y < field.player.y &&
+                this.x <= arr[i].x + arr[i].width / 2 &&
+                this.x >= arr[i].x - arr[i].width / 2 &&
+                (this.x != arr[i].x || this.y != arr[i].y))
+            {
+                return 1;
+            }
+        }
+        return 0;
+    };
+
+    this._getYLeftIntersection = function(arr)
+    {
+        for (var i = 0; i   < arr.length; ++i)
+        {
+            if (this.x > arr[i].x && arr[i].x > field.player.x &&
+                this.y <= arr[i].y + arr[i].height / 2 &&
+                this.y >= arr[i].y - arr[i].height / 2 &&
+                (this.x != arr[i].x || this.y != arr[i].y))
+            {
+                return 1;
+            }
+        }
+        return 0;
+    };
+
+    this._getYRightIntersection = function(arr)
+    {
+        for (var i = 0; i < arr.length; ++i)
+        {
+            if (this.x < arr[i].x && arr[i].x < field.player.x &&
+                this.y <= arr[i].y + arr[i].height / 2 &&
+                this.y >= arr[i].y - arr[i].height / 2 &&
+                (this.x != arr[i].x || this.y != arr[i].y))
+            {
+                return 1;
+            }
+        }
+        return 0;
     };
 
     this._patrol = function()
     {
-        if (this.motion == NOTHING_CHAR && this.commonFunctionObj.isAngelRight(this.angle))
+        if (this.motion == NOTHING_CHAR)
         {
-            var direction = this.commonFunctionObj.randNumb(0, 4);
+            var direction = this.commonFunctionObj.randNumb(0, 3);
+            var towerDirection = this.commonFunctionObj.randNumb(0, 10);
             if (direction == 0)
             {
                 this.motion = RIGHT_CHAR;
-                this.finalBodeState = RIGHT_CHAR;
-                this.towerState = RIGHT_CHAR;
             }
             else if (direction == 1)
             {
                 this.motion = LEFT_CHAR;
-                this.finalBodeState = LEFT_CHAR;
-                this.towerState = LEFT_CHAR;
             }
             else if (direction == 2)
             {
                 this.motion = DOWN_CHAR;
-                this.finalBodeState = DOWN_CHAR;
-                this.towerState = DOWN_CHAR;
             }
             else if (direction == 3)
             {
                 this.motion = UP_CHAR;
-                this.finalBodeState = UP_CHAR;
+            }
+            this.finalBodeState = this.motion;
+            this.towerState = this.motion;
+            if (towerDirection == 0)
+            {
+                this.towerState = RIGHT_CHAR;
+            }
+            else if (towerDirection == 1)
+            {
+                this.towerState = LEFT_CHAR;
+            }
+            else if (towerDirection == 2)
+            {
+                this.towerState = DOWN_CHAR;
+            }
+            else if (towerDirection == 3)
+            {
                 this.towerState = UP_CHAR;
             }
         }
