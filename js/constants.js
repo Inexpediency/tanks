@@ -36,6 +36,8 @@ var MAX_ENEMY_COUNT = 7;
 var MIN_ENEMY_COUNT = 3;
 var BARRICADE_COUNT = 80;
 
+var BANG_SOUND_ADDRESS = "./sounds/bang.mp3";
+
 var HEALTH_BONUS_ADDRESS = "./img/bonus/health.png";
 var SPEED_BONUS_ADDRESS = "./img/bonus/speed.png";
 var TOWER_SPEED_BONUS_ADDRESS = "./img/bonus/tower_rotate_bonus.png";

@@ -6,6 +6,9 @@ function Bang(x, y, field)
     var canvas = document.getElementById("gameField");
     var ctx = canvas.getContext("2d");
 
+    var sound = new Audio(BANG_SOUND_ADDRESS);
+    sound.play();
+
     this.x = x;
     this.y = y;
     this.stateX = 0;
