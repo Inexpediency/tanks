@@ -20,14 +20,14 @@ function Game(data, eventObj)
     {
         console.log("Client disconnect from game " + currItm.id);
         currItm.deletePlayer(userId);
-        currItm.dispatchUsers("userList", currItm.getClientList());
         eventObj.dispatch("gameLived", currItm.id);
+        currItm.dispatchUsers("userList", currItm.getClientList());
         eventObj.dispatch("gameChanged");
     });
 
     this.dispatchUsers = function(event, data)
     {
-        for (var i = 0; i < currItm.players.length && currItm.players[i] != undefined; ++i)
+        for (var i = 0; i < currItm.players.length; ++i)
         {
             if (currItm.players[i] != undefined)
             {
@@ -60,13 +60,15 @@ function Game(data, eventObj)
     this.getClientList = function()
     {
         var result = [];
+        var  j = 0;
         for (var i = 0; i < currItm.players.length; ++i)
         {
-            if (currItm.players[i] != undefined)
+            if (currItm.players[i] != undefined && currItm.players[i].name != undefined)
             {
-                result[i] = {};
-                result[i].name = currItm.players[i].name;
-                result[i].ready = currItm.players[i].ready;
+                result[j] = {};
+                result[j].name = currItm.players[i].name;
+                result[j].ready = currItm.players[i].ready;
+                j++;
             }
         }
         return result;

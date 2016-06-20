@@ -54,6 +54,14 @@ function Server(io)
             }
         });
 
+        socket.on("getLobbyName", function(gameId)
+        {
+            if (currItm._checkGameId(gameId))
+            {
+                socket.emit("lobbyName", currItm.games[gameId].name);
+            }
+        });
+
         socket.on("ready", function(clientData)
         {
             if (currItm._checkIds(clientData))
@@ -112,7 +120,8 @@ function Server(io)
             client.id = id;
             var gameData = {
                 userId: id,
-                gameId: userParam.gameId
+                gameId: userParam.gameId,
+                ready: false
             };
             userParam.socket.emit("dispatchId", gameData);
             io.sockets.emit("gameList", currItm._getGamesList());
@@ -167,6 +176,7 @@ function Server(io)
 
     currItm._delGame = function(gameId)
     {
+        console.log("Game " + gameId + " destroy");
         currItm.gamesCount--;
         delete currItm.games[gameId];
     };

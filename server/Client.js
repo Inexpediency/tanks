@@ -5,7 +5,7 @@ function Client(eventObj)
 {
     var constants = new require("./server_constants.js").constants;
     this.id = undefined;
-    this.name = undefined;
+    this.name = "no_name";
     this.socket = undefined;
     this.ready = false;
     this.eventObj = eventObj;
