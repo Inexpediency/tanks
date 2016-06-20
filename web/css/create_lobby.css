@@ -1,0 +1,28 @@
+.lobby_form
+{
+    padding: 20px 30px 30px;
+    position: absolute;
+    background: url("screens_background.png");
+    width: 40%;
+    right: 30%;
+    top: 20%;
+    z-index: 3;
+    display: block;
+    background-size: cover;
+}
+
+.form_element
+{
+    width: 50%;
+    margin: 20px auto;
+}
+
+.form_element input
+{
+    background: #858585;
+    color: #000000;
+    padding: 10px 30px;
+    width: 100%;
+    height: 50px;
+    font: normal 24px Helvetica Roboto Arial;
+}

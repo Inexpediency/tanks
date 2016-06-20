@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="constants.js"></script>
+    <script src="Shadow.js"></script>
+    <script src="/socket.io.js"></script>
+    <script src="ask_name.js"></script>
+    <script src="common_function.js"></script>
+    <link rel="stylesheet" href="common.css"/>
+    <link rel="stylesheet" href="ask_name.css"/>
+    <title></title>
+  </head>
+  <body>
+    <canvas id="context" class="context"></canvas>
+    <div id="ask_name_form" class="form">
+      <div class="form_element">
+        <input placeholder="Nickname в игре" id="nickname" type="text"/>
+      </div>
+      <a id="ask_name_button" href="lobby.html" class="button">
+        Готово
+        <span class="filter"></span>
+      </a>
+    </div>
+  </body>
+</html>

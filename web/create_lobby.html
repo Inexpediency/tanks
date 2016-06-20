@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="constants.js"></script>
+    <script src="Shadow.js"></script>
+    <script src="/socket.io.js"></script>
+    <script src="create_lobby.js"></script>
+    <script src="common_function.js"></script>
+    <link rel="stylesheet" href="common.css"/>
+    <link rel="stylesheet" href="create_lobby.css"/>
+    <title></title>
+  </head>
+  <body>
+    <canvas id="context" class="context"></canvas>
+    <div id="lobby_form" class="lobby_form">
+      <div class="form_element">
+        <input placeholder="Название лобби" id="lobby_name" type="text"/>
+      </div>
+      <div class="form_element">
+        <input placeholder="Максимальное количество игроков" id="player_count" type="number"/>
+      </div>
+      <a id="lobby_data_button" href="ask_name.html" class="button">
+        Готово
+        <span class="filter"></span>
+      </a>
+    </div>
+  </body>
+</html>

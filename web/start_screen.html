@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="Shadow.js"></script>
+    <script src="/socket.io.js"></script>
+    <script src="start_screen.js"></script>
+    <link rel="stylesheet" href="common.css"/>
+    <link rel="stylesheet" href="start_screen.css"/>
+  </head>
+  <body>
+    <canvas id="context" class="context"></canvas>
+    <ul class="menu">
+      <li>
+        <h1>Танчики</h1>
+      </li>
+      <li id ="play_button">
+        <a href="lobby_screen.html" class="button">Играть</a>
+      </li>
+      <li>
+        <a href="http://vk.com/stone_of_life" class="button">Об авторе</a>
+      </li>
+    </ul>
+    <video id="video" class="start_video" src="background.mp4" preload="auto" autoplay loop></video>
+  </body>
+</html>
