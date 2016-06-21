@@ -3,11 +3,11 @@
  */
 function Client(eventObj)
 {
-    var constants = new require("./server_constants.js").constants;
+    var constants = require("./server_constants.js").constants;
     this.id = undefined;
     this.name = "no_name";
     this.socket = undefined;
-    this.ready = false;
+    this.inGame = false;
     this.eventObj = eventObj;
     var currItm = this;
 
@@ -16,7 +16,12 @@ function Client(eventObj)
         currItm.sessionTimautId = setTimeout(function()
         {
             currItm.eventObj.dispatch("destroy", currItm.id);
-        }, constants.CLIENT_LIVER_TIME);
+        }, constants.CLIENT_LIVE_TIME);
+
+    };
+
+    this.initTank = function()
+    {
 
     };
 

@@ -12,24 +12,9 @@ $(window).ready(function()
     socket.emit("getUsersList", userData.gameId);
     socket.emit("getLobbyName", userData.gameId);
 
-
-    var button = $("#ready");
-    var changNameButton = $("#change_nick");
-
-
-    button.click(function()
+    $("#join_game").click(function()
     {
-        changReadyState(userData);
-        socket.emit("ready", userData);
-    });
-
-    changNameButton.click(function()
-    {
-        console.log(userData.ready);
-        if (!userData.ready)
-        {
-            shadow.goToHref("ask_name.html");
-        }
+        socket.emit("joinGame", userData);
     });
 
     socket.on("lobbyName", function(lobbyName)
@@ -39,6 +24,7 @@ $(window).ready(function()
 
     socket.on("userList", function(list)
     {
+        console.log(list);
         fillUsersTable(list);
     });
 
@@ -48,12 +34,6 @@ $(window).ready(function()
     });
 });
 
-function changReadyState(userData)
-{
-    userData.ready = !userData.ready;
-    window.sessionStorage.setItem("userData", JSON.stringify(userData));
-}
-
 function fillUsersTable(userList)
 {
     var table = $("#players_list");
@@ -62,7 +42,7 @@ function fillUsersTable(userList)
     {
         includingHtml += "<span class='row data_cell table_href'>";
         includingHtml += "  <span class='column first_column left'>" + (userList[i].name == "" ? "<pre> </pre>" : userList[i].name) + "</span>";
-        includingHtml += "  <span class='column second_column left'>" + (userList[i].ready ? "Готов" : "Не готов") + "</span>";
+        includingHtml += "  <span class='column second_column left'>" + (userList[i].inGame ? "В игре" : "не в игре") + "</span>";
         includingHtml += "</span>";
     }
 

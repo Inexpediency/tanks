@@ -21,11 +21,11 @@ function Game(data, eventObj)
         console.log("Client disconnect from game " + currItm.id);
         currItm.deletePlayer(userId);
         eventObj.dispatch("gameLived", currItm.id);
-        currItm.dispatchUsers("userList", currItm.getClientList());
+        currItm.dispatchToUsers("userList", currItm.getClientList());
         eventObj.dispatch("gameChanged");
     });
 
-    this.dispatchUsers = function(event, data)
+    this.dispatchToUsers = function(event, data)
     {
         for (var i = 0; i < currItm.players.length; ++i)
         {
@@ -67,7 +67,7 @@ function Game(data, eventObj)
             {
                 result[j] = {};
                 result[j].name = currItm.players[i].name;
-                result[j].ready = currItm.players[i].ready;
+                result[j].inGame = currItm.players[i].inGame;
                 j++;
             }
         }

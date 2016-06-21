@@ -6,6 +6,7 @@ function Server(io)
     var eventObj = new require("../common/EventController.js")();
     var Client = require("./Client.js");
     var Game = require("./Game.js");
+    var mapManager = new require("./MapManager.js")();
 
     this.games = [];
     this.gamesCount = 0;
@@ -50,7 +51,7 @@ function Server(io)
         {
             if (currItm._checkGameId(gameId))
             {
-                currItm.games[gameId].dispatchUsers("userList", currItm.games[gameId].getClientList());
+                currItm.games[gameId].dispatchToUsers("userList", currItm.games[gameId].getClientList());
             }
         });
 
@@ -62,13 +63,14 @@ function Server(io)
             }
         });
 
-        socket.on("ready", function(clientData)
+        socket.on("joinGame", function(clientData)
         {
             if (currItm._checkIds(clientData))
             {
-                var client = currItm.games[clientData.gameId].players[clientData.userId];
-                client.ready = !client.ready;
-                currItm.games[clientData.gameId].dispatchUsers("userList", currItm.games[clientData.gameId].getClientList());
+                currItm.games[clientData.gameId].gameStarted = true;
+                currItm.games[clientData.gameId].players[clientData.userId].inGame = true;
+                currItm.games[clientData.gameId].players[clientData.userId].initTank();
+                currItm.games[clientData.gameId].dispatchToUsers("userList", currItm.games[clientData.gameId].getClientList());
             }
         });
 
@@ -107,7 +109,7 @@ function Server(io)
         });
     });
 
-    /*** Обработчики событий ***/
+    /*** Обработчики внутрисерверных событий ***/
     eventObj.listen("createUser", function(userParam)
     {
         var currGame = currItm.games[userParam.gameId];
@@ -120,8 +122,7 @@ function Server(io)
             client.id = id;
             var gameData = {
                 userId: id,
-                gameId: userParam.gameId,
-                ready: false
+                gameId: userParam.gameId
             };
             userParam.socket.emit("dispatchId", gameData);
             io.sockets.emit("gameList", currItm._getGamesList());
