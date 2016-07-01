@@ -4,6 +4,9 @@
 var SHADOW_ADDRESS = "shadow.png";
 var SHADOW_LEVEL = 43;
 var DELAY = 32;
+var NOTHING_STATE = 0;
+var CAME_STATE = 1;
+var GO_OUT_STATE = 2;
 
 function Shadow()
 {
@@ -27,6 +30,7 @@ function ShadowMaker()
 {
     this.shadow = new Shadow();
     var currItm = this;
+    this.state = CAME_STATE;
 
     this.drawCameShadow = function()
     {
@@ -35,6 +39,7 @@ function ShadowMaker()
         currItm.shadow.drawShadow(-1);
         if (currItm.shadow.level == 0)
         {
+            currItm.state = NOTHING_STATE;
             currItm.shadow.canvas.style.width = "0";
             clearInterval(currItm.intervalId);
         }
@@ -46,6 +51,7 @@ function ShadowMaker()
         currItm.shadow.drawShadow(1);
         if (currItm.shadow.level == SHADOW_LEVEL)
         {
+            currItm.state = NOTHING_STATE;
             clearInterval(currItm.intervalId);
             window.location = currItm.href;
         }
@@ -72,9 +78,13 @@ function ShadowMaker()
 
             function handler()
             {
-                currItm.href = currEl.href;
-                currItm.shadow.canvas.style.width = "100%";
-                currItm.intervalId = setInterval(currItm.drawGoOutShadow, DELAY);
+                if (currItm.state == NOTHING_STATE)
+                {
+                    currItm.href = currEl.href;
+                    currItm.shadow.canvas.style.width = "100%";
+                    currItm.intervalId = setInterval(currItm.drawGoOutShadow, DELAY);
+                    currItm.state = GO_OUT_STATE;
+                }
             }
         });
     };

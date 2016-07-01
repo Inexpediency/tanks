@@ -7,6 +7,7 @@ $(window).ready(function()
     var shadow = new ShadowMaker();
     var userData = checkSessionData(shadow);
     var socket = io();
+    initHartBeat(socket);
 
     socket.emit("userConnect", userData);
     socket.emit("getUsersList", userData.gameId);

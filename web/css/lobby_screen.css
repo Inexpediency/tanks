@@ -19,6 +19,14 @@
     height: 40px;
 }
 
+.tanks_chart
+{
+    position: absolute;
+    top: 40px;
+    right: 20%;
+    width: 60%;
+}
+
 .list_content
 {
     display: table;

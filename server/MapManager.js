@@ -3,12 +3,15 @@
  */
 function MapManager()
 {
-    var BARRICADE_PROBABILITY = 40;
+    var BARRICADE_PROBABILITY = 26;
     var TRAVELED_BARRICADE_PROBABILITY = 32;
-    var constants = require("./server_constants.js").constants;
+    var CommonFuncObj = require("./CommonFuncObj.js");
+    var constants = require("../common/constants.js").constants;
+    this.commonFunc = new CommonFuncObj();
 
     this.createMap = function(playerCount)
     {
+        playerCount = isNaN(parseInt(playerCount) ? constants.MAX_PLAYERS_COUNT : parseInt(playerCount));
         var result = [[]];
         for (var i = 0; i < constants.FIELD_Y_SIZE; ++i)
         {
@@ -47,20 +50,20 @@ function MapManager()
 
     this._checkMap = function(map, playerCount)
     {
-        var nothingCharCount = this._findInArr(map, this._isFreePlace);
+        var nothingCharCount = this._countElementInMap(map, this.commonFunc.isFreePlace);
         if (nothingCharCount < playerCount)
         {
             return false;
         }
         var startPoint = this._findFirstTraveledPlace(map);
-        var mapCopy = this._copyArray(map);
+        var mapCopy = this.commonFunc.copyArray(map);
         var wave = new CheckPoint(mapCopy, startPoint, 1);
         wave.renumberMap();
-        var foundNothingCharCount = this._findInArr(mapCopy, this._isNumber);
+        var foundNothingCharCount = this._countElementInMap(mapCopy, this._isNumber);
         return foundNothingCharCount == nothingCharCount;
     };
 
-    this._findInArr = function(map, condition)
+    this._countElementInMap = function(map, condition)
     {
         var result = 0;
         for (var i = 0; i < map.length; ++i)
@@ -74,12 +77,6 @@ function MapManager()
             }
         }
         return result;
-    };
-
-    this._isFreePlace = function(char)
-    {
-        return char == constants.TRAVELED_BARRICADE_CHAR ||
-               char == constants.NOTHING_CHAR;
     };
 
     this._isNumber = function(numb)
@@ -101,23 +98,6 @@ function MapManager()
 
             }
         }
-    };
-
-    this._copyArray = function(arr)
-    {
-        var result = [];
-        for (var i = 0; i < arr.length; ++i)
-        {
-            if (typeof arr[i] == "object")
-            {
-                result[i] = this._copyArray(arr[i])
-            }
-            else
-            {
-                result[i] = arr[i];
-            }
-        }
-        return result;
     };
 
     this.logMap = function(map)

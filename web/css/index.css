@@ -4,7 +4,6 @@
     z-index: 0;
     margin-top: 20px;
     position: absolute;
-    left: 50%;
 }
 
 .control_panel
@@ -29,4 +28,102 @@
 .health_text
 {
     padding-left: 7px;
+}
+
+.time_block
+{
+    margin: 14px 0 0 10px;
+    font: normal 22px Arial;
+}
+
+.time_block span
+{
+    font: bold 22px Arial;
+}
+
+.tanks_chart
+{
+    display: none;
+    width: 50%;
+    position: absolute;
+    z-index: 5;
+    left: 25%;
+    top: 100px
+}
+
+.list
+{
+    height: 600px;
+    border-collapse: collapse;
+    background: rgba(220, 220, 180, 0.3);
+    border: solid 5px #060606;
+}
+
+.list_header
+{
+    display: table;
+    width: 100%;
+    height: 40px;
+}
+
+.list_content
+{
+    display: table;
+    width: 100%;
+    height: calc(100% - 40px);
+}
+
+.row
+{
+    display:  table-row;
+    text-align: center;
+}
+
+.head
+{
+    font: bold 18px Arial;
+    background: rgb(200, 200, 200);
+}
+
+.free
+{
+    height: 100%;
+}
+
+.data_cell
+{
+    font: italic bold 17px Arial;
+    background: rgba(100, 100, 116, 0.9);
+    height: 40px;
+}
+
+.column
+{
+    padding: 10px 0;
+    vertical-align: baseline;
+    height: 100%;
+    display: table-cell;
+    border-bottom: solid 5px #060606;
+}
+
+.first_column
+{
+    border-right: solid 5px #060606;
+    width: calc(50% - 5px);
+}
+
+.second_column
+{
+    border-right: solid 5px #060606;
+    width: calc(25% - 5px);
+}
+
+.third_column
+{
+    width: 25%;
+}
+
+.filter
+{
+    background: rgba(200, 0, 0, 0.3);
 }

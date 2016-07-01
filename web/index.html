@@ -6,9 +6,13 @@
     <script src="constants.js"></script>
     <script src="jquery-1.11.3.min.js"></script>
     <script src="/socket.io.js"></script>
+    <script src="constants.js"></script>
+    <script src="key_const.js"></script>
     <script src="Shadow.js"></script>
-    <script src="index.js"></script>
+    <script src="DynamicParticle.js"></script>
+    <script src="FieldDrawer.js"></script>
     <script src="common_function.js"></script>
+    <script src="index.js"></script>
     <link rel="stylesheet" href="common.css"/>
     <link rel="stylesheet" href="index.css"/>
     <title></title>
@@ -20,8 +24,33 @@
         <span class="health_text">Здоровье:</span>
         <div id="health" class="health"></div>
       </div>
+      <div class="left time_block">
+        Окончание -
+        <span id="time">0:00</span>
+      </div>
       <div class="clear"></div>
     </div>
     <canvas id="gameField" class="game_field">Обновите браузер</canvas>
+    <div id="tanks_chart" class="list tanks_chart left">
+      <div class="list_header">
+        <span class="row head">
+          <span class="column first_column left">Игрок</span>
+          <span class="column second_column left">Убийства</span>
+          <span class="column third_column left">Смерти</span>
+          <div class="clear"></div>
+        </span>
+      </div>
+      <div class="list_content">
+        <span class="row free">
+          <span class="column first_column left"></span>
+          <span class="column second_column left"></span>
+          <span class="column third_column left"></span>
+        </span>
+      </div>
+      <a href="lobby.html" class="button">
+        Выйти из лобби
+        <span class="filter"></span>
+      </a>
+    </div>
   </body>
 </html>
