@@ -142,7 +142,7 @@ function Server(io)
                 if (!currGame.gameStarted)
                 {
                     currGame.startGame();
-                    currGame.gameStarted = true;
+                    currGame.started = true;
                 }
                 client.inGame = true;
                 client.initTank(currGame.field);
@@ -159,7 +159,12 @@ function Server(io)
         {
             if (currItm._checkIds(clientData))
             {
-                tank = currItm.games[clientData.gameId].tanks[clientData.userId].tank;
+                var game = currItm.games[clientData.gameId];
+                tank = game.tanks[clientData.userId].tank;
+                if (!game.tanks[clientData.userId].inGame || !game.started)
+                {
+                    socket.emit("gameNotStart");
+                }
             }
         });
 

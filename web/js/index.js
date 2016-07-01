@@ -13,6 +13,11 @@ $(window).ready(function()
     socket.emit("startDialog", userData);
     initControlKey(socket);
 
+    socket.on("gameNotStart", function()
+    {
+        shadow.goToHref("lobby.html");
+    });
+
     var fieldDrawer = new FieldDrawer(document.getElementById("gameField"));
     initHealthBlock();
     socket.on("gameField", function(gameField)
