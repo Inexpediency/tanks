@@ -65,6 +65,7 @@ function Field(gameField, gameEvent)
             var y = startYPoint * constants.ELEMENT_SIZE + 0.5 * constants.ELEMENT_SIZE;
             obj.x = x;
             obj.y = y;
+            obj.health = 1;
             if (gameField[startYPoint][startXPoint] == constants.NOTHING_CHAR)
             {
                 isFound = true;

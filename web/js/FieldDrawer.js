@@ -125,7 +125,9 @@ function FieldDrawer(canvas)
 
     this.initCanvas = function()
     {
-        canvas.width = parseInt($(document).width());
+        var width = 0.7;
+        canvas.width = parseInt($(window).width()) * width;
+        $(canvas).css("left", (1 - width) * 50 + "%");
         canvas.height = canvas.width / FIELD_X_SIZE * FIELD_Y_SIZE;
         return canvas.getContext("2d");
     };
