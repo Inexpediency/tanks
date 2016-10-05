@@ -171,6 +171,7 @@ function Field(gameField, gameEvent)
                 result[j].x = this.tanks[i].x;
                 result[j].y = this.tanks[i].y;
                 result[j].angle = this.tanks[i].angle;
+                result[j].speed = this.tanks[i].speed;
                 result[j].finalBodeState = this.tanks[i].finalBodeState;
                 result[j].towerAngle = this.tanks[i].towerAngle;
                 result[j].health = this.tanks[i].health;

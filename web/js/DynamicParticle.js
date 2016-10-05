@@ -15,15 +15,14 @@ function DynamicParticle(img, x, y, SpeedX, SpeedY, lastX, lastY, width, height)
     this.sparkWidth = img.width / (lastX + 1);
     this.sparkHeight = img.height / (lastY + 1);
 
-    this.draw = function()
+    this.draw = function(x, y)
     {
         ctx.drawImage(
             img,
             this.sparkWidth * this.stateX,
             this.sparkHeight * this.stateY, this.sparkWidth, this.sparkHeight,
-            this.x - width / 2, this.y - height / 2,
+            x - width / 2, y - height / 2,
             width, height);
-
         this.x += this.speedX;
         this.y += this.speedY;
         this.stateX++;

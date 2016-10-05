@@ -57,7 +57,10 @@ function Game(data, eventObj)
     {
         for (var i = 0; i < this.tanks.length; ++i)
         {
-            this.tanks[i].inGame = false;
+            if (this.tanks[i] != undefined)
+            {
+                this.tanks[i].inGame = false;
+            }
         }
     };
 

@@ -3,6 +3,15 @@
  */
 function FieldDrawer(canvas)
 {
+    var ELEMENT_X_SIZE = 100;
+    var ELEMENT_Y_SIZE = 100;
+    var BONUS_WIDTH = 32;
+    var BONUS_HEIGHT = 32;
+    var BANG_WIDTH = 256;
+    var BANG_HEIGHT = 256;
+
+    this.playerX = 0;
+    this.playerY = 0;
     this.dust = [];
     this.smoke = [];
 
@@ -31,8 +40,9 @@ function FieldDrawer(canvas)
     var bangImg = new Image();
     bangImg.src = BANG_ADDRESS;
 
-    this.draw = function(field)
+    this.draw = function(field, player)
     {
+        this.initField(player);
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.callDrawFromArr(this.dust);
         this.drawBall(field.balls);
@@ -41,6 +51,31 @@ function FieldDrawer(canvas)
         this.drawBonus(field.bonus);
         this.drawBang(field.bangs);
         this.callDrawFromArr(this.smoke);
+    };
+
+    this.moveField = function(player, movedX, movedY)
+    {
+        if (this.isAngelRight(player.angle) &&
+           (player.motion == this._translateRightDegInChar(player.angle) ||
+            this._reverseChar(player.motion) == this._translateRightDegInChar(player.angle)))
+        {
+            var courseX = this._getXDirect(player.motion) * player.speed * ELEMENT_X_SIZE / ELEMENT_SIZE;
+            var courseY = this._getYDirect(player.motion) * player.speed * ELEMENT_Y_SIZE / ELEMENT_SIZE;
+            var field = $("#gameField");
+            if (movedX)
+            {
+
+                player.cameraMovedX = movedX;
+                var backgroundPositionX = field.css("background-position-x");
+                field.css("background-position-x", (parseInt(backgroundPositionX) - courseX) + "px");
+            }
+            if (movedY)
+            {
+                player.cameraMovedY = movedY;
+                var backgroundPositionY = field.css("background-position-y");
+                field.css("background-position-y", (parseInt(backgroundPositionY) - courseY) + "px");
+            }
+        }
     };
 
     this.drawBarricades = function(arr)
@@ -71,11 +106,31 @@ function FieldDrawer(canvas)
         }
     };
 
+    this._reverseChar = function(char)
+    {
+        if (char == UP_CHAR)
+        {
+            return DOWN_CHAR;
+        }
+        else if (char == DOWN_CHAR)
+        {
+            return UP_CHAR;
+        }
+        else if (char == RIGHT_CHAR)
+        {
+            return LEFT_CHAR;
+        }
+        else if (char == LEFT_CHAR)
+        {
+            return RIGHT_CHAR;
+        }
+        return NOTHING_CHAR;
+    };
+
     this.drawBang = function(arr)
     {
         for (var i = 0; i < arr.length; ++i)
         {
-            console.log(arr);
             var x = this._getValidCordX(arr[i].x);
             var y = this._getValidCordY(arr[i].y);
             this.ctx.drawImage(
@@ -108,8 +163,6 @@ function FieldDrawer(canvas)
         var bodyHeight = ELEMENT_Y_SIZE / 2;
         for (var i = 0; i < arr.length; i++)
         {
-            var x = this._getValidCordX(arr[i].x);
-            var y = this._getValidCordY(arr[i].y);
             if (arr[i].motion != NOTHING_CHAR || !this.isAngelRight(arr[i].angle))
             {
                 this._createDust(arr[i]);
@@ -118,9 +171,72 @@ function FieldDrawer(canvas)
             {
                 this._createSmoke(arr[i]);
             }
+            var x = this._getValidCordX(arr[i].x);
+            var y = this._getValidCordY(arr[i].y);
             this._drawRotatedObj(arr[i].angle, tankBody, x, y, bodyWidth, bodyHeight, bodyWidth / 2, bodyHeight / 2);
             this._drawRotatedObj(arr[i].towerAngle, tankTower, x, y, towerWidth, towerHeight, towerWidth / 5, towerHeight / 2);
         }
+    };
+
+    this._getXDirect = function(char)
+    {
+        if (char == RIGHT_CHAR)
+        {
+            return 1;
+        }
+        else if (char == LEFT_CHAR)
+        {
+            return -1;
+        }
+        return 0;
+    };
+
+    this._getYDirect = function(char)
+    {
+        if (char == DOWN_CHAR)
+        {
+            return 1;
+        }
+        else if (char == UP_CHAR)
+        {
+            return -1;
+        }
+        return 0;
+    };
+
+    this.initField= function(player)
+    {
+        var fieldXMoved = false;
+        var fieldYMoved = false;
+        this.playerX = player.x;
+        this.playerY = player.y;
+        this.alignX = player.x * ELEMENT_X_SIZE / ELEMENT_SIZE;
+        this.alignY = player.y * ELEMENT_Y_SIZE / ELEMENT_SIZE;
+        if (this.alignX > canvas.width / 2)
+        {
+            if (ELEMENT_X_SIZE * FIELD_X_SIZE - this.alignX < canvas.width / 2)
+            {
+                this.alignX = canvas.width - ELEMENT_X_SIZE * FIELD_X_SIZE + this.alignX;
+            }
+            else
+            {
+                fieldXMoved = true;
+                this.alignX = canvas.width / 2;
+            }
+        }
+        if (this.alignY > canvas.height / 2)
+        {
+            if (ELEMENT_Y_SIZE * FIELD_Y_SIZE - this.alignY < canvas.height / 2)
+            {
+                this.alignY = canvas.height - ELEMENT_Y_SIZE * FIELD_Y_SIZE + this.alignY;
+            }
+            else
+            {
+                fieldYMoved = true;
+                this.alignY = canvas.height / 2;
+            }
+        }
+        this.moveField(player, fieldXMoved, fieldYMoved);
     };
 
     this.initCanvas = function()
@@ -136,7 +252,9 @@ function FieldDrawer(canvas)
     {
         for (var i = 0; i < arr.length; ++i)
         {
-            if (arr[i].draw())
+            var x = this._getValidCordX(arr[i].x);
+            var y = this._getValidCordY(arr[i].y);
+            if (arr[i].draw(x, y))
             {
                 arr.splice(i, 1);
             }
@@ -169,8 +287,8 @@ function FieldDrawer(canvas)
         var calcY;
         for (var i = 0; i < SMOKE_COUNT; ++i)
         {
-            calcX = this._getValidCordX(tank.x);
-            calcY = this._getValidCordY(tank.y);
+            calcX = tank.x;
+            calcY = tank.y;
             calcX += this.randNumb(-ELEMENT_Y_SIZE / 8, ELEMENT_Y_SIZE / 8) * Math.cos(this.inRad(tank.angle));
             calcY += this.randNumb(-ELEMENT_Y_SIZE / 8, ELEMENT_Y_SIZE / 8) * Math.sin(this.inRad(tank.angle));
             if ((this._getCurrentChar(tank.angle) == UP_CHAR || (this._getCurrentChar(tank.angle) == DOWN_CHAR)))
@@ -196,30 +314,30 @@ function FieldDrawer(canvas)
         var finalAngle = this._translateCharInRightDeg(tank.finalBodeState);
         for (var i = 0; i < DUST_COUNT; ++i)
         {
-            calcX = this._getValidCordX(tank.x);
-            calcY = this._getValidCordY(tank.y);
+            calcX = tank.x;
+            calcY = tank.y;
+            var width = this._getTankWidthByMotion(tank.motion);
+            var height = this._getTankHeightByMotion(tank.motion);
             if (!this.isAngelRight(tank.angle))
             {
                 calcAngle = tank.angle + (Math.random() >= 0.5) * 180;
                 calcAngle = this.inRad(calcAngle);
                 if (tank.angle < finalAngle || (finalAngle == 0 && tank.angle >= 180))
                 {
-                    calcY += ELEMENT_Y_SIZE * 0.25 * Math.cos(calcAngle);
-                    calcX -= ELEMENT_X_SIZE * 0.25 * Math.sin(calcAngle);
+                    calcY += ELEMENT_Y_SIZE * 0.125 * Math.cos(calcAngle);
+                    calcX -= ELEMENT_X_SIZE * 0.125 * Math.sin(calcAngle);
                 }
                 else
                 {
-                    calcY -= ELEMENT_X_SIZE * 0.25 * Math.cos(calcAngle);
-                    calcX += ELEMENT_Y_SIZE * 0.25 * Math.sin(calcAngle);
+                    calcY -= ELEMENT_X_SIZE * 0.125 * Math.cos(calcAngle);
+                    calcX += ELEMENT_Y_SIZE * 0.125 * Math.sin(calcAngle);
                 }
-                var radius = this.randNumb(0, ELEMENT_Y_SIZE / 2.25);
+                var radius = this.randNumb(0, ELEMENT_Y_SIZE / 3.5);
                 calcX += Math.cos(calcAngle) * radius;
                 calcY += Math.sin(calcAngle) * radius;
             }
             else
             {
-                var width = this._getTankWidthByMotion(tank.motion);
-                var height = this._getTankHeightByMotion(tank.motion);
                 calcX += this.randNumb(-width, width);
                 calcY += this.randNumb(-height, height);
             }
@@ -232,11 +350,11 @@ function FieldDrawer(canvas)
     {
         if (motion == UP_CHAR || motion == DOWN_CHAR)
         {
-            return ELEMENT_X_SIZE / 2;
+            return ELEMENT_X_SIZE / 4;
         }
         else
         {
-            return ELEMENT_X_SIZE / 4;
+            return ELEMENT_X_SIZE / 6;
         }
     };
 
@@ -244,22 +362,26 @@ function FieldDrawer(canvas)
     {
         if (motion == LEFT_CHAR || motion == RIGHT_CHAR)
         {
-            return ELEMENT_Y_SIZE / 2;
+            return ELEMENT_Y_SIZE / 4;
         }
         else
         {
-            return ELEMENT_Y_SIZE / 4;
+            return ELEMENT_Y_SIZE / 6;
         }
     };
 
     this._getValidCordX = function(x)
     {
-        return x * canvas.width / FIELD_X_SIZE / ELEMENT_SIZE
+        x = (x - this.playerX);
+        x = x * ELEMENT_X_SIZE / ELEMENT_SIZE;
+        return x + this.alignX;
     };
 
     this._getValidCordY = function(y)
     {
-        return y * canvas.height / FIELD_Y_SIZE / ELEMENT_SIZE
+        y = (y - this.playerY);
+        y = y * ELEMENT_Y_SIZE / ELEMENT_SIZE;
+        return y + this.alignY;
     };
 
     this._drawRotatedObj = function(angle, img, x, y, w, h, RotationAxisX, RotationAxisY)
@@ -297,6 +419,27 @@ function FieldDrawer(canvas)
         return NaN;
     };
 
+    this._translateRightDegInChar = function(char)
+    {
+        if (char == 90)
+        {
+            return UP_CHAR;
+        }
+        else if (char == 180)
+        {
+            return LEFT_CHAR;
+        }
+        else if (char == 270)
+        {
+            return DOWN_CHAR;
+        }
+        else if (char == 0)
+        {
+            return RIGHT_CHAR;
+        }
+        return NaN;
+    };
+
     this.isAngelRight = function(angle)
     {
         return angle == 0 ||
@@ -304,19 +447,6 @@ function FieldDrawer(canvas)
             angle == 180||
             angle == 270 ||
             angle == 360
-    };
-
-
-    this._randSign = function()
-    {
-        if (Math.random() > 0.5)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
     };
 
     this.randNumb = function(min, max)
@@ -346,10 +476,4 @@ function FieldDrawer(canvas)
     };
 
     this.ctx = this.initCanvas();
-    var ELEMENT_X_SIZE = canvas.width / FIELD_X_SIZE;
-    var ELEMENT_Y_SIZE = canvas.height / FIELD_Y_SIZE;
-    var BONUS_WIDTH = 32;
-    var BONUS_HEIGHT = 32;
-    var BANG_WIDTH = 256;
-    var BANG_HEIGHT = 256;
 }

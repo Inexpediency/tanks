@@ -22,9 +22,9 @@ $(window).ready(function()
     initHealthBlock();
     socket.on("gameField", function(gameField)
     {
-        fieldDrawer.draw(gameField);
-        setTime(gameField.time);
         var tank = getTankById(gameField.tanks, userData.userId);
+        fieldDrawer.draw(gameField, tank);
+        setTime(gameField.time);
         drawPlayerHealth(tank.health);
     });
 

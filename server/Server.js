@@ -139,7 +139,7 @@ function Server(io)
             {
                 var currGame = currItm.games[clientData.gameId];
                 var client = currGame.tanks[clientData.userId];
-                if (!currGame.gameStarted)
+                if (!currGame.started)
                 {
                     currGame.startGame();
                     currGame.started = true;
